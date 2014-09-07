@@ -1,0 +1,199 @@
+{
+	"spawnPoints": {
+		"default": {"x": 0, "y": 5}
+	},
+	"shapes": {
+		"cube": [
+			{"x": -1, "y": -1},
+			{"x": -1, "y":  1},
+			{"x":  1, "y":  1},
+			{"x":  1, "y": -1}
+		],
+		"i": [
+			{"x": -1.5, "y":  2.0},
+			{"x": -0.5, "y":  2.0},
+			{"x":  0.5, "y":  2.0},
+			{"x":  1.5, "y":  2.0},
+			{"x":  1.5, "y":  1.0},
+			{"x":  0.5, "y":  1.0},
+			{"x":  0.5, "y": -1.0},
+			{"x":  1.5, "y": -1.0},
+			{"x":  1.5, "y": -2.0},
+			{"x":  0.5, "y": -2.0},
+			{"x": -0.5, "y": -2.0},
+			{"x": -1.5, "y": -2.0},
+			{"x": -1.5, "y": -1.0},
+			{"x": -0.5, "y": -1.0},
+			{"x": -0.5, "y":  1.0},
+			{"x": -1.5, "y":  1.0}
+		]
+	},
+	"bluePrints": {
+		"groundRectangle": {
+			"class": "Body",
+			"shape": "cube",
+			"pointMasses": 0,
+			"translate": {"x": 0, "y": 0},
+			"rotate": 0,
+			"scale": {"x": 9, "y": 1.5},
+			"isKinematic": false
+		}
+,		"i": {
+			"class": "SpringBody",
+			"shape": "i",
+			"pointMasses": 1,
+			"translate": {"x": 0, "y": 4},
+			"rotate": 0,
+			"isKinematic": false,
+			"edgeSpringK": 150.0,
+			"edgeSpringDamp": 5.0,
+			"shapeSpringK": 300.0,
+			"shapeSpringDamp": 15.0,
+			"internalSprings": [
+				{
+					"pointA": 0,
+					"pointB": 14,
+					"springK": 300,
+					"damping": 10
+				},
+				{
+					"pointA": 1,
+					"pointB": 14,
+					"springK": 300.0,
+					"damping": 10.0
+				},
+				{
+					"pointA": 1,
+					"pointB": 15,
+					"springK": 300.0,
+					"damping": 10.0
+				},
+				{
+					"pointA": 1,
+					"pointB": 5,
+					"springK": 300.0,
+					"damping": 10.0
+				},
+				{
+					"pointA": 2,
+					"pointB": 14,
+					"springK": 300.0,
+					"damping": 10.0
+				},
+				{
+					"pointA": 2,
+					"pointB": 5,
+					"springK": 300.0,
+					"damping": 10.0
+				},
+				{
+					"pointA": 1,
+					"pointB": 5,
+					"springK": 300.0,
+					"damping": 10.0
+				},
+				{
+					"pointA": 14,
+					"pointB": 5,
+					"springK": 300.0,
+					"damping": 10.0
+				},
+				{
+					"pointA": 2,
+					"pointB": 4,
+					"springK": 300.0,
+					"damping": 10.0
+				},
+				{
+					"pointA": 3,
+					"pointB": 5,
+					"springK": 300.0,
+					"damping": 10.0
+				},
+				{
+					"pointA": 14,
+					"pointB": 6,
+					"springK": 300.0,
+					"damping": 10.0
+				},
+				{
+					"pointA": 5,
+					"pointB": 13,
+					"springK": 300.0,
+					"damping": 10.0
+				},
+				{
+					"pointA": 13,
+					"pointB": 6,
+					"springK": 300.0,
+					"damping": 10.0
+				},
+				{
+					"pointA": 12,
+					"pointB": 10,
+					"springK": 300.0,
+					"damping": 10.0
+				},
+				{
+					"pointA": 13,
+					"pointB": 11,
+					"springK": 300.0,
+					"damping": 10.0
+				},
+				{
+					"pointA": 13,
+					"pointB": 10,
+					"springK": 300.0,
+					"damping": 10.0
+				},
+				{
+					"pointA": 13,
+					"pointB": 9,
+					"springK": 300.0,
+					"damping": 10.0
+				},
+				{
+					"pointA": 6,
+					"pointB": 10,
+					"springK": 300.0,
+					"damping": 10.0
+				},
+				{
+					"pointA": 6,
+					"pointB": 9,
+					"springK": 300.0,
+					"damping": 10.0
+				},
+				{
+					"pointA": 6,
+					"pointB": 8,
+					"springK": 300.0,
+					"damping": 10.0
+				},
+				{
+					"pointA": 7,
+					"pointB": 9,
+					"springK": 300.0,
+					"damping": 10.0
+				}
+			]
+		}
+	},
+	"bodies": {
+		"ground1": {
+			"bluePrint": "groundRectangle",
+			"translate": {"x": 10, "y": 0}
+		},
+		"ground2": {
+			"bluePrint": "groundRectangle",
+			"shape": "i",
+			"translate": {"x": -10, "y": 0},
+			"rotate": -0.1
+		},
+		"i1": {
+			"bluePrint": "i",
+			"translate": {"x": 0, "y": 6},
+			"scale": {"x": 2, "y": 2}
+		}
+	}
+}

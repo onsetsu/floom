@@ -1,0 +1,19 @@
+{
+  "name": "title",
+  "spawnPoints": {
+    "default": {
+      "x": 0,
+      "y": 0
+    }
+  },
+  "layers": [
+    {
+      "name": "title",
+      "entities": [
+      ],
+      "world": {
+        "bodies": {}
+      }
+    }
+  ]
+}

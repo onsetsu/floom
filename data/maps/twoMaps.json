@@ -1,0 +1,552 @@
+{
+   "spawnPoints":{
+      "default":{
+         "x":0,
+         "y":0
+      }
+   },
+   "layers":[
+      {
+		"name":"fluid",
+        "entities": [],
+        "zIndex":-1,
+		"scrollFactor":{
+			"x":0.2,
+			"y":1.8
+		},
+		"scale":{
+			"x":0.7,
+			"y":0.7
+		},
+        "entities": [
+        {
+            "name": "block",
+            "zIndex": 0,
+            "state": "idle",
+            "tags": [],
+            "stateAnimations": {},
+            "body": {
+                  "class":"Body",
+                  "shape":[
+                     {
+                        "x":-1,
+                        "y":-1
+                     },
+                     {
+                        "x":-1,
+                        "y":1
+                     },
+                     {
+                        "x":1,
+                        "y":1
+                     },
+                     {
+                        "x":1,
+                        "y":-1
+                     }
+                  ],
+                  "pointMasses":[
+                     0,
+                     0,
+                     0,
+                     0
+                  ],
+                  "translate":{
+                     "x":-70,
+                     "y":40
+                  },
+                  "rotate":0,
+                  "scale":{
+                     "x":10,
+                     "y":10
+                  },
+                  "isKinematic":false
+               }
+          }
+		],
+        "world":{
+            "bodies":{
+            }
+         }
+      },
+      {
+		"name":"additional",
+        "entities": [],
+        "zIndex":-1,
+		"scrollFactor":{
+			"x":0.9,
+			"y":0.9
+		},
+		"scale":{
+			"x":1,
+			"y":1
+		},
+        "entities": [
+        {
+            "name": "block",
+            "zIndex": 0,
+            "state": "idle",
+            "tags": [],
+            "stateAnimations": {},
+            "body": {
+                  "class":"Body",
+                  "shape":[
+                     {
+                        "x":-1,
+                        "y":-1
+                     },
+                     {
+                        "x":-1,
+                        "y":1
+                     },
+                     {
+                        "x":1,
+                        "y":1
+                     },
+                     {
+                        "x":1,
+                        "y":-1
+                     }
+                  ],
+                  "pointMasses":[
+                     0,
+                     0,
+                     0,
+                     0
+                  ],
+                  "translate":{
+                     "x":10,
+                     "y":0
+                  },
+                  "rotate":0,
+                  "scale":{
+                     "x":9,
+                     "y":1.5
+                  },
+                  "isKinematic":false
+               }
+          },
+        {
+            "name": "block",
+            "zIndex": 0,
+            "state": "idle",
+            "tags": [],
+            "stateAnimations": {},
+            "body": {
+                  "class":"Body",
+                  "shape":[
+                     {
+                        "x":-1.6939515802586094,
+                        "y":-2.57353848165109
+                     },
+                     {
+                        "x":-1.1832123754264703,
+                        "y":0.2699417786572492
+                     },
+                     {
+                        "x":2.1522969264107235,
+                        "y":1.207931894978737
+                     },
+                     {
+                        "x":1.7542952602995139,
+                        "y":-1.0316683049736524
+                     }
+                  ],
+                  "pointMasses":[
+                     0,
+                     0,
+                     0,
+                     0
+                  ],
+                  "translate":{
+                     "x":-20,
+                     "y":1.5
+                  },
+                  "rotate":-0.1,
+                  "scale":{
+                     "x":9,
+                     "y":1.5
+                  },
+                  "isKinematic":false
+               }
+          },
+        {
+            "name": "block",
+            "zIndex": 0,
+            "state": "idle",
+            "tags": [],
+            "stateAnimations": {},
+            "body": {
+                  "class":"SpringBody",
+                  "shape":[
+                     {
+                        "x":-1,
+                        "y":-1
+                     },
+                     {
+                        "x":-1,
+                        "y":1
+                     },
+                     {
+                        "x":1,
+                        "y":1
+                     },
+                     {
+                        "x":1,
+                        "y":-1
+                     }
+                  ],
+                  "pointMasses":[
+                     1,
+                     1,
+                     1,
+                     1
+                  ],
+                  "translate":{
+                     "x":0,
+                     "y":4
+                  },
+                  "rotate":0,
+                  "scale":{
+                     "x":2,
+                     "y":2
+                  },
+                  "isKinematic":false,
+                  "edgeSpringK":300,
+                  "edgeSpringDamp":5,
+                  "shapeSpringK":150,
+                  "shapeSpringDamp":5,
+                  "internalSprings":[
+                     {
+                        "pointA":0,
+                        "pointB":2,
+                        "springD":2.8284271247461903,
+                        "springK":300,
+                        "damping":10
+                     },
+                     {
+                        "pointA":1,
+                        "pointB":3,
+                        "springD":2.8284271247461903,
+                        "springK":300,
+                        "damping":10
+                     }
+                  ]
+               }
+          }
+		],
+        "world":{
+            "bodies":{
+            }
+         }
+      },
+      {
+         "name":"gui",
+		"zIndex":0,
+		"scrollFactor":{
+			"x":0,
+			"y":0
+		},
+		"scale":{
+			"x":1,
+			"y":1
+		},
+        "entities": [
+        {
+            "name": "block",
+            "zIndex": 0,
+            "state": "idle",
+            "tags": [],
+            "stateAnimations": {},
+            "body": {
+                  "class":"Body",
+                  "shape":[
+                     {
+                        "x":-1,
+                        "y":-1
+                     },
+                     {
+                        "x":-1,
+                        "y":1
+                     },
+                     {
+                        "x":1,
+                        "y":1
+                     },
+                     {
+                        "x":1,
+                        "y":-1
+                     }
+                  ],
+                  "pointMasses":[
+                     0,
+                     0,
+                     0,
+                     0
+                  ],
+                  "translate":{
+                     "x":10,
+                     "y":20
+                  },
+                  "rotate":0,
+                  "scale":{
+                     "x":9,
+                     "y":1.5
+                  },
+                  "isKinematic":false
+               }
+          }
+		],
+          "world":{
+            "bodies":{
+            }
+         }
+      },
+      {
+         "name":"0.4",
+		"zIndex":-1,
+		"scrollFactor":{
+			"x":0.4,
+			"y":0.4
+		},
+		"scale":{
+			"x":0.4,
+			"y":0.4
+		},
+        "entities": [
+        {
+            "name": "block",
+            "zIndex": 0,
+            "state": "idle",
+            "tags": [],
+            "stateAnimations": {},
+            "body": {
+                  "class":"Body",
+                  "shape":[
+                     {
+                        "x":-1,
+                        "y":-1
+                     },
+                     {
+                        "x":-1,
+                        "y":1
+                     },
+                     {
+                        "x":1,
+                        "y":1
+                     },
+                     {
+                        "x":1,
+                        "y":-1
+                     }
+                  ],
+                  "pointMasses":[
+                     0,
+                     0,
+                     0,
+                     0
+                  ],
+                  "translate":{
+                     "x":10,
+                     "y":0
+                  },
+                  "rotate":0,
+                  "scale":{
+                     "x":9,
+                     "y":1.5
+                  },
+                  "isKinematic":false
+               }
+          }
+		],
+          "world":{
+            "bodies":{
+            }
+         }
+      },
+      {
+         "name":"0.6",
+		"zIndex":-1,
+		"scrollFactor":{
+			"x":0.6,
+			"y":0.6
+		},
+		"scale":{
+			"x":0.6,
+			"y":0.6
+		},
+        "entities": [
+        {
+            "name": "block",
+            "zIndex": 0,
+            "state": "idle",
+            "tags": [],
+            "stateAnimations": {},
+            "body": {
+                  "class":"Body",
+                  "shape":[
+                     {
+                        "x":-1,
+                        "y":-1
+                     },
+                     {
+                        "x":-1,
+                        "y":1
+                     },
+                     {
+                        "x":1,
+                        "y":1
+                     },
+                     {
+                        "x":1,
+                        "y":-1
+                     }
+                  ],
+                  "pointMasses":[
+                     0,
+                     0,
+                     0,
+                     0
+                  ],
+                  "translate":{
+                     "x":10,
+                     "y":0
+                  },
+                  "rotate":0,
+                  "scale":{
+                     "x":9,
+                     "y":1.5
+                  },
+                  "isKinematic":false
+               }
+          }
+		],
+          "world":{
+            "bodies":{
+            }
+         }
+      },
+      {
+        "name":"0.8",
+		"zIndex":-1,
+		"scrollFactor":{
+			"x":0.8,
+			"y":0.8
+		},
+		"scale":{
+			"x":0.8,
+			"y":0.8
+		},
+        "entities": [
+        {
+            "name": "block",
+            "zIndex": 0,
+            "state": "idle",
+            "tags": [],
+            "stateAnimations": {},
+            "body": {
+                  "class":"Body",
+                  "shape":[
+                     {
+                        "x":-1,
+                        "y":-1
+                     },
+                     {
+                        "x":-1,
+                        "y":1
+                     },
+                     {
+                        "x":1,
+                        "y":1
+                     },
+                     {
+                        "x":1,
+                        "y":-1
+                     }
+                  ],
+                  "pointMasses":[
+                     0,
+                     0,
+                     0,
+                     0
+                  ],
+                  "translate":{
+                     "x":10,
+                     "y":0
+                  },
+                  "rotate":0,
+                  "scale":{
+                     "x":9,
+                     "y":1.5
+                  },
+                  "isKinematic":false
+               }
+          }
+		],
+          "world":{
+            "bodies":{}
+         }
+      },
+      {
+         "name":"main",
+		"zIndex":-1,
+		"scrollFactor":{
+			"x":1,
+			"y":1
+		},
+		"scale":{
+			"x":1,
+			"y":1
+		},
+        "entities": [
+        {
+            "name": "block",
+            "zIndex": 0,
+            "state": "idle",
+            "tags": [],
+            "stateAnimations": {},
+            "body": {
+                  "class":"Body",
+                  "shape":[
+                     {
+                        "x":-1,
+                        "y":-1
+                     },
+                     {
+                        "x":-1,
+                        "y":1
+                     },
+                     {
+                        "x":1,
+                        "y":1
+                     },
+                     {
+                        "x":1,
+                        "y":-1
+                     }
+                  ],
+                  "pointMasses":[
+                     0,
+                     0,
+                     0,
+                     0
+                  ],
+                  "translate":{
+                     "x":10,
+                     "y":0
+                  },
+                  "rotate":0,
+                  "scale":{
+                     "x":9,
+                     "y":1.5
+                  },
+                  "isKinematic":false
+               }
+          }
+		],
+          "world": {
+            "bodies": {}
+         }
+      }
+   ]
+}

@@ -1,0 +1,488 @@
+{
+	"spawnPoints": {
+		"default": {
+			"x": 0,
+			"y": 0
+		}
+	},
+	"layers": [
+		{
+			"name": "default",
+			"world": {
+				"bodies": {
+					"body0": {
+						"class": "SpringBody",
+						"shape": [
+							{
+								"x": -0.7899159663865554,
+								"y": -0.7689075630252109
+							},
+							{
+								"x": -1.630252100840334,
+								"y": 0.3067226890756327
+							},
+							{
+								"x": 1.2100840336134446,
+								"y": 1.231092436974789
+							},
+							{
+								"x": 1.2100840336134446,
+								"y": -0.7689075630252109
+							}
+						],
+						"pointMasses": [0,0,0,0],
+						"translate": {
+							"x": -14.292592481832585,
+							"y": 9.796345584497143
+						},
+						"rotate": 0,
+						"scale": {
+							"x": 1,
+							"y": 1
+						},
+						"isKinematic": false,
+						"edgeSpringK": 300,
+						"edgeSpringDamp": 5,
+						"shapeSpringK": 150,
+						"shapeSpringDamp": 5,
+						"internalSprings": [
+							{
+								"pointA": 0,
+								"pointB": 2,
+								"springD": 2.8284271247461903,
+								"springK": 300,
+								"damping": 10
+							},
+							{
+								"pointA": 1,
+								"pointB": 3,
+								"springD": 3.0371845179241843,
+								"springK": 300,
+								"damping": 10
+							}
+						]
+					},
+					"body1": {
+						"class": "SpringBody",
+						"shape": [
+							{
+								"x": -1.1260504201680668,
+								"y": -0.8319327731092443
+							},
+							{
+								"x": -1.1260504201680668,
+								"y": 1.1680672268907557
+							},
+							{
+								"x": 1.3781512605042003,
+								"y": 0.4957983193277329
+							},
+							{
+								"x": 0.8739495798319332,
+								"y": -0.8319327731092443
+							}
+						],
+						"pointMasses": [0,0,0,0],
+						"translate": {
+							"x": -9.308292712102642,
+							"y": 9.763748915936485
+						},
+						"rotate": 0,
+						"scale": {
+							"x": 1,
+							"y": 1
+						},
+						"isKinematic": false,
+						"edgeSpringK": 300,
+						"edgeSpringDamp": 5,
+						"shapeSpringK": 150,
+						"shapeSpringDamp": 5,
+						"internalSprings": [
+							{
+								"pointA": 0,
+								"pointB": 2,
+								"springD": 2.8344127983244953,
+								"springK": 300,
+								"damping": 10
+							},
+							{
+								"pointA": 1,
+								"pointB": 3,
+								"springD": 2.8284271247461903,
+								"springK": 300,
+								"damping": 10
+							}
+						]
+					},
+					"body2": {
+						"class": "SpringBody",
+						"shape": [
+							{
+								"x": -1.0630252100840334,
+								"y": -1.0210084033613445
+							},
+							{
+								"x": -0.9789915966386555,
+								"y": 1.0630252100840334
+							},
+							{
+								"x": 1.0210084033613445,
+								"y": 0.9789915966386555
+							},
+							{
+								"x": 1.0210084033613445,
+								"y": -1.0210084033613445
+							}
+						],
+						"pointMasses": [0,0,0,0],
+						"translate": {
+							"x": -19.97966446365023,
+							"y": -1.5194832381351127
+						},
+						"rotate": 0,
+						"scale": {
+							"x": 1,
+							"y": 1
+						},
+						"isKinematic": false,
+						"edgeSpringK": 300,
+						"edgeSpringDamp": 5,
+						"shapeSpringK": 150,
+						"shapeSpringDamp": 5,
+						"internalSprings": [
+							{
+								"pointA": 0,
+								"pointB": 2,
+								"springD": 2.8884591224336544,
+								"springK": 300,
+								"damping": 10
+							},
+							{
+								"pointA": 1,
+								"pointB": 3,
+								"springD": 2.8884591224336544,
+								"springK": 300,
+								"damping": 10
+							}
+						]
+					},
+					"body3": {
+						"class": "SpringBody",
+						"shape": [
+							{
+								"x": -1,
+								"y": -1
+							},
+							{
+								"x": -1,
+								"y": 1
+							},
+							{
+								"x": 1,
+								"y": 1
+							},
+							{
+								"x": 1,
+								"y": -1
+							}
+						],
+						"pointMasses": [1,1,1,1],
+						"translate": {
+							"x": -17.047758605221432,
+							"y": -2.871796405394898
+						},
+						"rotate": 0,
+						"scale": {
+							"x": 1,
+							"y": 1
+						},
+						"isKinematic": false,
+						"edgeSpringK": 300,
+						"edgeSpringDamp": 5,
+						"shapeSpringK": 150,
+						"shapeSpringDamp": 5,
+						"internalSprings": [
+							{
+								"pointA": 0,
+								"pointB": 2,
+								"springD": 2.8284271247461903,
+								"springK": 300,
+								"damping": 10
+							},
+							{
+								"pointA": 1,
+								"pointB": 3,
+								"springD": 2.8284271247461903,
+								"springK": 300,
+								"damping": 10
+							}
+						]
+					},
+					"body4": {
+						"class": "SpringBody",
+						"shape": [
+							{
+								"x": -1.0086278250866272,
+								"y": -1.168067226890757
+							},
+							{
+								"x": -0.9245942116412493,
+								"y": 1.0840336134453783
+							},
+							{
+								"x": 1.0754057883587507,
+								"y": 1.0840336134453783
+							},
+							{
+								"x": 0.8578162483691258,
+								"y": -0.9999999999999996
+							}
+						],
+						"pointMasses": [0,0,0,0],
+						"translate": {
+							"x": -14.373037471216236,
+							"y": -3.778223032985432
+						},
+						"rotate": 0,
+						"scale": {
+							"x": 1,
+							"y": 1
+						},
+						"isKinematic": false,
+						"edgeSpringK": 300,
+						"edgeSpringDamp": 5,
+						"shapeSpringK": 150,
+						"shapeSpringDamp": 5,
+						"internalSprings": [
+							{
+								"pointA": 0,
+								"pointB": 2,
+								"springD": 3.0684123414255993,
+								"springK": 300,
+								"damping": 10
+							},
+							{
+								"pointA": 1,
+								"pointB": 3,
+								"springD": 2.742295233909835,
+								"springK": 300,
+								"damping": 10
+							}
+						]
+					},
+					"body5": {
+						"class": "SpringBody",
+						"shape": [
+							{
+								"x": -0.78991596638655,
+								"y": -1.0000000000000027
+							},
+							{
+								"x": -0.9579831932773129,
+								"y": 1.0000000000000009
+							},
+							{
+								"x": 0.7899159663865394,
+								"y": 1.0840336134453787
+							},
+							{
+								"x": 0.9579831932773235,
+								"y": -1.084033613445377
+							}
+						],
+						"pointMasses": [0,0,0,0],
+						"translate": {
+							"x": -11.530249110320277,
+							"y": -3.843416370106759
+						},
+						"rotate": 0,
+						"scale": {
+							"x": 1,
+							"y": 1
+						},
+						"isKinematic": false,
+						"edgeSpringK": 300,
+						"edgeSpringDamp": 5,
+						"shapeSpringK": 150,
+						"shapeSpringDamp": 5,
+						"internalSprings": [
+							{
+								"pointA": 0,
+								"pointB": 2,
+								"springD": 2.615160614145863,
+								"springK": 300,
+								"damping": 10
+							},
+							{
+								"pointA": 1,
+								"pointB": 3,
+								"springD": 2.830922693465406,
+								"springK": 300,
+								"damping": 10
+							}
+						]
+					},
+					"body6": {
+						"class": "SpringBody",
+						"shape": [
+							{
+								"x": -1.000000000000007,
+								"y": -0.9789915966386564
+							},
+							{
+								"x": -1.1680672268907557,
+								"y": 0.7689075630252118
+							},
+							{
+								"x": 1.2521008403361407,
+								"y": 1.189075630252101
+							},
+							{
+								"x": 0.9159663865546221,
+								"y": -0.9789915966386564
+							}
+						],
+						"pointMasses": [0,0,0,0],
+						"translate": {
+							"x": -8.501450402224933,
+							"y": -2.801519184186132
+						},
+						"rotate": 0,
+						"scale": {
+							"x": 1,
+							"y": 1
+						},
+						"isKinematic": false,
+						"edgeSpringK": 300,
+						"edgeSpringDamp": 5,
+						"shapeSpringK": 150,
+						"shapeSpringDamp": 5,
+						"internalSprings": [
+							{
+								"pointA": 0,
+								"pointB": 2,
+								"springD": 3.126095599203672,
+								"springK": 300,
+								"damping": 10
+							},
+							{
+								"pointA": 1,
+								"pointB": 3,
+								"springD": 2.719990362910107,
+								"springK": 300,
+								"damping": 10
+							}
+						]
+					},
+					"body7": {
+						"class": "SpringBody",
+						"shape": [
+							{
+								"x": -1,
+								"y": -1
+							},
+							{
+								"x": -1,
+								"y": 1
+							},
+							{
+								"x": 1,
+								"y": 1
+							},
+							{
+								"x": 1,
+								"y": -1
+							}
+						],
+						"pointMasses": [1,1,1,1],
+						"translate": {
+							"x": -5.356918568139001,
+							"y": -2.645414037501121
+						},
+						"rotate": 0,
+						"scale": {
+							"x": 1,
+							"y": 1
+						},
+						"isKinematic": false,
+						"edgeSpringK": 300,
+						"edgeSpringDamp": 5,
+						"shapeSpringK": 150,
+						"shapeSpringDamp": 5,
+						"internalSprings": [
+							{
+								"pointA": 0,
+								"pointB": 2,
+								"springD": 2.8284271247461903,
+								"springK": 300,
+								"damping": 10
+							},
+							{
+								"pointA": 1,
+								"pointB": 3,
+								"springD": 2.8284271247461903,
+								"springK": 300,
+								"damping": 10
+							}
+						]
+					},
+					"body8": {
+						"class": "SpringBody",
+						"shape": [
+							{
+								"x": -1.189075630252102,
+								"y": -0.9369747899159675
+							},
+							{
+								"x": -1.189075630252102,
+								"y": 1.0630252100840325
+							},
+							{
+								"x": 1.5672268907563058,
+								"y": 0.9789915966386582
+							},
+							{
+								"x": 0.810924369747898,
+								"y": -1.1050420168067232
+							}
+						],
+						"pointMasses": [0,0,0,0],
+						"translate": {
+							"x": -2.6394329973982735,
+							"y": -1.2862226741230245
+						},
+						"rotate": 0,
+						"scale": {
+							"x": 1,
+							"y": 1
+						},
+						"isKinematic": false,
+						"edgeSpringK": 300,
+						"edgeSpringDamp": 5,
+						"shapeSpringK": 150,
+						"shapeSpringDamp": 5,
+						"internalSprings": [
+							{
+								"pointA": 0,
+								"pointB": 2,
+								"springD": 3.356803655521796,
+								"springK": 300,
+								"damping": 10
+							},
+							{
+								"pointA": 1,
+								"pointB": 3,
+								"springD": 2.9496636249439985,
+								"springK": 300,
+								"damping": 10
+							}
+						]
+					}
+				}
+			}
+		},
+		{
+			"name": "second_layer"
+		}
+	]
+}
