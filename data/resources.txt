@@ -1,5 +1,0 @@
-
-
-
-graphics
-	crate.png - (free2use, no license given) - http://opengameart.org/content/2d-wooden-box
