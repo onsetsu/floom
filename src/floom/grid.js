@@ -1,4 +1,4 @@
-define(["floom/node", "external/vector2", "physics/aabb"], function(Node, Vector2, AABB) {
+define(["floom/node", "external/vector2", "external/aabb"], function(Node, Vector2, AABB) {
 	var Grid = function(){
 		this.arr = [];
 		this.activeCount = 0;

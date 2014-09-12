@@ -8,7 +8,7 @@ define([
 	"floom/simulator",
 	"floom/tool",
 	"external/vector2",
-	"physics/aabb"
+	"external/aabb"
 ], function(Material, Particle, Node, Grid, Obstacle, Integrator, Simulator, Tool, Vector2, AABB) {
 	var System = function() {
 		this.wall = new AABB(
