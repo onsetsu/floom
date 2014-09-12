@@ -98,7 +98,7 @@ require([
 			C: consumeTool
 		};
 		_.each(keyToolMap, function(tool, key, map) {
-			env.input.bind(Input.KEY[key], key);
+			input.bind(Input.KEY[key], key);
 			var toTool = function() {
 				console.log("its " + key);
 				tool.activate();
@@ -129,8 +129,6 @@ require([
 		);
 	};
 
-	env = {};
-	
 	var canvasId = "floom";
 	var canvas = document.getElementById(canvasId);
 	canvas.style.position = "absolute";
@@ -138,7 +136,7 @@ require([
 	canvas.style.left = "0px";
 	canvas.style["z-index"] = -1;
 
-	env.input = new Input(canvasId);
+	var input = new Input(canvasId);
 
 	// choose, which subset of the world should be displayed
 	var viewport = new Viewport(
@@ -146,9 +144,9 @@ require([
 		Vector2.Zero.copy(),
 		new Vector2(100, 40)
 	);
-	env.viewport = viewport;
+	var viewport = viewport;
 	
-	env.renderer = new CombinedRenderer(canvas);
+	var renderer = new CombinedRenderer(canvas);
 
 	var stats = new Stats();
 	$(stats.domElement)
@@ -160,37 +158,37 @@ require([
 	});
 	
 	// prepare input
-	env.input.initMouse();
-	env.input.bind(Input.KEY.MOUSE1, "leftclick");
-	env.input.bind(Input.KEY.MOUSE2, "rightclick");
-	env.input.bind(Input.KEY.MWHEEL_UP, "zoomIn");
-	env.input.bind(Input.KEY.MWHEEL_DOWN, "zoomOut");
-	env.input.initKeyboard();
-	env.input.bind(Input.KEY.N, "nextAction");
+	input.initMouse();
+	input.bind(Input.KEY.MOUSE1, "leftclick");
+	input.bind(Input.KEY.MOUSE2, "rightclick");
+	input.bind(Input.KEY.MWHEEL_UP, "zoomIn");
+	input.bind(Input.KEY.MWHEEL_DOWN, "zoomOut");
+	input.initKeyboard();
+	input.bind(Input.KEY.N, "nextAction");
 
-	env.viewport.jumpToPoint(new Vector2(0, 15));
+	viewport.jumpToPoint(new Vector2(0, 15));
 
 	// create fluid System
-	env.fluidSystem = new Floom.System();
+	var fluidSystem = new Floom.System();
 	// create custom Materials
-	var mat0 = env.fluidSystem.createNewMaterial()
+	var mat0 = fluidSystem.createNewMaterial()
 		.setParticleMass(0.5);
-	var mat1 = env.fluidSystem.createNewMaterial()
+	var mat1 = fluidSystem.createNewMaterial()
 		.setParticleMass(1.0);
-	var mat2 = env.fluidSystem.createNewMaterial()
+	var mat2 = fluidSystem.createNewMaterial()
 		.setParticleMass(2.0)
 		.setIsElastic(true);
-	var mat3 = env.fluidSystem.createNewMaterial()
+	var mat3 = fluidSystem.createNewMaterial()
 		.setParticleMass(4.0);
 	// create Particles of these Materials
-	new Floom.Group(env.fluidSystem, -45,  5,  0, 25,  0.1, 0, mat0);
-	new Floom.Group(env.fluidSystem,   5,  5, 50, 25, -0.1, 0, mat1);
-	new Floom.Group(env.fluidSystem, -45, 30,  0, 50,  0.1, 0, mat2);
-	new Floom.Group(env.fluidSystem,   5, 30, 50, 50, -0.1, 0, mat3);
+	new Floom.Group(fluidSystem, -45,  5,  0, 25,  0.1, 0, mat0);
+	new Floom.Group(fluidSystem,   5,  5, 50, 25, -0.1, 0, mat1);
+	new Floom.Group(fluidSystem, -45, 30,  0, 50,  0.1, 0, mat2);
+	new Floom.Group(fluidSystem,   5, 30, 50, 50, -0.1, 0, mat3);
 	// initialize specific datGui for the fluid System
-	env.fluidSystem.createDatGui();
+	fluidSystem.createDatGui();
 
-	initTools(env.input, env.viewport, env.fluidSystem);
+	initTools(input, viewport, fluidSystem);
 	
 	// update routine
 	var lastPoint = Vector2.Zero.copy();
@@ -199,39 +197,39 @@ require([
 		if(graph)
 			graph.beginClock('update');
 
-		env.input.update();
+		input.update();
 		// viewport manipulation
-		if(env.input.pressed("rightclick")) {
-			lastPoint.set(env.input.mouse);
+		if(input.pressed("rightclick")) {
+			lastPoint.set(input.mouse);
 		}
-		if(env.input.state("rightclick")) {
-			env.viewport.translateBy(lastPoint.sub(env.input.mouse));
-			lastPoint.set(env.input.mouse);
+		if(input.state("rightclick")) {
+			viewport.translateBy(lastPoint.sub(input.mouse));
+			lastPoint.set(input.mouse);
 		}
-		if(env.input.state("zoomIn")) {
-			env.viewport.zoomIn();
+		if(input.state("zoomIn")) {
+			viewport.zoomIn();
 		}
-		if(env.input.state("zoomOut")) {
-			env.viewport.zoomOut();
+		if(input.state("zoomOut")) {
+			viewport.zoomOut();
 		}
 		
-		env.fluidSystem.update(timePassed);
-		env.viewport.update();
+		fluidSystem.update(timePassed);
+		viewport.update();
 		if(graph)
 			graph.endClock('update');
 		// rendering
 		if(graph)
 			graph.beginClock('draw');
-		env.renderer.clear();
-		env.renderer.withViewport(env.viewport, function() {
-			env.renderer.draw(env.fluidSystem);
+		renderer.clear();
+		renderer.withViewport(viewport, function() {
+			renderer.draw(fluidSystem);
 		});
-		drawTool(env.renderer, env.input);
+		drawTool(renderer, input);
 		if(graph)
 			graph.endClock('draw');
 
 		// interaction
-		env.input.clearPressed();
+		input.clearPressed();
 	}
 
 	
@@ -251,7 +249,7 @@ require([
 		update(dt);
 
 		if(debug)
-			debug.afterRun(env.renderer, env.fluidSystem);
+			debug.afterRun(renderer, fluidSystem);
 
 		requestAnimationFrame(animate);
 	}
