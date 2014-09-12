@@ -20,38 +20,35 @@ require([
 	Tool
 ) {
 	function initTools(input, viewport, system) {
-		this.system = system;
-		this.currentInteraction = 0;
-
 		var dragTool = new Tool(input);
-		dragTool.onMouseDrag((function(event) {
-			_.each(this.system.particles, function(p) {
+		dragTool.onMouseDrag(function(event) {
+			_.each(system.particles, function(p) {
 				if(p.position.sub(event.getPositionInWorld(viewport)).lengthSquared() < 50)
 					p.velocity.lerpSelf(event.getLastDeltaInWorld(viewport), 0.2);
-			}, this);
-		}).bind(this));
+			});
+		});
 		dragTool.name = "drag";
 
 		var attractTool = new Tool(input);
-		attractTool.onMouseDrag((function(event) {
-			_.each(this.system.particles, function(p) {
+		attractTool.onMouseDrag(function(event) {
+			_.each(system.particles, function(p) {
 				var vectorToMouse = event.getPositionInWorld(viewport).sub(p.position);
 				var distanceToMouse = vectorToMouse.lengthSquared();
 				if(distanceToMouse < 50)
 					p.velocity.weightedAddSelf(vectorToMouse, (1/distanceToMouse) * (Math.log(1+distanceToMouse)));
-			}, this);
-		}).bind(this));
+			});
+		});
 		attractTool.name = "attract";
 
 		var repelTool = new Tool(input);
-		repelTool.onMouseDrag((function(event) {
-			_.each(this.system.particles, function(p) {
+		repelTool.onMouseDrag(function(event) {
+			_.each(system.particles, function(p) {
 				var vectorToMouse = event.getPositionInWorld(viewport).sub(p.position);
 				var distanceToMouse = vectorToMouse.lengthSquared();
 				if(distanceToMouse < 50)
 					p.velocity.weightedAddSelf(vectorToMouse, 0.1 * Math.log(1/(1+distanceToMouse)));
-			}, this);
-		}).bind(this));
+			});
+		});
 		repelTool.name = "repel";
 		
 		function getRandomPointInCircleUniformly() {
@@ -62,32 +59,32 @@ require([
 			return new Vector2(r*Math.cos(t), r*Math.sin(t));
 		}
 		var spawnTool = new Tool(input);
-		spawnTool.onMouseDrag((function(event) {
+		spawnTool.onMouseDrag(function(event) {
 			var spawnPosition = event.getPositionInWorld(viewport);
 			for(var i = 0; i < 10; i++) {
 				var noise = getRandomPointInCircleUniformly().mulFloat(5);
-				this.system.particles.push(
+				system.particles.push(
 					new Floom.Particle(
 						spawnPosition.x + noise.x,
 						spawnPosition.y + noise.y,
 						0,
 						0,
-						this.system.materials[0]
+						system.materials[0]
 					)
 				);
 			}
-		}).bind(this));
+		});
 		spawnTool.name = "spawn";
 		
 		var consumeTool = new Tool(input);
-		consumeTool.onMouseDrag((function(event) {
-			for(var i = 0; i < this.system.getNumberOfParticles();) {
-				if(this.system.particles[i].position.sub(event.getPositionInWorld(viewport)).lengthSquared() < 4)
-					this.system.particles.splice(i, 1);
+		consumeTool.onMouseDrag(function(event) {
+			for(var i = 0; i < system.getNumberOfParticles();) {
+				if(system.particles[i].position.sub(event.getPositionInWorld(viewport)).lengthSquared() < 4)
+					system.particles.splice(i, 1);
 				else
 					i++;
 			}
-		}).bind(this));
+		});
 		consumeTool.name = "consume";
 
 		var keyToolMap = {
@@ -188,7 +185,7 @@ require([
 	
 	// update routine
 	var lastPoint = Vector2.Zero.copy();
-	update = function(timePassed) {
+	function update(timePassed) {
 		// entities/map
 		if(graph)
 			graph.beginClock('update');
@@ -217,7 +214,7 @@ require([
 			graph.beginClock('draw');
 		renderer.clear();
 		renderer.withViewport(viewport, function() {
-			renderer.draw(fluidSystem);
+			fluidSystem.draw(renderer);
 		});
 		drawTool(renderer, input);
 		if(graph)
