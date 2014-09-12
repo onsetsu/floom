@@ -3,9 +3,8 @@ define([
 	"floom/particle",
 	"floom/node",
 	"floom/grid",
-	"floom/integrator",
-	"floom/tool"
-], function(Material, Particle, Node, Grid, Integrator, Tool) {
+	"floom/integrator"
+], function(Material, Particle, Node, Grid, Integrator) {
 	var Simulator = function() {};
 
 	return Simulator;

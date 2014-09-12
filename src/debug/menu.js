@@ -1,7 +1,6 @@
 define(["debug/option"], function(DebugOption){ "use strict";
 
-$().ready(function() {
-	var XDebug = mini.Class.subclass({
+	var Menu = mini.Class.subclass({
 		options: {},
 		panels: {},
 		numbers:{},
@@ -21,7 +20,7 @@ $().ready(function() {
 			style.attr("type", 'text/css');
 			style.attr("href", 'src/debug/debug.css');
 			$("body").append(style);
-	
+
 			// Create the Debug Container
 			this.container = $('<div />');
 			this.container.addClass("ig_debug");
@@ -122,7 +121,7 @@ $().ready(function() {
 				panel.container.hide();
 				panel.menuItem.removeClass('active');
 			}
-	
+
 			if( active ) {
 				this.activePanel = panel;
 			}
@@ -132,7 +131,7 @@ $().ready(function() {
 		ready: function() {
 			for( var p in this.panels ) {
 				if(!this.panels.hasOwnProperty(p)) continue;
-	
+
 				this.panels[p].ready();
 			}
 		},
@@ -149,7 +148,7 @@ $().ready(function() {
 		},
 		
 		
-		afterRun: function() {
+		afterRun: function(renderer, fluidSystem) {
 			var frameTime = window.performance.now() - this.debugRealTime;
 			
 			this.debugTime = this.debugTime * 0.8 + frameTime * 0.2;
@@ -160,18 +159,16 @@ $().ready(function() {
 			
 			this.showNumber( 'ms',  this.debugTime.toFixed(2) );
 			this.showNumber( 'fps',  Math.round(1000/this.debugTickAvg) );
-			if( env && env.renderer && env.renderer.drawCount ) {
-				this.showNumber( 'draws', env.renderer.drawCount );
+			if( renderer ) {
+				this.showNumber( 'draws', renderer.drawCount );
 			}
-			if( env.fluidSystem ) {
+			if( fluidSystem ) {
 				// calculate number of particles in all layers
-				var numberOfParticles = env.fluidSystem.getNumberOfParticles();
+				var numberOfParticles = fluidSystem.getNumberOfParticles();
 				this.showNumber( 'particles', numberOfParticles );
 			}
 		}
 	});
 
-	// Create the debug instance!
-	window.debug = new XDebug();
-});
+	return Menu;
 });

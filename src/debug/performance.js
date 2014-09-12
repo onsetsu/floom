@@ -165,15 +165,10 @@ var DebugGraphPanel = DebugPanel.subclass({
 		this.marks = [];
 	}
 });
-
+/*
 $().ready(function() {
-	debug.addPanel({
-		type: DebugGraphPanel,
-		name: 'graph',
-		label: 'Performance'
-	});
 });
-
+*/
 return DebugGraphPanel;
 
 });

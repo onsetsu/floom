@@ -262,7 +262,7 @@ define([
 			return false;
 		},
 		
-		updateTool: function() {
+		update: function() {
 			if(this.tool)
 				this.tool.update();
 		}

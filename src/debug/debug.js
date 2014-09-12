@@ -1,8 +1,9 @@
 define([
 	'debug/menu',
 	'debug/performance'
-], function(){ "use strict";
-	
-/* Empty module to require all debug panels */
-
+], function(Menu, Performance){ "use strict";
+	return {
+		Menu: Menu,
+		Performance: Performance
+	}
 });
