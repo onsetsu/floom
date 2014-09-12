@@ -94,16 +94,16 @@ define(["floom/particle", "external/vector2"], function(Particle, Vector2) {
 	/*
 	 * DRAWING
 	 */
-	Tool.prototype.draw = function() {
+	Tool.prototype.draw = function(renderer) {
 		var color = "pink";
 
 		// draw mouse cursor
-		env.renderer.drawDot(env.viewport.screenToWorldCoordinates(env.input.mouse), 10, color, 0.5);
+		renderer.drawDot(env.input.mouse, 10, color, 0.5);
 		
 		// draw current interaction name
-		env.renderer.drawTextWorld(
+		renderer.drawText(
 			this.interactions[this.currentInteraction],
-			env.viewport.screenToWorldCoordinates(env.input.mouse).add(new Vector2(3, 3)),
+			new Vector2(5, 5).add(env.input.mouse),
 			color,
 			1.0,
 			"bottom"

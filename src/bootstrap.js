@@ -8,14 +8,16 @@ require([
 	"engine/rendering/renderer/combinedrenderer",
 	"external/vector2",
 	"debug/debug",
-	"floom/floom"
+	"floom/floom",
+	"floom/tool"
 ], function(
 	Input,
 	Viewport,
 	CombinedRenderer,
 	Vector2,
 	Debug,
-	Floom
+	Floom,
+	Tool
 ) {
 	env = {};
 	
@@ -77,8 +79,10 @@ require([
 	new Floom.Group(env.fluidSystem,   5, 30, 50, 50, -0.1, 0, mat3);
 	// initialize specific datGui for the fluid System
 	env.fluidSystem.createDatGui();
-	
-	// update routine
+
+	var tool = new Tool(env.fluidSystem);
+
+		// update routine
 	var lastPoint = Vector2.Zero.copy();
 	update = function(timePassed) {
 		// entities/map
@@ -99,20 +103,23 @@ require([
 		if(env.input.state("zoomOut")) {
 			env.viewport.zoomOut();
 		}
+		tool.update();
 		
 		env.fluidSystem.update(timePassed);
+		env.viewport.update();
 		if(graph)
 			graph.endClock('update');
 		// rendering
 		if(graph)
 			graph.beginClock('draw');
-		env.viewport.update();
 		env.renderer.clear();
 		env.renderer.withViewport(env.viewport, function() {
 			env.renderer.draw(env.fluidSystem);
 		});
+		tool.draw(env.renderer);
 		if(graph)
 			graph.endClock('draw');
+
 		// interaction
 		env.input.clearPressed();
 	}

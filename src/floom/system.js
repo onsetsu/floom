@@ -6,10 +6,9 @@ define([
 	"floom/obstacle",
 	"floom/integrator",
 	"floom/simulator",
-	"floom/tool",
 	"external/vector2",
 	"external/aabb"
-], function(Material, Particle, Node, Grid, Obstacle, Integrator, Simulator, Tool, Vector2, AABB) {
+], function(Material, Particle, Node, Grid, Obstacle, Integrator, Simulator, Vector2, AABB) {
 	var System = function() {
 		this.wall = new AABB(
 			new Vector2(-50, 2),
@@ -21,7 +20,6 @@ define([
 		this.springs = [];
 		this.grid = new Grid();
 		this.integrator = new Integrator(this.grid);
-		this.tool = new Tool(this);
 	    this.simulator = new Simulator();
 		
 		this.useSurfaceTensionImplementation = true;
@@ -67,7 +65,6 @@ define([
 	 * UPDATE
 	 */
 	System.prototype.update = function() {
-		this.tool.update();
 		this.grid.update(this);
 
 		if(this.useSurfaceTensionImplementation) {
@@ -378,9 +375,6 @@ define([
 		// draw grid nodes
 		if(this.drawGrid)
 			this.grid.draw(renderer);
-
-		// draw mouse cursor
-		this.tool.draw();
 
 		// draw test obstacle
 		if(this.doObstacles)

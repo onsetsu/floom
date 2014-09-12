@@ -89,6 +89,7 @@ define(["external/vector2"], function(Vector2) {
 		popViewport: function() {
 			// restore saved context state to revert adding layer
 			this.context.restore();
+			this.singlePixelExtent.set(Vector2.One.copy());
 		},
 
 		withViewport: function(viewport, func, ctx) {
@@ -100,13 +101,13 @@ define(["external/vector2"], function(Vector2) {
 		/*
 		 * Drawing
 		 */
-		draw: function(objectToDraw, viewport) {
+		draw: function(objectToDraw) {
 			this.drawCount = 0;
 
 			this.clear();
 			
 			// Draw given object.
-			objectToDraw.draw(this, viewport);
+			objectToDraw.draw(this);
 		},
 		
 		// clear canvas
@@ -252,6 +253,21 @@ define(["external/vector2"], function(Vector2) {
 				0
 			);
 			this.context.restore();
+		},
+
+		drawText: function(text, screenPoint, color, opacity, baseline) {
+			this.drawCount++;
+			
+			this.configuration.setFillStyle(color);
+			this.configuration.setStrokeStyle(color);
+			this.configuration.setGlobalAlpha(opacity);
+			this.configuration.setTextBaseline(baseline);
+			
+			this.context.fillText(
+				text,
+				screenPoint.x,
+				screenPoint.y
+			);
 		},
 
 		drawPathSegments: function(path, color) {
