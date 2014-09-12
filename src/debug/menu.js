@@ -19,7 +19,7 @@ $().ready(function() {
 			console.log(style);
 			style.attr("rel", 'stylesheet');
 			style.attr("type", 'text/css');
-			style.attr("href", 'lib/debug/debug.css');
+			style.attr("href", 'src/debug/debug.css');
 			$("body").append(style);
 	
 			// Create the Debug Container
