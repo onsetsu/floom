@@ -1,4 +1,4 @@
-define(["physics/vector2"], function(Vector2) {
+define(["external/vector2"], function(Vector2) {
 	var Invalid = true;
 	var Valid = false;
 

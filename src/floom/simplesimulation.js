@@ -8,7 +8,7 @@ define([
 	"floom/integrator",
 	"floom/simulator",
 	"floom/tool",
-	"physics/jello"
+	"external/vector2"
 ], function(
 	System,
 	Material,
@@ -19,7 +19,7 @@ define([
 	Integrator,
 	Simulator,
 	Tool,
-	Jello
+	Vector2
 ) {
 	/*
 	 * Early simple implementation of the material point method
@@ -58,7 +58,7 @@ define([
 			if (pressure > 4.0)
 				pressure = 4.0;
 
-			var f = Jello.Vector2.Zero.copy();
+			var f = Vector2.Zero.copy();
 			if (p.position.x < this.wall.Min.x) {
 				f.x += this.wall.Min.x - p.position.x;
 	            p.velocity.x *= 0.1;

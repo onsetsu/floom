@@ -7,14 +7,15 @@ define([
 	"floom/integrator",
 	"floom/simulator",
 	"floom/tool",
-	"physics/jello"
-], function(Material, Particle, Node, Grid, Obstacle, Integrator, Simulator, Tool, Jello) {
+	"external/vector2",
+	"physics/aabb"
+], function(Material, Particle, Node, Grid, Obstacle, Integrator, Simulator, Tool, Vector2, AABB) {
 	var System = function() {
-		this.wall = new Jello.AABB(
-			new Jello.Vector2(-50, 2),
-			new Jello.Vector2(50, 100)
+		this.wall = new AABB(
+			new Vector2(-50, 2),
+			new Vector2(50, 100)
 		);
-		this.gravity = new Jello.Vector2(0,-0.05);// 0.004, 0.02
+		this.gravity = new Vector2(0,-0.05);// 0.004, 0.02
 		this.materials = [];
 		this.particles = [];
 		this.springs = [];
@@ -168,7 +169,7 @@ define([
 			}
 			
 			// Wall force
-			var f = Jello.Vector2.Zero.copy();
+			var f = Vector2.Zero.copy();
 			if (p.position.x < this.wall.Min.x) {
 				f.x += this.wall.Min.x - p.position.x;
 	            p.velocity.x *= 0.1;
@@ -308,7 +309,7 @@ define([
 		_.each(this.particles, function(p, pIndex) {
 			var material = p.material;
 			
-			var gVelocity = Jello.Vector2.Zero.copy();
+			var gVelocity = Vector2.Zero.copy();
 			var dudx = 0, dudy = 0, dvdx = 0, dvdy = 0;
 			
 			this.integrator.integrate(p, function(particle, node, phi, gxpy, pxgy) {

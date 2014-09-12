@@ -1,10 +1,4 @@
-/**
- * A layer-aware renderer
- * 
- * This renderer combines the capabilities to render ingame
- * graphics as well as debug facilities.
- */
-define(["physics/jello"], function(Jello) {
+define(["external/vector2"], function(Vector2) {
 
 	var Configuration = mini.Class.subclass({
 		initialize: function(renderer) {
@@ -51,7 +45,7 @@ define(["physics/jello"], function(Jello) {
 			this.drawCount = 0;
 			
 			// set default pixel extent to allow setOptions
-			this.singlePixelExtent = Jello.Vector2.One.copy();
+			this.singlePixelExtent = Vector2.One.copy();
 			
 			this.configuration = new Configuration(this);
 		},
@@ -87,8 +81,8 @@ define(["physics/jello"], function(Jello) {
 				-viewport.point.y
 			);
 			
-			this.singlePixelExtent = viewport.screenToWorldCoordinates(new Jello.Vector2(1, 1)).sub(
-				viewport.screenToWorldCoordinates(new Jello.Vector2(0, 0))
+			this.singlePixelExtent = viewport.screenToWorldCoordinates(Vector2.One.copy()).sub(
+				viewport.screenToWorldCoordinates(Vector2.Zero.copy())
 			);
 		},
 		
@@ -276,10 +270,10 @@ define(["physics/jello"], function(Jello) {
 			var segments = path.getSegments();
 			var length = segments.length,
 				first = true,
-				cur = Jello.Vector2.Zero.copy(),
-				prev = Jello.Vector2.Zero.copy(),
-				inHandle = Jello.Vector2.Zero.copy(),
-				outHandle = Jello.Vector2.Zero.copy();
+				cur = Vector2.Zero.copy(),
+				prev = Vector2.Zero.copy(),
+				inHandle = Vector2.Zero.copy(),
+				outHandle = Vector2.Zero.copy();
 
 			function drawSegment(i) {
 				var segment = segments[i];

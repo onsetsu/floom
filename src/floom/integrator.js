@@ -1,4 +1,4 @@
-define(["physics/jello"], function(Jello) {
+define([], function() {
 	var Integrator = function(grid) {
 		this.grid = grid;
 	};

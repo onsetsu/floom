@@ -1,10 +1,10 @@
-define(["physics/jello", "floom/node"], function(Jello, Node) {
+define(["external/vector2", "floom/node"], function(Vector2, Node) {
 	var defaultNode = new Node();
 	
 	var Particle = function(x, y, u, v, material){
-	    this.position = new Jello.Vector2(x, y);
-	    this.prevPosition = new Jello.Vector2(x, y);
-	    this.velocity = new Jello.Vector2(u, v);
+	    this.position = new Vector2(x, y);
+	    this.prevPosition = new Vector2(x, y);
+	    this.velocity = new Vector2(u, v);
 	    // velocity gathered by the filter over the grid
 	    this.gridVelocity = this.velocity.copy(); // or gradient x, y????
 

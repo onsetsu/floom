@@ -1,4 +1,4 @@
-define(["floom/particle", "physics/jello"], function(Particle, Jello) {
+define(["floom/particle", "external/vector2"], function(Particle, Vector2) {
 	var Tool = function(system) {
 		this.system = system;
 		this.interactions = ["drag", "attract", "repel", "spawn", "consume"];
@@ -65,7 +65,7 @@ define(["floom/particle", "physics/jello"], function(Particle, Jello) {
 			var t = TWO_PI*Math.random();
 			var u = Math.random()+Math.random();
 			var r = u>1 ? 2-u : u;
-			return new Jello.Vector2(r*Math.cos(t), r*Math.sin(t));
+			return new Vector2(r*Math.cos(t), r*Math.sin(t));
 		}
 
 		for(var i = 0; i < 10; i++) {
@@ -103,7 +103,7 @@ define(["floom/particle", "physics/jello"], function(Particle, Jello) {
 		// draw current interaction name
 		env.renderer.drawTextWorld(
 			this.interactions[this.currentInteraction],
-			env.viewport.screenToWorldCoordinates(env.input.mouse).add(new Jello.Vector2(3, 3)),
+			env.viewport.screenToWorldCoordinates(env.input.mouse).add(new Vector2(3, 3)),
 			color,
 			1.0,
 			"bottom"

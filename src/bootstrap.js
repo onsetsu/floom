@@ -6,14 +6,14 @@ require([
 	"engine/input/input",
 	"engine/view/viewport",
 	"engine/rendering/renderer/combinedrenderer",
-	"physics/jello",
+	"external/vector2",
 	"debug/debug",
 	"floom/floom"
 ], function(
 	Input,
 	Viewport,
 	CombinedRenderer,
-	Jello,
+	Vector2,
 	Debug,
 	Floom
 ) {
@@ -31,8 +31,8 @@ require([
 	// choose, which subset of the world should be displayed
 	var viewport = new Viewport(
 		canvas,
-		Jello.Vector2.Zero.copy(),
-		new Jello.Vector2(100, 40)
+		Vector2.Zero.copy(),
+		new Vector2(100, 40)
 	);
 	env.viewport = viewport;
 	
@@ -56,7 +56,7 @@ require([
 	env.input.initKeyboard();
 	env.input.bind(Input.KEY.N, "nextAction");
 
-	env.viewport.jumpToPoint(new Jello.Vector2(0, 15));
+	env.viewport.jumpToPoint(new Vector2(0, 15));
 
 	// create fluid System
 	env.fluidSystem = new Floom.System();
@@ -79,7 +79,7 @@ require([
 	env.fluidSystem.createDatGui();
 	
 	// update routine
-	var lastPoint = Jello.Vector2.Zero.copy();
+	var lastPoint = Vector2.Zero.copy();
 	update = function(timePassed) {
 		// entities/map
 		if(graph)

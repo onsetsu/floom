@@ -1,4 +1,4 @@
-define(["floom/particle", "floom/spring", "floom/material", "physics/jello"], function(Particle, Spring, Material, Jello) {
+define(["floom/particle", "floom/spring", "floom/material"], function(Particle, Spring, Material) {
 	var Group = function(system, minX, minY, maxX, maxY, u, v, material) {
 		this.material = material;
 		

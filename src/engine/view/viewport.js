@@ -1,4 +1,4 @@
-define(["physics/jello"], function(Jello) {
+define(["external/vector2"], function(Vector2) {
 	var Viewport = mini.Class.subclass({
 		initialize: function(canvas, middlePoint, extent) {
 			this.canvas = canvas;
@@ -19,14 +19,14 @@ define(["physics/jello"], function(Jello) {
 		},
 	
 		screenToWorldCoordinates: function(vector) {
-			return new Jello.Vector2(
+			return new Vector2(
 				this.scaleX.invert(vector.x),
 				this.scaleY.invert(vector.y)
 			);
 		},
 	
 		worldToScreenCoordinates: function(vector) {
-			return new Jello.Vector2(
+			return new Vector2(
 				this.scaleX(vector.x),
 				this.scaleY(vector.y)
 			);
@@ -39,7 +39,7 @@ define(["physics/jello"], function(Jello) {
 	
 		translateBy: function(vector) {
 			this.point.addSelf(this.extent.divVector(
-				new Jello.Vector2(this.canvas.width, -this.canvas.height)
+				new Vector2(this.canvas.width, -this.canvas.height)
 			).mulVector(vector));
 			this.updateScales();
 		},

@@ -1,10 +1,10 @@
-define(["floom/node", "physics/jello"], function(Node, Jello) {
+define(["floom/node", "external/vector2", "physics/aabb"], function(Node, Vector2, AABB) {
 	var Grid = function(){
 		this.arr = [];
 		this.activeCount = 0;
 		this.gsizeY = 0;
-		this.boundaries = new Jello.AABB();
-		this.cellSize = Jello.Vector2.One.copy();
+		this.boundaries = new AABB();
+		this.cellSize = Vector2.One.copy();
 	};
 
 	Grid.prototype.update = function(system) {
@@ -73,7 +73,7 @@ define(["floom/node", "physics/jello"], function(Node, Jello) {
 			var y = nIndex - (x * this.gsizeY);
 
 			if (n) {
-				var position = new Jello.Vector2(x,y);
+				var position = new Vector2(x,y);
 				position.addSelf(this.boundaries.Min);
 				renderer.drawDot(position, 1, "red", 0.5);
 			}
