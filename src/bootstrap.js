@@ -4,7 +4,7 @@ requirejs.config({
 
 require([
 	"floom/floom",
-	"engine/input/input",
+	"interaction/input",
 	"visualization/viewport",
 	"visualization/renderer",
 	"external/vector2",

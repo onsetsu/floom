@@ -1,5 +1,5 @@
 define([
-    "engine/input/input",
+    "interaction/input",
     "external/vector2"
 ], function(Input, Vector2) {
 
