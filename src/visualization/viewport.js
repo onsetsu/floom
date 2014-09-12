@@ -8,9 +8,9 @@ define(["external/vector2"], function(Vector2) {
 			// scaling
 			this.scaleX = d3.scale.linear();
 			this.scaleY = d3.scale.linear();
+
 			this.resetScaleRange();
-			
-			this.update();
+			this.updateScales();
 		},
 	
 		screenToWorldCoordinates: function(vector) {

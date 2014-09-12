@@ -5,8 +5,8 @@ requirejs.config({
 require([
 	"floom/floom",
 	"engine/input/input",
-	"engine/view/viewport",
-	"engine/rendering/renderer/combinedrenderer",
+	"visualization/viewport",
+	"visualization/renderer",
 	"external/vector2",
 	"debug/debug",
 	"interaction/tool"
