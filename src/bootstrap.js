@@ -3,20 +3,20 @@ requirejs.config({
 });
 
 require([
+	"floom/floom",
 	"engine/input/input",
 	"engine/view/viewport",
 	"engine/rendering/renderer/combinedrenderer",
 	"external/vector2",
 	"debug/debug",
-	"floom/floom",
 	"interaction/tool"
 ], function(
+	Floom,
 	Input,
 	Viewport,
 	CombinedRenderer,
 	Vector2,
 	Debug,
-	Floom,
 	Tool
 ) {
 	function initTools(input, viewport, system) {
@@ -136,16 +136,6 @@ require([
 	canvas.style.left = "0px";
 	canvas.style["z-index"] = -1;
 
-	var input = new Input(canvasId);
-
-	// choose, which subset of the world should be displayed
-	var viewport = new Viewport(
-		canvas,
-		Vector2.Zero.copy(),
-		new Vector2(100, 40)
-	);
-	var viewport = viewport;
-	
 	var renderer = new CombinedRenderer(canvas);
 
 	var stats = new Stats();
@@ -158,6 +148,7 @@ require([
 	});
 	
 	// prepare input
+	var input = new Input(canvasId);
 	input.initMouse();
 	input.bind(Input.KEY.MOUSE1, "leftclick");
 	input.bind(Input.KEY.MOUSE2, "rightclick");
@@ -165,8 +156,6 @@ require([
 	input.bind(Input.KEY.MWHEEL_DOWN, "zoomOut");
 	input.initKeyboard();
 	input.bind(Input.KEY.N, "nextAction");
-
-	viewport.jumpToPoint(new Vector2(0, 15));
 
 	// create fluid System
 	var fluidSystem = new Floom.System();
@@ -188,6 +177,13 @@ require([
 	// initialize specific datGui for the fluid System
 	fluidSystem.createDatGui();
 
+	// choose, which subset of the world should be displayed
+	var viewport = new Viewport(
+		canvas,
+		Vector2.Zero.copy(),
+		new Vector2(100, 40)
+	);
+	viewport.jumpToPoint(new Vector2(0, 15));
 	initTools(input, viewport, fluidSystem);
 	
 	// update routine
@@ -214,7 +210,6 @@ require([
 		}
 		
 		fluidSystem.update(timePassed);
-		viewport.update();
 		if(graph)
 			graph.endClock('update');
 		// rendering

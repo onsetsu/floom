@@ -13,11 +13,6 @@ define(["external/vector2"], function(Vector2) {
 			this.update();
 		},
 	
-		update: function() {
-			// Update frame to print in renderer.
-			this.jumpToPoint(this.point);
-		},
-	
 		screenToWorldCoordinates: function(vector) {
 			return new Vector2(
 				this.scaleX.invert(vector.x),
