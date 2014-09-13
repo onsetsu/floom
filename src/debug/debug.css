@@ -14,9 +14,6 @@
 .ig_debug_panel_menu {
 	height: 28px;
 	background: #222;
-	background: -webkit-gradient(linear, left bottom, left top, color-stop(0,#000000), color-stop(1,#333));
-	background: -moz-linear-gradient(center bottom, #000000 0%, #333 100%);
-	background: -o-linear-gradient(#333, #000000);
 }
 
 .ig_debug_panel_menu div {
@@ -35,11 +32,6 @@
 	cursor: pointer;
 	background-color: #fff;
 	color: #000;
-}
-
-.ig_debug_menu_item.active, .ig_debug_menu_item.active:hover {
-	background-color: #000;
-	color: #fff;
 }
 
 .ig_debug_stats {
@@ -80,38 +72,8 @@
 	border-right: 2px solid #222;
 }
 
-.ig_debug_option {
-	padding: 2px 0 2px 8px;
-	cursor: pointer;
-}
-
-.ig_debug_option:first-child {
-	margin-top: 8px;
-}
-
-.ig_debug_option:hover {
-	background-color: #111;
-}
-
-.ig_debug_graph_mark {
-	position: absolute;
-	color: #888;
-	left: 4px;
-	font-size: 10px;
-	margin-top: -12px;
-}
-
 .ig_debug_legend {
 	color: #ccc;
-}
-
-.ig_debug_label_mark {
-	display: inline-block;
-	width: 10px; 
-	height: 10px; 
-	margin-right: 4px;
-	-webkit-transition: 0.1s linear;
-	-moz-transition: 0.1s linear;
 }
 
 .ig_debug_legend_color {
@@ -129,20 +91,4 @@
 	font-family: bitstream vera sans mono, courier new;
 	color: #fff;
 	margin-right: 0.2em;
-}
-
-
-.ig_debug_map_container {
-	position: relative;
-	overflow: hidden;
-	border: 1px solid #888;
-}
-
-.ig_debug_map_container canvas {
-	position: absolute;
-}
-
-.ig_debug_map_screen {
-	position: absolute;
-	border: 1px solid #f0f;
 }

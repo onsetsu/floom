@@ -40,23 +40,11 @@ var DebugGraphPanel = DebugPanel.subclass({
 		this.ctx.fillRect( 0, this.mark16ms, this.graph.attr("width"), 1 );
 		this.ctx.fillRect( 0, this.mark33ms, this.graph.attr("width"), 1 );
 		
-		this.addGraphMark( '16ms', this.mark16ms );
-		this.addGraphMark( '33ms', this.mark33ms );
-		
-		this.addClock( 'draw', 'Draw', '#13baff' );
-		this.addClock( 'update', 'Update', '#bb0fff' );
-		this.addClock( 'lag', 'System Lag', '#f26900' );
+		this.addClock( 'draw', 'Draw', '#13baff');//caca25' );
+		this.addClock( 'update', 'Update', '#bb0fff');//25ca72' );
+		this.addClock( 'lag', 'System Lag', '#f26900');//ca258f' );
 		
 		window.graph = this;
-	},
-	
-	
-	addGraphMark: function( name, height ) {
-		var span = $('<span />');
-		span.addClass('ig_debug_graph_mark');
-		span.text(name);
-		span.css("top", round(height) + 'px');
-		this.container.append( span );
 	},
 	
 	

@@ -6,7 +6,6 @@ define([
 	"floom/grid",
 	"floom/obstacle",
 	"floom/integrator",
-	"floom/simulator",
 	"external/vector2"
 ], function(
 	System,
@@ -16,7 +15,6 @@ define([
 	Grid,
 	Obstacle,
 	Integrator,
-	Simulator,
 	Vector2
 ) {
 	/*

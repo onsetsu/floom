@@ -4,7 +4,6 @@ define([
 	"floom/group",
 	"floom/node",
 	"floom/obstacle",
-	"floom/simulator",
 	"floom/system"
 ], function(
 	Material,
@@ -12,7 +11,6 @@ define([
 	Group,
 	Node,
 	Obstacle,
-	Simulator,
 	System
 ) {
 	var Spring = function(particle1, particle2, restLength) {

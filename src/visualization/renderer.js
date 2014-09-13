@@ -101,7 +101,6 @@ define(["external/vector2"], function(Vector2) {
 		/*
 		 * Drawing
 		 */
-		// clear canvas
 		clear: function() {
 			this.drawCount = 0;
 

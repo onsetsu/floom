@@ -5,7 +5,6 @@ define([
 	"floom/node",
 	"floom/spring",
 	"floom/obstacle",
-	"floom/simulator",
 	"floom/system",
 	"floom/simplesimulation"
 ], function(
@@ -15,7 +14,6 @@ define([
 	Node,
 	Spring,
 	Obstacle,
-	Simulator,
 	System,
 	SimpleSimulation
 ) {
@@ -27,7 +25,6 @@ define([
 	Floom.Node = Node;
 	Floom.Spring = Spring;
 	Floom.Obstacle = Obstacle;
-	Floom.Simulator = Simulator;
 	Floom.System = System;
 	
 	return Floom;

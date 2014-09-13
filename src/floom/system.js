@@ -5,10 +5,9 @@ define([
 	"floom/grid",
 	"floom/obstacle",
 	"floom/integrator",
-	"floom/simulator",
 	"external/vector2",
 	"external/aabb"
-], function(Material, Particle, Node, Grid, Obstacle, Integrator, Simulator, Vector2, AABB) {
+], function(Material, Particle, Node, Grid, Obstacle, Integrator, Vector2, AABB) {
 	var System = function() {
 		this.wall = new AABB(
 			new Vector2(-50, 2),
@@ -20,7 +19,6 @@ define([
 		this.springs = [];
 		this.grid = new Grid();
 		this.integrator = new Integrator(this.grid);
-	    this.simulator = new Simulator();
 		
 		this.useSurfaceTensionImplementation = true;
 		this.drawGrid = true;
