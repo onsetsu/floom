@@ -286,7 +286,7 @@ define(["external/vector2"], function(Vector2) {
 		},
 		drawGrid: function(grid) {
 			// draw boundaries
-			grid.boundaries.debugDraw(this);
+			this.drawAABB(grid.boundaries);
 
 			// draw grid nodes
 			var numberOfNodes = grid.arr.length;
@@ -301,8 +301,22 @@ define(["external/vector2"], function(Vector2) {
 					this.drawDot(position, 1, "red", 0.5);
 				}
 			}
+		},
+		drawAABB: function(aabb) {
+			this.drawPolyline([
+					aabb.Min,
+					new Vector2(aabb.Min.x, aabb.Max.y),
+					aabb.Max,
+					new Vector2(aabb.Max.x, aabb.Min.y),
+					aabb.Min
+				],
+				"red",
+				1.0,
+				1
+			);
+		},
+		drawFoobar: function(foobar) {
 		}
-	
 	});
 	
 	return Renderer;

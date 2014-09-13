@@ -88,19 +88,5 @@ define(["external/vector2"], function(Vector2) {
 		];
 	};
 
-	AABB.prototype.debugDraw = function(debugDraw) {
-		debugDraw.drawPolyline([
-				this.Min,
-				new Vector2(this.Min.x, this.Max.y),
-				this.Max,
-				new Vector2(this.Max.x, this.Min.y),
-				this.Min
-			],
-			"red",
-			1.0,
-			1
-		);
-	};
-	
 	return AABB;
 });
