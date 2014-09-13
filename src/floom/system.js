@@ -28,6 +28,9 @@ define([
 			new Obstacle(-20, 20, 5),
 			new Obstacle( 20,  0, 9)
 		];
+		
+		this.doSprings = true;
+		this.drawSprings = true;
 	};
 
 	System.prototype.getNumberOfParticles = function() {
@@ -338,10 +341,12 @@ define([
 	};
 
 	System.prototype.springDisplacement = function() {
-		_.each(this.springs, function(s, sIndex) {
-			s.update();
-			s.solve();
-		}, this);
+		if(this.doSprings) {
+			_.each(this.springs, function(s, sIndex) {
+				s.update();
+				s.solve();
+			}, this);
+		}
 	};
 	
 	// hard boundary correction

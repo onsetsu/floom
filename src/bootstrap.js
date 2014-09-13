@@ -134,6 +134,8 @@ require([
 		datGui.add(system, "useSurfaceTensionImplementation");
 		datGui.add(system, "drawGrid");
 		datGui.add(system, "doObstacles");
+		datGui.add(system, "doSprings");
+		datGui.add(system, "drawSprings");
 		
 		_.each(system.materials, function(material) {
 			datGuiForMaterial(material, datGui);

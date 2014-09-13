@@ -270,7 +270,7 @@ define(["external/vector2"], function(Vector2) {
 			if(system.drawGrid)
 				this.drawGrid(system.grid);
 
-			// draw test obstacle
+			// draw obstacles
 			if(system.doObstacles) {
 				_.each(system.obstacles, function(obstacle) {
 					this.drawObstacle(obstacle)
@@ -283,9 +283,11 @@ define(["external/vector2"], function(Vector2) {
 			}, this);
 			
 			// draw all springs in the system
-			_.each(system.springs, function(s) {
-				this.drawSpring(s);
-			}, this);
+			if(system.drawSprings) {
+				_.each(system.springs, function(s) {
+					this.drawSpring(s);
+				}, this);
+			}
 		},
 		drawGrid: function(grid) {
 			// draw boundaries
@@ -317,8 +319,6 @@ define(["external/vector2"], function(Vector2) {
 				1.0,
 				1
 			);
-		},
-		drawFoobar: function(foobar) {
 		},
 		drawObstacle: function(obstacle) {
 			this.drawDot(obstacle.position, obstacle.radius, "pink", 0.8);
