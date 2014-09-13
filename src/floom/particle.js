@@ -31,15 +31,5 @@ define(["external/vector2", "floom/node"], function(Vector2, Node) {
 	    this.T11 = 0;
 	};
 
-	Particle.prototype.draw = function(renderer) {
-		renderer.drawLine(
-		    this.position,
-		    this.position.sub(this.gridVelocity),
-			this.material.colorScale(this.velocity.lengthSquared()),
-			1.0,
-			1
-		);
-	};
-	
 	return Particle;
 });
