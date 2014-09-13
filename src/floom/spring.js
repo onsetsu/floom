@@ -38,19 +38,6 @@ define([
 	Spring.prototype.contains = function(particle) {
 		return this.particle1 === particle || this.particle2 === particle;
 	};
-	Spring.colorScale = d3.scale.linear()
-		.domain([-3,3])
-		.range(["#ff0000", "#0000ff"]);
-	
-	Spring.prototype.draw = function(renderer) {
-		renderer.drawLine(
-   		    this.particle1.position,
-   		    this.particle2.position,
-			Spring.colorScale(this.restLength - this.currentDistance),
-			1.0,
-			1
-   		);
-	};
 	
 	return Spring;
 });

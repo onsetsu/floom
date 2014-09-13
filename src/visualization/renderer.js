@@ -276,12 +276,12 @@ define(["external/vector2"], function(Vector2) {
 			
 			// draw all particles in the system
 			_.each(system.particles, function(p) {
-				p.draw(this);
+				this.drawParticle(p);
 			}, this);
 			
 			// draw all springs in the system
 			_.each(system.springs, function(s) {
-				s.draw(this);
+				this.drawSpring(s);
 			}, this);
 		},
 		drawGrid: function(grid) {
@@ -316,8 +316,33 @@ define(["external/vector2"], function(Vector2) {
 			);
 		},
 		drawFoobar: function(foobar) {
+		},
+		drawFoobar: function(foobar) {
+		},
+		drawParticle: function(particle) {
+			this.drawLine(
+				particle.position,
+				particle.position.add(particle.gridVelocity),
+				particle.material.colorScale(particle.velocity.lengthSquared()),
+				1.0,
+				1
+			);
+		},
+		drawSpring: function(spring) {
+			this.drawLine(
+				spring.particle1.position,
+				spring.particle2.position,
+				Renderer.springColorScale(spring.restLength - spring.currentDistance),
+				1.0,
+				1
+			);
 		}
 	});
+	
+	Renderer.springColorScale = d3.scale.linear()
+		.domain([-3,3])
+		.range(["#ff0000", "#0000ff"]);
+	
 	
 	return Renderer;
 });
