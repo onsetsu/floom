@@ -34,7 +34,7 @@ define(["external/vector2"], function(Vector2) {
 		}
 	});
 	
-	var CombinedRenderer = mini.Class.subclass({
+	var Renderer = mini.Class.subclass({
 		/*
 		 * Init
 		 */
@@ -260,8 +260,31 @@ define(["external/vector2"], function(Vector2) {
 				screenPoint.x,
 				screenPoint.y
 			);
+		},
+
+		/*
+		 * Draw fluid system
+		 */
+		drawSystem: function(system) {
+			// draw grid nodes
+			if(system.drawGrid)
+				system.grid.draw(this);
+
+			// draw test obstacle
+			if(system.doObstacles)
+				system.testObstacle.draw(this);
+			
+			// draw all particles in the system
+			_.each(system.particles, function(p) {
+				p.draw(this);
+			}, this);
+			
+			// draw all springs in the system
+			_.each(system.springs, function(s) {
+				s.draw(this);
+			}, this);
 		}
 	});
 	
-	return CombinedRenderer;
+	return Renderer;
 });

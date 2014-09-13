@@ -353,28 +353,5 @@ define([
 		}, this);
 	};
 
-	/*
-	 * DRAWING
-	 */
-	System.prototype.draw = function(renderer) {
-		// draw grid nodes
-		if(this.drawGrid)
-			this.grid.draw(renderer);
-
-		// draw test obstacle
-		if(this.doObstacles)
-			this.testObstacle.draw(renderer);
-		
-		// draw all particles in the system
-		_.each(this.particles, function(p) {
-			p.draw(renderer);
-		}, this);
-		
-		// draw all springs in the system
-		_.each(this.springs, function(s) {
-			s.draw(renderer);
-		}, this);
-	};
-	
 	return System;
 });

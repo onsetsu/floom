@@ -126,6 +126,7 @@ require([
 		);
 	};
 
+	// datGui
 	function datGuiForSystem(system) {
 		var datGui = new dat.GUI();
 		datGui.add(system.gravity, "x").min(-0.2).max(0.2).step(-0.01);
@@ -158,8 +159,6 @@ require([
 		folder.add(material, "springK").min(0).max(5).step(0.05);
 	};
 
-	
-
 	var canvasId = "floom";
 	var canvas = document.getElementById(canvasId);
 	canvas.style.position = "absolute";
@@ -190,7 +189,7 @@ require([
 
 	// create fluid System
 	var fluidSystem = new Floom.System();
-	// create custom Materials
+	// create and customize Materials
 	var mat0 = fluidSystem.createNewMaterial()
 		.setParticleMass(0.5);
 	var mat1 = fluidSystem.createNewMaterial()
@@ -248,7 +247,7 @@ require([
 			graph.beginClock('draw');
 		renderer.clear();
 		renderer.withViewport(viewport, function() {
-			fluidSystem.draw(renderer);
+			renderer.drawSystem(fluidSystem);
 		});
 		drawTool(renderer, input);
 		if(graph)
