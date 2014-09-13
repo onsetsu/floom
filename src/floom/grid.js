@@ -61,24 +61,5 @@ define(["floom/node", "external/vector2", "external/aabb"], function(Node, Vecto
 		this.gsizeY = Math.floor(this.boundaries.Max.y-this.boundaries.Min.y);
 	};
 	
-	Grid.prototype.draw = function(renderer) {
-		// draw boundaries
-		this.boundaries.debugDraw(renderer);
-
-		// draw grid nodes
-		var numberOfNodes = this.arr.length;
-		for(var nIndex = 0; nIndex < numberOfNodes; nIndex++) {
-			var n = this.arr[nIndex];
-			var x = Math.floor(nIndex / this.gsizeY);
-			var y = nIndex - (x * this.gsizeY);
-
-			if (n) {
-				var position = new Vector2(x,y);
-				position.addSelf(this.boundaries.Min);
-				renderer.drawDot(position, 1, "red", 0.5);
-			}
-		}
-	};
-	
 	return Grid;
 });

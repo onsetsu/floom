@@ -268,7 +268,7 @@ define(["external/vector2"], function(Vector2) {
 		drawSystem: function(system) {
 			// draw grid nodes
 			if(system.drawGrid)
-				system.grid.draw(this);
+				this.drawGrid(system.grid);
 
 			// draw test obstacle
 			if(system.doObstacles)
@@ -283,7 +283,26 @@ define(["external/vector2"], function(Vector2) {
 			_.each(system.springs, function(s) {
 				s.draw(this);
 			}, this);
+		},
+		drawGrid: function(grid) {
+			// draw boundaries
+			grid.boundaries.debugDraw(this);
+
+			// draw grid nodes
+			var numberOfNodes = grid.arr.length;
+			for(var nIndex = 0; nIndex < numberOfNodes; nIndex++) {
+				var n = grid.arr[nIndex];
+				var x = Math.floor(nIndex / grid.gsizeY);
+				var y = nIndex - (x * grid.gsizeY);
+
+				if (n) {
+					var position = new Vector2(x,y);
+					position.addSelf(grid.boundaries.Min);
+					this.drawDot(position, 1, "red", 0.5);
+				}
+			}
 		}
+	
 	});
 	
 	return Renderer;
