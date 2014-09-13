@@ -4,9 +4,5 @@ define(["external/vector2"], function(Vector2) {
 		this.radius = radius;
 	};
 	
-	Obstacle.prototype.draw = function(renderer) {
-		renderer.drawDot(this.position, this.radius, "pink", 0.8);
-	};
-	
 	return Obstacle;
 });

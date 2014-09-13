@@ -272,7 +272,7 @@ define(["external/vector2"], function(Vector2) {
 
 			// draw test obstacle
 			if(system.doObstacles)
-				system.testObstacle.draw(this);
+				this.drawObstacle(system.testObstacle);
 			
 			// draw all particles in the system
 			_.each(system.particles, function(p) {
@@ -317,7 +317,8 @@ define(["external/vector2"], function(Vector2) {
 		},
 		drawFoobar: function(foobar) {
 		},
-		drawFoobar: function(foobar) {
+		drawObstacle: function(obstacle) {
+			this.drawDot(obstacle.position, obstacle.radius, "pink", 0.8);
 		},
 		drawParticle: function(particle) {
 			this.drawLine(
