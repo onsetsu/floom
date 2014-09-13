@@ -24,7 +24,10 @@ define([
 		this.drawGrid = true;
 		
 		this.doObstacles = true;
-		this.testObstacle = new Obstacle(-20, 20, 5);
+		this.obstacles = [
+			new Obstacle(-20, 20, 5),
+			new Obstacle( 20,  0, 9)
+		];
 	};
 
 	System.prototype.getNumberOfParticles = function() {
@@ -172,16 +175,18 @@ define([
 			// test obstacle collision
 			if (this.doObstacles){
 				
-				// circular obstacle
-				var obstacleRadius  = this.testObstacle.radius;
-				var obstacleRadiusSquared = obstacleRadius * obstacleRadius;
-				var particleDistanceToMiddlePoint = this.testObstacle.position.sub(p.position);
-				var distanceSquared = particleDistanceToMiddlePoint.lengthSquared();
-				if (distanceSquared < obstacleRadiusSquared){
-					var distance = Math.sqrt(distanceSquared);
-					var dR = obstacleRadius-distance;
-					f.subSelf(particleDistanceToMiddlePoint.mulFloat(dR/distance));
-				}
+				// circular obstacles
+				_.each(this.obstacles, function(obstacle) {
+					var obstacleRadius  = obstacle.radius;
+					var obstacleRadiusSquared = obstacleRadius * obstacleRadius;
+					var particleDistanceToMiddlePoint = obstacle.position.sub(p.position);
+					var distanceSquared = particleDistanceToMiddlePoint.lengthSquared();
+					if (distanceSquared < obstacleRadiusSquared){
+						var distance = Math.sqrt(distanceSquared);
+						var dR = obstacleRadius-distance;
+						f.subSelf(particleDistanceToMiddlePoint.mulFloat(dR/distance));
+					}
+				}, this);
 			}
 			
 			this.integrator.integrate(p, function(particle, node, phi, gxpy, pxgy) {

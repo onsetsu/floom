@@ -271,8 +271,11 @@ define(["external/vector2"], function(Vector2) {
 				this.drawGrid(system.grid);
 
 			// draw test obstacle
-			if(system.doObstacles)
-				this.drawObstacle(system.testObstacle);
+			if(system.doObstacles) {
+				_.each(system.obstacles, function(obstacle) {
+					this.drawObstacle(obstacle)
+				}, this);
+			}
 			
 			// draw all particles in the system
 			_.each(system.particles, function(p) {
