@@ -126,6 +126,40 @@ require([
 		);
 	};
 
+	function datGuiForSystem(system) {
+		var datGui = new dat.GUI();
+		datGui.add(system.gravity, "x").min(-0.2).max(0.2).step(-0.01);
+		datGui.add(system.gravity, "y").min(-0.2).max(0.2).step(-0.01);
+		datGui.add(system, "useSurfaceTensionImplementation");
+		datGui.add(system, "drawGrid");
+		datGui.add(system, "doObstacles");
+		
+		_.each(system.materials, function(material) {
+			datGuiForMaterial(material, datGui);
+		}, system);
+	};
+	
+	
+	function datGuiForMaterial(material, datGui) {
+		var folder = datGui.addFolder("Mat" + material.materialIndex);
+		folder.open();
+		
+		folder.addColor(material, "color").onChange(material.setColor.bind(material));
+		folder.add(material, "particleMass").min(0.01).max(5.0).step(0.1);
+		folder.add(material, "restDensity").min(0.1).max(5.0).step(0.1);
+		folder.add(material, "stiffness").min(0).max(1).step(0.05);
+		folder.add(material, "bulkViscosity").min(0).max(1).step(0.05);
+		folder.add(material, "elasticity").min(-1).max(5).step(0.05);
+		folder.add(material, "surfaceTension").min(0).max(1).step(0.05);
+		folder.add(material, "viscosity").min(0).max(1).step(0.05);
+		folder.add(material, "meltRate").min(0).max(1).step(0.05);
+		folder.add(material, "damping").min(0).max(1).step(0.05);
+		folder.add(material, "smoothing").min(0).max(1).step(0.05);
+		folder.add(material, "springK").min(0).max(5).step(0.05);
+	};
+
+	
+
 	var canvasId = "floom";
 	var canvas = document.getElementById(canvasId);
 	canvas.style.position = "absolute";
@@ -172,7 +206,7 @@ require([
 	new Floom.Group(fluidSystem, -45, 30,  0, 50,  0.1, 0, mat2);
 	new Floom.Group(fluidSystem,   5, 30, 50, 50, -0.1, 0, mat3);
 	// initialize specific datGui for the fluid System
-	fluidSystem.createDatGui();
+	datGuiForSystem(fluidSystem);
 
 	// choose, which subset of the world should be displayed
 	var viewport = new Viewport(

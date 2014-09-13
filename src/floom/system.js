@@ -46,19 +46,6 @@ define([
     	this.particles.push(particle);
 	};
 
-	System.prototype.createDatGui = function(datGui) {
-		var datGui = datGui || new dat.GUI();
-		datGui.add(this.gravity, "x").min(-0.2).max(0.2).step(-0.01);
-		datGui.add(this.gravity, "y").min(-0.2).max(0.2).step(-0.01);
-		datGui.add(this, "useSurfaceTensionImplementation");
-		datGui.add(this, "drawGrid");
-		datGui.add(this, "doObstacles");
-		
-		_.each(this.materials, function(material) {
-			material.addDebugGui(datGui);
-		}, this);
-	};
-
 	/*
 	 * UPDATE
 	 */

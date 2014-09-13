@@ -1,10 +1,10 @@
-define([
-
-], function() {
+define([], function() {
 	var Material = function(materialIndex) {
-		this.colorScale = d3.scale.linear().domain([0,5]);
 		this.setColor(Material.getColor(materialIndex));
-		
+		this.colorScale = d3.scale.linear()
+			.domain([0,5])
+			.range([this.color, d3.rgb(this.color).brighter(3)]);
+
 		this.materialIndex = materialIndex;
 		this.particleMass = 1;
 		this.restDensity = 1;
@@ -46,31 +46,9 @@ define([
 		return materialColors[index % materialColors.length];
 	};
 
-	// debug properties
-	Material.prototype.addDebugGui = function(datGui) {
-		var folder = datGui.addFolder("Mat" + this.materialIndex);
-		folder.open();
-		
-		folder.addColor(this, "color").listen().onChange(this.setColor.bind(this));
-		folder.add(this, "particleMass").min(0.01).max(5.0).step(0.1).listen();
-		folder.add(this, "restDensity").min(0.1).max(5.0).step(0.1).listen();
-		folder.add(this, "stiffness").min(0).max(1).step(0.05).listen();
-		folder.add(this, "bulkViscosity").min(0).max(1).step(0.05).listen();
-		folder.add(this, "elasticity").min(-1).max(5).step(0.05).listen();
-		folder.add(this, "surfaceTension").min(0).max(1).step(0.05).listen();
-		folder.add(this, "viscosity").min(0).max(1).step(0.05).listen();
-		folder.add(this, "meltRate").min(0).max(1).step(0.05).listen();
-		folder.add(this, "damping").min(0).max(1).step(0.05).listen();
-		folder.add(this, "smoothing").min(0).max(1).step(0.05).listen();
-		folder.add(this, "springK").min(0).max(5).step(0.05).listen();
-		
-		return this;
-	};
-
 	// Property setters
 	Material.prototype.setColor = function(color) {
 		this.color = color;
-		this.colorScale.range([this.color, d3.rgb(this.color).brighter(3)]);
 		
 		return this;
 	};
