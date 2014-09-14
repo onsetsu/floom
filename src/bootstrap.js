@@ -8,7 +8,6 @@ require([
 	"visualization/viewport",
 	"visualization/renderer",
 	"external/vector2",
-	"debug/debug",
 	"interaction/tool"
 ], function(
 	Floom,
@@ -16,7 +15,6 @@ require([
 	Viewport,
 	CombinedRenderer,
 	Vector2,
-	Debug,
 	Tool
 ) {
 	function initTools(input, viewport, system) {
@@ -221,10 +219,6 @@ require([
 	// update routine
 	var lastPoint = Vector2.Zero.copy();
 	function update(timePassed) {
-		// entities/map
-		if(graph)
-			graph.beginClock('update');
-
 		input.update();
 		// viewport manipulation
 		if(input.pressed("rightclick")) {
@@ -242,18 +236,13 @@ require([
 		}
 		
 		fluidSystem.update(timePassed);
-		if(graph)
-			graph.endClock('update');
+
 		// rendering
-		if(graph)
-			graph.beginClock('draw');
 		renderer.clear();
 		renderer.withViewport(viewport, function() {
 			renderer.drawSystem(fluidSystem);
 		});
 		drawTool(renderer, input);
-		if(graph)
-			graph.endClock('draw');
 
 		// interaction
 		input.clearPressed();
@@ -263,9 +252,6 @@ require([
 	// main loop
 	var lastFrame = window.performance.now();
 	function animate() {
-		if(debug)
-			debug.beforeRun();
-
 		stats.update();
 
 		// setup time since last call
@@ -275,19 +261,8 @@ require([
 
 		update(dt);
 
-		if(debug)
-			debug.afterRun(renderer, fluidSystem);
-
 		requestAnimationFrame(animate);
 	}
 
-	$().ready(function() {
-		debug = new Debug.Menu();
-		debug.addPanel({
-			type: Debug.Performance,
-			name: 'graph',
-			label: 'Performance'
-		});
-		animate();
-	});
+	$().ready(animate);
 });
