@@ -1,9 +1,8 @@
 define([], function() {
 	var Material = function(materialIndex) {
-		this.setColor(Material.getColor(materialIndex));
 		this.colorScale = d3.scale.linear()
-			.domain([0,5])
-			.range([this.color, d3.rgb(this.color).brighter(3)]);
+			.domain([0,5]);
+		this.setColor(Material.getColor(materialIndex));
 
 		this.materialIndex = materialIndex;
 		this.particleMass = 1;
@@ -49,6 +48,7 @@ define([], function() {
 	// Property setters
 	Material.prototype.setColor = function(color) {
 		this.color = color;
+		this.colorScale.range([this.color, d3.rgb(this.color).brighter(3)]);
 		
 		return this;
 	};
