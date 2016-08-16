@@ -19,6 +19,8 @@ require([
 	Debug,
 	Tool
 ) {
+	var debug;
+
 	function initTools(input, viewport, system) {
 		var dragTool = new Tool(input);
 		dragTool.onMouseDrag(function(event) {
