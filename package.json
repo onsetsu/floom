@@ -1,0 +1,30 @@
+{
+  "name": "floom",
+  "version": "1.0.0",
+  "description": "A JavaScript Fluid Simulation using the Material Point Method (MPM)",
+  "main": "src/bootstrap.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/onsetsu/floom.git"
+  },
+  "keywords": [
+    "physics",
+    "fluid",
+    "simulation",
+    "material",
+    "point",
+    "method"
+  ],
+  "author": "stefan.ramson",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/onsetsu/floom/issues"
+  },
+  "homepage": "https://github.com/onsetsu/floom#readme",
+  "dependencies": {
+    "rollup": "^0.34.9"
+  }
+}
