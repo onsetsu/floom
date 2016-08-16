@@ -1,4 +1,5 @@
-define(["external/vector2"], function(Vector2) {
+import Vector2 from "./../external/vector2.js";
+
 	var Node = function() {
 	    this.mass = 0;
 	    this.d = 0;
@@ -13,5 +14,4 @@ define(["external/vector2"], function(Vector2) {
 	    this.particleDensity = 0;
 	};
 	
-	return Node;
-});
+	export default Node;

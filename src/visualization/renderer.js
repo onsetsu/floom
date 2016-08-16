@@ -1,4 +1,4 @@
-define(["external/vector2"], function(Vector2) {
+import Vector2 from "./../external/vector2.js";
 
 	var Configuration = mini.Class.subclass({
 		initialize: function(renderer) {
@@ -348,5 +348,4 @@ define(["external/vector2"], function(Vector2) {
 		.range(["#ff0000", "#0000ff"]);
 	
 	
-	return Renderer;
-});
+	export default Renderer;

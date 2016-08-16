@@ -1,24 +1,11 @@
-requirejs.config({
-    baseUrl: 'src'
-});
+import Floom from "./floom/floom.js";
+import Input from "./interaction/input.js";
+import Viewport from "./visualization/viewport.js";
+import CombinedRenderer from "./visualization/renderer.js";
+import Vector2 from "./external/vector2.js";
+import Debug from "./debug/debug.js";
+import Tool from "./interaction/tool.js";
 
-require([
-	"floom/floom",
-	"interaction/input",
-	"visualization/viewport",
-	"visualization/renderer",
-	"external/vector2",
-	"debug/debug",
-	"interaction/tool"
-], function(
-	Floom,
-	Input,
-	Viewport,
-	CombinedRenderer,
-	Vector2,
-	Debug,
-	Tool
-) {
 	var debug;
 
 	function initTools(input, viewport, system) {
@@ -292,4 +279,3 @@ require([
 		});
 		animate();
 	});
-});

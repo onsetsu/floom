@@ -1,7 +1,3 @@
-define([
-
-], function(){ "use strict";
-
 var DebugOption = mini.Class.subclass({
 	name: '',
 	labelName: '',
@@ -61,6 +57,4 @@ var DebugOption = mini.Class.subclass({
 	}
 });
 
-return DebugOption;
-
-});
+export default DebugOption;

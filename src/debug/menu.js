@@ -1,4 +1,4 @@
-define(["debug/option"], function(DebugOption){ "use strict";
+import DebugOption from "./option.js";
 
 	var Menu = mini.Class.subclass({
 		options: {},
@@ -170,5 +170,4 @@ define(["debug/option"], function(DebugOption){ "use strict";
 		}
 	});
 
-	return Menu;
-});
+	export default Menu;

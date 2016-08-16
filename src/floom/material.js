@@ -1,4 +1,3 @@
-define([], function() {
 	var Material = function(materialIndex) {
 		this.colorScale = d3.scale.linear()
 			.domain([0,5]);
@@ -161,6 +160,4 @@ define([], function() {
 		return this;
 	};
 
-	return Material;
-});
-
+	export default Material;

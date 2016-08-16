@@ -1,7 +1,5 @@
-define([
-    "interaction/input",
-    "external/vector2"
-], function(Input, Vector2) {
+import Input from "./input.js";
+import Vector2 from "./../external/vector2.js";
 
 	var ToolEvent = mini.Class.subclass({
 		initialize: function ToolEvent(tool) {
@@ -178,5 +176,4 @@ define([
 		}
 	});
 	
-	return Tool;
-});
+	export default Tool;

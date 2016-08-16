@@ -1,18 +1,10 @@
-define([
-	"floom/material",
-	"floom/particle",
-	"floom/group",
-	"floom/node",
-	"floom/obstacle",
-	"floom/system"
-], function(
-	Material,
-	Particle,
-	Group,
-	Node,
-	Obstacle,
-	System
-) {
+import Material from "./material.js";
+import Particle from "./particle.js";
+import Group from "./group.js";
+import Node from "./node.js";
+import Obstacle from "./obstacle.js";
+import System from "./system.js";
+
 	var Spring = function(particle1, particle2, restLength) {
 		this.particle1 = particle1;
 		this.particle2 = particle2;
@@ -39,5 +31,4 @@ define([
 		return this.particle1 === particle || this.particle2 === particle;
 	};
 	
-	return Spring;
-});
+	export default Spring;

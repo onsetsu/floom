@@ -1,13 +1,13 @@
-define([
-	"floom/material",
-	"floom/particle",
-	"floom/node",
-	"floom/grid",
-	"floom/obstacle",
-	"floom/integrator",
-	"external/vector2",
-	"external/aabb"
-], function(Material, Particle, Node, Grid, Obstacle, Integrator, Vector2, AABB) {
+import Vector2 from "./../external/vector2.js";
+import AABB from "./../external/aabb.js";
+
+import Material from "./material.js";
+import Particle from "./particle.js";
+import Node from "./node.js";
+import Grid from "./grid.js";
+import Obstacle from "./obstacle.js";
+import Integrator from "./integrator.js";
+
 	var System = function() {
 		this.wall = new AABB(
 			new Vector2(-50, 2),
@@ -363,5 +363,4 @@ define([
 		}, this);
 	};
 
-	return System;
-});
+	export default System;

@@ -1,5 +1,3 @@
-define([], function() {
-
 	var Vector2 = function(x, y) {
 		if(typeof y === "undefined")
 			throw Error("initialize Vector2 with less than 2 parameter");
@@ -308,8 +306,4 @@ define([], function() {
 		return new Vector2(vectorJson.x, vectorJson.y);
 	};
 	
-	return Vector2;
-});
-
-
-
+	export default Vector2;

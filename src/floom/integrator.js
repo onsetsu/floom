@@ -1,4 +1,3 @@
-define([], function() {
 	var Integrator = function(grid) {
 		this.grid = grid;
 	};
@@ -90,5 +89,4 @@ define([], function() {
 			fn.call(undefined, particle, particle.node[i], particle.s[i], particle.sx[i], particle.sy[i]);
 	};
 	
-	return Integrator;
-});
+	export default Integrator;
