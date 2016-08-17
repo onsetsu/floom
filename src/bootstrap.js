@@ -1,10 +1,4 @@
-import Floom from "./floom/floom.js";
-import Input from "./interaction/input.js";
-import Viewport from "./visualization/viewport.js";
-import CombinedRenderer from "./visualization/renderer.js";
-import Vector2 from "./external/vector2.js";
-import Debug from "./debug/debug.js";
-import Tool from "./interaction/tool.js";
+import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "./index.js";
 
 	var debug;
 
