@@ -1183,10 +1183,7 @@ var Group = function(system, minX, minY, maxX, maxY, u, v, material) {
     	}
 	};
 
-/*
-	 * Early simple implementation of the material point method
-	 */
-	System.prototype.simpleSimulation = function() {
+System.prototype.simpleSimulation = function() {
 		this.__calculateParticleKernels();
 		this.__sumParticleDensityFromGridAndAddPressureansElasticForcesToGrid();
 		this.__divideGridAccelerationByMass();
@@ -1814,6 +1811,7 @@ var Configuration = mini.Class.subclass({
 			this.singlePixelExtent = viewport.screenToWorldCoordinates(Vector2.One.copy()).sub(
 				viewport.screenToWorldCoordinates(Vector2.Zero.copy())
 			);
+			this.singlePixelExtentLength = this.singlePixelExtent.length();
 		},
 		
 		popViewport: function() {
@@ -2054,9 +2052,12 @@ var Configuration = mini.Class.subclass({
 			this.drawDot(obstacle.position, obstacle.radius, "pink", 0.8);
 		},
 		drawParticle: function(particle) {
+			// ensure that a particle is visible even at low velocity
+			var dirLength = Math.max(this.singlePixelExtentLength, particle.gridVelocity.length());
+
 			this.drawLine(
 				particle.position,
-				particle.position.add(particle.gridVelocity),
+				particle.position.add(particle.gridVelocity.normalizedCopy().mulFloat(dirLength)),
 				particle.material.colorScale(particle.velocity.lengthSquared()),
 				1.0,
 				1
@@ -2500,6 +2501,10 @@ var DebugGraphPanel = DebugPanel.subclass({
 		this.marks = [];
 	}
 });
+/*
+$().ready(function() {
+});
+*/
 
 var Debug = {
 		Menu: Menu,

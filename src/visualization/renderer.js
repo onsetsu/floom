@@ -84,6 +84,7 @@ import Vector2 from "./../external/vector2.js";
 			this.singlePixelExtent = viewport.screenToWorldCoordinates(Vector2.One.copy()).sub(
 				viewport.screenToWorldCoordinates(Vector2.Zero.copy())
 			);
+			this.singlePixelExtentLength = this.singlePixelExtent.length();
 		},
 		
 		popViewport: function() {
@@ -324,9 +325,12 @@ import Vector2 from "./../external/vector2.js";
 			this.drawDot(obstacle.position, obstacle.radius, "pink", 0.8);
 		},
 		drawParticle: function(particle) {
+			// ensure that a particle is visible even at low velocity
+			var dirLength = Math.max(this.singlePixelExtentLength, particle.gridVelocity.length());
+
 			this.drawLine(
 				particle.position,
-				particle.position.add(particle.gridVelocity),
+				particle.position.add(particle.gridVelocity.normalizedCopy().mulFloat(dirLength)),
 				particle.material.colorScale(particle.velocity.lengthSquared()),
 				1.0,
 				1
