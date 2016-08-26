@@ -187,17 +187,23 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 	var mat1 = fluidSystem.createNewMaterial()
 		.setParticleMass(1.0);
 	var mat2 = fluidSystem.createNewMaterial()
-		.setParticleMass(2.0)
-		// TODO: remove elasticity
-		.setIsElastic(true);
+		.setParticleMass(2.0);
 	var mat3 = fluidSystem.createNewMaterial()
 		.setParticleMass(4.0);
-	// TODO: add fifth group of elastic particles
+	var mat4 = fluidSystem.createNewMaterial()
+		.setParticleMass(8.0)
+		.setIsElastic(true);
+
 	// create Particles of these Materials
 	new Floom.Group(fluidSystem, -45,  5,  0, 25,  0.1, 0, mat0);
 	new Floom.Group(fluidSystem,   5,  5, 50, 25, -0.1, 0, mat1);
 	new Floom.Group(fluidSystem, -45, 30,  0, 50,  0.1, 0, mat2);
 	new Floom.Group(fluidSystem,   5, 30, 50, 50, -0.1, 0, mat3);
+	new Floom.Group(fluidSystem, -10, 55, 10, 75,    0, 0, mat4);
+
+    // example to spawn individual particles
+	// var p = new Floom.Particle(-45.00001,  55.000001,  0.100001, 0.000001, mat3);
+    // fluidSystem.addParticle(p);
 
 	// create obstacles
 	// fluidSystem.doObstacles = true;

@@ -35,9 +35,9 @@ var Material = function(materialIndex) {
 	        '#e31a1c',
 	        '#fdbf6f',
 	        '#b2df8a',
-	        '#33a02c',
-	        '#fb9a99',
+			'#fb9a99',
 	        '#ff7f00',
+			'#33a02c',
 	        '#cab2d6',
 	        '#6a3d9a',
 	        '#ffff99',
@@ -476,8 +476,9 @@ var Node = function() {
 	    this.d = 0;
 	    this.gx = 0;
 	    this.gy = 0;
-	    this.cgx = [0, 0, 0, 0];
-	    this.cgy = [0, 0, 0, 0];
+		// TODO: this currently limits the number of different materials that are available
+	    this.cgx = [0, 0, 0, 0, 0, 0];
+	    this.cgy = [0, 0, 0, 0, 0, 0];
 	    this.velocity = Vector2.Zero.copy();
 	    this.velocity2 = Vector2.Zero.copy();
 	    this.acceleration = Vector2.Zero.copy();
@@ -777,11 +778,12 @@ var System = function() {
 		this.integrator = new Integrator(this.grid);
 		
 		this.useSurfaceTensionImplementation = true;
-		this.drawGrid = true;
+		this.drawGrid = false;
 		
 		this.doObstacles = false;
 		this.obstacles = [];
-		
+
+		// TODO: change defaults
 		this.doSprings = true;
 		this.drawSprings = true;
 	};
@@ -2870,15 +2872,23 @@ var debug;
 	var mat1 = fluidSystem.createNewMaterial()
 		.setParticleMass(1.0);
 	var mat2 = fluidSystem.createNewMaterial()
-		.setParticleMass(2.0)
-		.setIsElastic(true);
+		.setParticleMass(2.0);
 	var mat3 = fluidSystem.createNewMaterial()
 		.setParticleMass(4.0);
+	var mat4 = fluidSystem.createNewMaterial()
+		.setParticleMass(8.0)
+		.setIsElastic(true);
+
 	// create Particles of these Materials
 	new Floom.Group(fluidSystem, -45,  5,  0, 25,  0.1, 0, mat0);
 	new Floom.Group(fluidSystem,   5,  5, 50, 25, -0.1, 0, mat1);
 	new Floom.Group(fluidSystem, -45, 30,  0, 50,  0.1, 0, mat2);
 	new Floom.Group(fluidSystem,   5, 30, 50, 50, -0.1, 0, mat3);
+	new Floom.Group(fluidSystem, -10, 55, 10, 75,    0, 0, mat4);
+
+    // example to spawn individual particles
+	// var p = new Floom.Particle(-45.00001,  55.000001,  0.100001, 0.000001, mat3);
+    // fluidSystem.addParticle(p);
 
 	// create obstacles
 	// fluidSystem.doObstacles = true;
@@ -2887,6 +2897,13 @@ var debug;
 		new Floom.Obstacle( 20,  0, 9)
 	);
 
+	// configure grid rendering
+	// this.drawGrid = true;
+
+	// TODO: spring configuration
+	// configure spring calculation and rendering
+	// this.drawGrid = true;
+
 	// initialize specific datGui for the fluid System
 	datGuiForSystem(fluidSystem);
 
@@ -2894,9 +2911,9 @@ var debug;
 	var viewport = new Viewport(
 		canvas,
 		Vector2.Zero.copy(),
-		new Vector2(100, 40)
+		new Vector2(136.6, 76.8)
 	);
-	viewport.jumpToPoint(new Vector2(0, 15));
+	viewport.jumpToPoint(new Vector2(0, 35));
 	initTools(input, viewport, fluidSystem);
 	
 	// update routine
