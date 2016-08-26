@@ -213,11 +213,11 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 	);
 
 	// configure grid rendering
-	// this.drawGrid = true;
+	// fluidSystem.drawGrid = true;
 
-	// TODO: spring configuration
 	// configure spring calculation and rendering
-	// this.drawGrid = true;
+    fluidSystem.doSprings = true;
+    fluidSystem.drawSprings = false;
 
 	// initialize specific datGui for the fluid System
 	datGuiForSystem(fluidSystem);

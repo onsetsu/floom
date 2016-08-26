@@ -26,9 +26,8 @@ import Integrator from "./integrator.js";
 		this.doObstacles = false;
 		this.obstacles = [];
 
-		// TODO: change defaults
-		this.doSprings = true;
-		this.drawSprings = true;
+		this.doSprings = false;
+		this.drawSprings = false;
 	};
 
 	System.prototype.getNumberOfParticles = function() {

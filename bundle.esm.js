@@ -783,9 +783,8 @@ var System = function() {
 		this.doObstacles = false;
 		this.obstacles = [];
 
-		// TODO: change defaults
-		this.doSprings = true;
-		this.drawSprings = true;
+		this.doSprings = false;
+		this.drawSprings = false;
 	};
 
 	System.prototype.getNumberOfParticles = function() {
@@ -2898,11 +2897,11 @@ var debug;
 	);
 
 	// configure grid rendering
-	// this.drawGrid = true;
+	// fluidSystem.drawGrid = true;
 
-	// TODO: spring configuration
 	// configure spring calculation and rendering
-	// this.drawGrid = true;
+    fluidSystem.doSprings = true;
+    fluidSystem.drawSprings = false;
 
 	// initialize specific datGui for the fluid System
 	datGuiForSystem(fluidSystem);
