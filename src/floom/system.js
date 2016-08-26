@@ -21,11 +21,12 @@ import Integrator from "./integrator.js";
 		this.integrator = new Integrator(this.grid);
 		
 		this.useSurfaceTensionImplementation = true;
-		this.drawGrid = true;
+		this.drawGrid = false;
 		
 		this.doObstacles = false;
 		this.obstacles = [];
-		
+
+		// TODO: change defaults
 		this.doSprings = true;
 		this.drawSprings = true;
 	};

@@ -188,9 +188,11 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 		.setParticleMass(1.0);
 	var mat2 = fluidSystem.createNewMaterial()
 		.setParticleMass(2.0)
+		// TODO: remove elasticity
 		.setIsElastic(true);
 	var mat3 = fluidSystem.createNewMaterial()
 		.setParticleMass(4.0);
+	// TODO: add fifth group of elastic particles
 	// create Particles of these Materials
 	new Floom.Group(fluidSystem, -45,  5,  0, 25,  0.1, 0, mat0);
 	new Floom.Group(fluidSystem,   5,  5, 50, 25, -0.1, 0, mat1);
@@ -204,6 +206,13 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 		new Floom.Obstacle( 20,  0, 9)
 	);
 
+	// configure grid rendering
+	// this.drawGrid = true;
+
+	// TODO: spring configuration
+	// configure spring calculation and rendering
+	// this.drawGrid = true;
+
 	// initialize specific datGui for the fluid System
 	datGuiForSystem(fluidSystem);
 
@@ -211,9 +220,9 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 	var viewport = new Viewport(
 		canvas,
 		Vector2.Zero.copy(),
-		new Vector2(100, 40)
+		new Vector2(136.6, 76.8)
 	);
-	viewport.jumpToPoint(new Vector2(0, 15));
+	viewport.jumpToPoint(new Vector2(0, 35));
 	initTools(input, viewport, fluidSystem);
 	
 	// update routine
