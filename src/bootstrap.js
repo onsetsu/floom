@@ -119,15 +119,21 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 		datGui.add(system, "doObstacles");
 		datGui.add(system, "doSprings");
 		datGui.add(system, "drawSprings");
-		
-		_.each(system.materials, function(material) {
-			datGuiForMaterial(material, datGui);
-		}, system);
-	};
+
+		datGuiForMaterials(system.materials, datGui);
+	}
+
+	function datGuiForMaterials(materials, parent) {
+		var materialFolder = parent.addFolder("Materials");
+		materialFolder.open();
+
+		_.each(materials, function(material) {
+			datGuiForMaterial(material, materialFolder);
+		});
+	}
 	
-	
-	function datGuiForMaterial(material, datGui) {
-		var folder = datGui.addFolder("Mat" + material.materialIndex);
+	function datGuiForMaterial(material, parent) {
+		var folder = parent.addFolder("Mat" + material.materialIndex);
 		folder.open();
 		
 		folder.addColor(material, "color").onChange(material.setColor.bind(material));
@@ -142,7 +148,7 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 		folder.add(material, "damping").min(0).max(1).step(0.05);
 		folder.add(material, "smoothing").min(0).max(1).step(0.05);
 		folder.add(material, "springK").min(0).max(5).step(0.05);
-	};
+	}
 
 	var canvasId = "floom";
 	var canvas = document.getElementById(canvasId);
