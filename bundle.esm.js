@@ -779,11 +779,8 @@ var System = function() {
 		this.useSurfaceTensionImplementation = true;
 		this.drawGrid = true;
 		
-		this.doObstacles = true;
-		this.obstacles = [
-			new Obstacle(-20, 20, 5),
-			new Obstacle( 20,  0, 9)
-		];
+		this.doObstacles = false;
+		this.obstacles = [];
 		
 		this.doSprings = true;
 		this.drawSprings = true;
@@ -2805,15 +2802,21 @@ var debug;
 		datGui.add(system, "doObstacles");
 		datGui.add(system, "doSprings");
 		datGui.add(system, "drawSprings");
-		
-		_.each(system.materials, function(material) {
-			datGuiForMaterial(material, datGui);
-		}, system);
-	};
+
+		datGuiForMaterials(system.materials, datGui);
+	}
+
+	function datGuiForMaterials(materials, parent) {
+		var materialFolder = parent.addFolder("Materials");
+		materialFolder.open();
+
+		_.each(materials, function(material) {
+			datGuiForMaterial(material, materialFolder);
+		});
+	}
 	
-	
-	function datGuiForMaterial(material, datGui) {
-		var folder = datGui.addFolder("Mat" + material.materialIndex);
+	function datGuiForMaterial(material, parent) {
+		var folder = parent.addFolder("Mat" + material.materialIndex);
 		folder.open();
 		
 		folder.addColor(material, "color").onChange(material.setColor.bind(material));
@@ -2828,7 +2831,7 @@ var debug;
 		folder.add(material, "damping").min(0).max(1).step(0.05);
 		folder.add(material, "smoothing").min(0).max(1).step(0.05);
 		folder.add(material, "springK").min(0).max(5).step(0.05);
-	};
+	}
 
 	var canvasId = "floom";
 	var canvas = document.getElementById(canvasId);
@@ -2860,6 +2863,7 @@ var debug;
 
 	// create fluid System
 	var fluidSystem = new Floom.System();
+
 	// create and customize Materials
 	var mat0 = fluidSystem.createNewMaterial()
 		.setParticleMass(0.5);
@@ -2875,6 +2879,14 @@ var debug;
 	new Floom.Group(fluidSystem,   5,  5, 50, 25, -0.1, 0, mat1);
 	new Floom.Group(fluidSystem, -45, 30,  0, 50,  0.1, 0, mat2);
 	new Floom.Group(fluidSystem,   5, 30, 50, 50, -0.1, 0, mat3);
+
+	// create obstacles
+	// fluidSystem.doObstacles = true;
+	fluidSystem.obstacles.push(
+		new Floom.Obstacle(-20, 20, 5),
+		new Floom.Obstacle( 20,  0, 9)
+	);
+
 	// initialize specific datGui for the fluid System
 	datGuiForSystem(fluidSystem);
 

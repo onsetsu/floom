@@ -23,11 +23,8 @@ import Integrator from "./integrator.js";
 		this.useSurfaceTensionImplementation = true;
 		this.drawGrid = true;
 		
-		this.doObstacles = true;
-		this.obstacles = [
-			new Obstacle(-20, 20, 5),
-			new Obstacle( 20,  0, 9)
-		];
+		this.doObstacles = false;
+		this.obstacles = [];
 		
 		this.doSprings = true;
 		this.drawSprings = true;

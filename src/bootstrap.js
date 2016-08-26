@@ -180,6 +180,7 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 
 	// create fluid System
 	var fluidSystem = new Floom.System();
+
 	// create and customize Materials
 	var mat0 = fluidSystem.createNewMaterial()
 		.setParticleMass(0.5);
@@ -195,6 +196,14 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 	new Floom.Group(fluidSystem,   5,  5, 50, 25, -0.1, 0, mat1);
 	new Floom.Group(fluidSystem, -45, 30,  0, 50,  0.1, 0, mat2);
 	new Floom.Group(fluidSystem,   5, 30, 50, 50, -0.1, 0, mat3);
+
+	// create obstacles
+	// fluidSystem.doObstacles = true;
+	fluidSystem.obstacles.push(
+		new Floom.Obstacle(-20, 20, 5),
+		new Floom.Obstacle( 20,  0, 9)
+	);
+
 	// initialize specific datGui for the fluid System
 	datGuiForSystem(fluidSystem);
 
