@@ -112,8 +112,11 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 	// datGui
 	function datGuiForSystem(system) {
 		var datGui = new dat.GUI();
-		datGui.add(system.gravity, "x").min(-0.2).max(0.2).step(-0.01);
-		datGui.add(system.gravity, "y").min(-0.2).max(0.2).step(-0.01);
+
+        var gravityFolder = datGui.addFolder("Gravity");
+        gravityFolder.add(system.gravity, "x").min(-0.2).max(0.2).step(-0.01);
+        gravityFolder.add(system.gravity, "y").min(-0.2).max(0.2).step(-0.01);
+
 		datGui.add(system, "useSurfaceTensionImplementation");
 		datGui.add(system, "drawGrid");
 		datGui.add(system, "doObstacles");
