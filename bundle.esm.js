@@ -2701,7 +2701,7 @@ var debug;
 			_.each(system.particles, function(p) {
 				var vectorToMouse = event.getPositionInWorld(viewport).sub(p.position);
 				var distanceToMouse = vectorToMouse.lengthSquared();
-				if(distanceToMouse < 50)
+				if(distanceToMouse < 150)
 					p.velocity.weightedAddSelf(vectorToMouse, (1/distanceToMouse) * (Math.log(1+distanceToMouse)));
 			});
 		});
@@ -2712,7 +2712,7 @@ var debug;
 			_.each(system.particles, function(p) {
 				var vectorToMouse = event.getPositionInWorld(viewport).sub(p.position);
 				var distanceToMouse = vectorToMouse.lengthSquared();
-				if(distanceToMouse < 50)
+				if(distanceToMouse < 150)
 					p.velocity.weightedAddSelf(vectorToMouse, 0.1 * Math.log(1/(1+distanceToMouse)));
 			});
 		});
@@ -2726,6 +2726,7 @@ var debug;
 			return new Vector2(r*Math.cos(t), r*Math.sin(t));
 		}
 		var spawnTool = new Tool(input);
+        var spawnMaterialIndex = 0;
 		spawnTool.onMouseDrag(function(event) {
 			var spawnPosition = event.getPositionInWorld(viewport);
 			for(var i = 0; i < 10; i++) {
@@ -2736,11 +2737,14 @@ var debug;
 						spawnPosition.y + noise.y,
 						0,
 						0,
-						system.materials[0]
+						system.materials[spawnMaterialIndex]
 					)
 				);
 			}
 		});
+        spawnTool.onMouseUp(function(event) {
+            spawnMaterialIndex = (spawnMaterialIndex + 1) % system.materials.length;
+        });
 		spawnTool.name = "spawn";
 		
 		var consumeTool = new Tool(input);
@@ -2775,7 +2779,7 @@ var debug;
 
 		// activate default tool
 		dragTool.activate();
-	};
+	}
 
 	function drawTool(renderer, input) {
 		var color = "pink";
@@ -2791,18 +2795,22 @@ var debug;
 			1.0,
 			"bottom"
 		);
-	};
+	}
 
 	// datGui
 	function datGuiForSystem(system) {
 		var datGui = new dat.GUI();
-		datGui.add(system.gravity, "x").min(-0.2).max(0.2).step(-0.01);
-		datGui.add(system.gravity, "y").min(-0.2).max(0.2).step(-0.01);
-		datGui.add(system, "useSurfaceTensionImplementation");
-		datGui.add(system, "drawGrid");
-		datGui.add(system, "doObstacles");
-		datGui.add(system, "doSprings");
-		datGui.add(system, "drawSprings");
+
+        var gravityFolder = datGui.addFolder("Gravity");
+        gravityFolder.open();
+        gravityFolder.add(system.gravity, "x").min(-0.2).max(0.2).step(-0.01);
+        gravityFolder.add(system.gravity, "y").min(-0.2).max(0.2).step(-0.01);
+
+		datGui.add(system, "useSurfaceTensionImplementation").name('Surface Tension');
+		datGui.add(system, "drawGrid").name('Draw Grid');
+		datGui.add(system, "doObstacles").name('Obstacles');
+		datGui.add(system, "doSprings").name('Compute Springs');
+		datGui.add(system, "drawSprings").name('Draw Springs');
 
 		datGuiForMaterials(system.materials, datGui);
 	}
