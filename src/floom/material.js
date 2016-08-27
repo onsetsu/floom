@@ -1,4 +1,3 @@
-define([], function() {
 	var Material = function(materialIndex) {
 		this.colorScale = d3.scale.linear()
 			.domain([0,5]);
@@ -33,9 +32,9 @@ define([], function() {
 	        '#e31a1c',
 	        '#fdbf6f',
 	        '#b2df8a',
-	        '#33a02c',
-	        '#fb9a99',
+			'#fb9a99',
 	        '#ff7f00',
+			'#33a02c',
 	        '#cab2d6',
 	        '#6a3d9a',
 	        '#ffff99',
@@ -161,6 +160,4 @@ define([], function() {
 		return this;
 	};
 
-	return Material;
-});
-
+	export default Material;

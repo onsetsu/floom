@@ -1,7 +1,3 @@
-define([
-
-], function(){ "use strict";
-
 var DebugPanel = mini.Class.subclass({
 	active: false,
 	container: null,
@@ -46,6 +42,4 @@ var DebugPanel = mini.Class.subclass({
 	afterRun: function(){}
 });
 
-return DebugPanel;
-
-});
+export default DebugPanel;

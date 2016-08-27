@@ -1,4 +1,5 @@
-define(["external/vector2"], function(Vector2) {
+import Vector2 from "./../external/vector2.js";
+
 	var Viewport = mini.Class.subclass({
 		initialize: function(canvas, middlePoint, extent) {
 			this.canvas = canvas;
@@ -70,5 +71,4 @@ define(["external/vector2"], function(Vector2) {
 		}
 	});
 	
-	return Viewport;
-});
+	export default Viewport;

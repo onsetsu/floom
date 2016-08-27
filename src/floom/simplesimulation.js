@@ -1,22 +1,12 @@
-define([
-   	"floom/system",
-   	"floom/material",
-	"floom/particle",
-	"floom/node",
-	"floom/grid",
-	"floom/obstacle",
-	"floom/integrator",
-	"external/vector2"
-], function(
-	System,
-	Material,
-	Particle,
-	Node,
-	Grid,
-	Obstacle,
-	Integrator,
-	Vector2
-) {
+import System from "./system.js";
+import Material from "./material.js";
+import Particle from "./particle.js";
+import Node from "./node.js";
+import Grid from "./grid.js";
+import Obstacle from "./obstacle.js";
+import Integrator from "./integrator.js";
+import Vector2 from "./../external/vector2.js";
+
 	/*
 	 * Early simple implementation of the material point method
 	 */
@@ -121,4 +111,3 @@ define([
 			p.velocity.weightedAddSelf(p.gridVelocity.sub(p.velocity), p.material.smoothing);
 		}, this);
 	};
-});

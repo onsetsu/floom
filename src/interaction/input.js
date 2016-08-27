@@ -1,7 +1,3 @@
-define([
-
-], function() {
-	
 	var Input = mini.Class.subclass({
 		initialize: function(domElementId) {
 			var that = this;
@@ -363,5 +359,4 @@ define([
 		'PERIOD': 190
 	};
 
-	return Input;
-});
+	export default Input;

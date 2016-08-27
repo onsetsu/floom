@@ -1,4 +1,7 @@
-define(["floom/particle", "floom/spring", "floom/material"], function(Particle, Spring, Material) {
+import Particle from "./particle.js";
+import Spring from "./spring.js";
+import Material from "./material.js";
+
 	var Group = function(system, minX, minY, maxX, maxY, u, v, material) {
 		this.material = material;
 		
@@ -37,5 +40,4 @@ define(["floom/particle", "floom/spring", "floom/material"], function(Particle, 
     	}
 	};
 	
-	return Group;
-});
+	export default Group;

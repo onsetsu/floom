@@ -1,4 +1,4 @@
-define(["external/vector2"], function(Vector2) {
+import Vector2 from "./../external/vector2.js";
 
 	var Configuration = mini.Class.subclass({
 		initialize: function(renderer) {
@@ -84,6 +84,7 @@ define(["external/vector2"], function(Vector2) {
 			this.singlePixelExtent = viewport.screenToWorldCoordinates(Vector2.One.copy()).sub(
 				viewport.screenToWorldCoordinates(Vector2.Zero.copy())
 			);
+			this.singlePixelExtentLength = this.singlePixelExtent.length();
 		},
 		
 		popViewport: function() {
@@ -324,9 +325,12 @@ define(["external/vector2"], function(Vector2) {
 			this.drawDot(obstacle.position, obstacle.radius, "pink", 0.8);
 		},
 		drawParticle: function(particle) {
+			// ensure that a particle is visible even at low velocity
+			var dirLength = Math.max(this.singlePixelExtentLength, particle.gridVelocity.length());
+
 			this.drawLine(
 				particle.position,
-				particle.position.add(particle.gridVelocity),
+				particle.position.add(particle.gridVelocity.normalizedCopy().mulFloat(dirLength)),
 				particle.material.colorScale(particle.velocity.lengthSquared()),
 				1.0,
 				1
@@ -348,5 +352,4 @@ define(["external/vector2"], function(Vector2) {
 		.range(["#ff0000", "#0000ff"]);
 	
 	
-	return Renderer;
-});
+	export default Renderer;

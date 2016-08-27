@@ -1,4 +1,5 @@
-define(["external/vector2"], function(Vector2) {
+import Vector2 from "./vector2.js";
+
 	var Invalid = true;
 	var Valid = false;
 
@@ -88,5 +89,4 @@ define(["external/vector2"], function(Vector2) {
 		];
 	};
 
-	return AABB;
-});
+	export default AABB;

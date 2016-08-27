@@ -1,7 +1,5 @@
-define([
-	'debug/menu',
-	'debug/panel'
-], function(Menu, DebugPanel){ "use strict";
+import Menu from './menu.js';
+import DebugPanel from './panel.js';
 
 var round = function(number, precision) {
 	precision = Math.pow(10, precision || 0);
@@ -157,6 +155,4 @@ var DebugGraphPanel = DebugPanel.subclass({
 $().ready(function() {
 });
 */
-return DebugGraphPanel;
-
-});
+export default DebugGraphPanel;

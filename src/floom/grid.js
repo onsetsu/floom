@@ -1,4 +1,7 @@
-define(["floom/node", "external/vector2", "external/aabb"], function(Node, Vector2, AABB) {
+import Node from "./node.js";
+import Vector2 from "./../external/vector2.js";
+import AABB from "./../external/aabb.js";
+
 	var Grid = function(){
 		this.arr = [];
 		this.activeCount = 0;
@@ -61,5 +64,4 @@ define(["floom/node", "external/vector2", "external/aabb"], function(Node, Vecto
 		this.gsizeY = Math.floor(this.boundaries.Max.y-this.boundaries.Min.y);
 	};
 	
-	return Grid;
-});
+	export default Grid;

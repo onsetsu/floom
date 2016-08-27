@@ -1,4 +1,6 @@
-define(["external/vector2", "floom/node"], function(Vector2, Node) {
+import Vector2 from "./../external/vector2.js";
+import Node from "./node.js";
+
 	var defaultNode = new Node();
 	
 	var Particle = function(x, y, u, v, material){
@@ -31,5 +33,4 @@ define(["external/vector2", "floom/node"], function(Vector2, Node) {
 	    this.T11 = 0;
 	};
 
-	return Particle;
-});
+	export default Particle;
