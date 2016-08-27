@@ -1,6 +1,6 @@
 {
   "name": "floom-mpm",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A JavaScript Fluid Simulation using the Material Point Method (MPM)",
   "main": "src/index.js",
   "scripts": {
