@@ -1181,7 +1181,10 @@ var Group = function(system, minX, minY, maxX, maxY, u, v, material) {
     	}
 	};
 
-System.prototype.simpleSimulation = function() {
+/*
+	 * Early simple implementation of the material point method
+	 */
+	System.prototype.simpleSimulation = function() {
 		this.__calculateParticleKernels();
 		this.__sumParticleDensityFromGridAndAddPressureansElasticForcesToGrid();
 		this.__divideGridAccelerationByMass();
@@ -2499,10 +2502,6 @@ var DebugGraphPanel = DebugPanel.subclass({
 		this.marks = [];
 	}
 });
-/*
-$().ready(function() {
-});
-*/
 
 var Debug = {
 		Menu: Menu,
