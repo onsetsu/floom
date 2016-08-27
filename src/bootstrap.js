@@ -17,7 +17,7 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 			_.each(system.particles, function(p) {
 				var vectorToMouse = event.getPositionInWorld(viewport).sub(p.position);
 				var distanceToMouse = vectorToMouse.lengthSquared();
-				if(distanceToMouse < 50)
+				if(distanceToMouse < 150)
 					p.velocity.weightedAddSelf(vectorToMouse, (1/distanceToMouse) * (Math.log(1+distanceToMouse)));
 			});
 		});
@@ -28,7 +28,7 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 			_.each(system.particles, function(p) {
 				var vectorToMouse = event.getPositionInWorld(viewport).sub(p.position);
 				var distanceToMouse = vectorToMouse.lengthSquared();
-				if(distanceToMouse < 50)
+				if(distanceToMouse < 150)
 					p.velocity.weightedAddSelf(vectorToMouse, 0.1 * Math.log(1/(1+distanceToMouse)));
 			});
 		});
@@ -42,6 +42,7 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 			return new Vector2(r*Math.cos(t), r*Math.sin(t));
 		}
 		var spawnTool = new Tool(input);
+        var spawnMaterialIndex = 0;
 		spawnTool.onMouseDrag(function(event) {
 			var spawnPosition = event.getPositionInWorld(viewport);
 			for(var i = 0; i < 10; i++) {
@@ -52,11 +53,14 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 						spawnPosition.y + noise.y,
 						0,
 						0,
-						system.materials[0]
+						system.materials[spawnMaterialIndex]
 					)
 				);
 			}
 		});
+        spawnTool.onMouseUp(function(event) {
+            spawnMaterialIndex = (spawnMaterialIndex + 1) % system.materials.length;
+        });
 		spawnTool.name = "spawn";
 		
 		var consumeTool = new Tool(input);
@@ -91,7 +95,7 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 
 		// activate default tool
 		dragTool.activate();
-	};
+	}
 
 	function drawTool(renderer, input) {
 		var color = "pink";
@@ -107,13 +111,14 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 			1.0,
 			"bottom"
 		);
-	};
+	}
 
 	// datGui
 	function datGuiForSystem(system) {
 		var datGui = new dat.GUI();
 
         var gravityFolder = datGui.addFolder("Gravity");
+        gravityFolder.open();
         gravityFolder.add(system.gravity, "x").min(-0.2).max(0.2).step(-0.01);
         gravityFolder.add(system.gravity, "y").min(-0.2).max(0.2).step(-0.01);
 
