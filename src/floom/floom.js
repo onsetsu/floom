@@ -5,7 +5,7 @@ import Node from "./node.js";
 import Spring from "./spring.js";
 import Obstacle from "./obstacle.js";
 import System from "./system.js";
-import SimpleSimulation from "./simplesimulation.js";
+import "./simplesimulation.js";
 
 var Floom = function() {};
 
