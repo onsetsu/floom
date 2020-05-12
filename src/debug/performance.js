@@ -12,18 +12,20 @@ ig.system.fps = ig.system.fps || 60;
 /**
  *  ---------------------------- GRAPH PANEL ----------------------------
  */
-var DebugGraphPanel = DebugPanel.subclass({
-	clocks: {},
-	marks: [],
-	textY: 0,
-	height: 128,
-	ms: 64,
-	timeBeforeRun: 0,
-	
-	
-	initialize: function( name, label ) {
-		DebugPanel.prototype.initialize.apply(this, arguments);
-		
+export default class DebugGraphPanel extends DebugPanel {
+
+	constructor( name, label ) {
+		super(name, label);
+
+		Object.assign(this, {
+			clocks: {},
+			marks: [],
+			textY: 0,
+			height: 128,
+			ms: 64,
+			timeBeforeRun: 0,
+		});
+
 		this.mark16ms = round((this.height - (this.height/this.ms) * 16));
 		this.mark33ms = round((this.height - (this.height/this.ms) * 33));
 		this.msHeight = this.height/this.ms;
@@ -43,10 +45,10 @@ var DebugGraphPanel = DebugPanel.subclass({
 		this.addClock( 'lag', 'System Lag', '#f26900');//ca258f' );
 		
 		window.graph = this;
-	},
+	}
 	
 	
-	addClock: function( name, description, color ) {		
+	addClock( name, description, color ) {
 		var mark = $('<span />');
 		mark.addClass('ig_debug_legend_color');
 		mark.css("backgroundColor", color);
@@ -72,35 +74,35 @@ var DebugGraphPanel = DebugPanel.subclass({
 			avg: 0,
 			html: number
 		};
-	},
+	}
 	
 	
-	beginClock: function( name, offset ) {
+	beginClock( name, offset ) {
 		this.clocks[name].start = window.performance.now() + (offset || 0);
-	},
+	}
 	
 	
-	endClock: function( name ) {
+	endClock( name ) {
 		var c = this.clocks[name];
 		c.current = Math.round(window.performance.now() - c.start);
 		c.avg = c.avg * 0.8 + c.current * 0.2;
-	},
+	}
 	
 	
-	mark: function( msg, color ) {
+	mark( msg, color ) {
 		if( this.active ) {
 			this.marks.push( {msg:msg, color:(color||'#fff')} );
 		}
-	},
+	}
 	
 	
-	beforeRun: function() {
+	beforeRun() {
 		this.endClock('lag');
 		this.timeBeforeRun = window.performance.now();
-	},
+	}
 	
 	
-	afterRun: function() {
+	afterRun() {
 		var frameTime = window.performance.now() - this.timeBeforeRun;
 		var nextFrameDue = (1000/ig.system.fps) - frameTime;
 		this.beginClock('lag', Math.max(nextFrameDue, 0));
@@ -150,9 +152,8 @@ var DebugGraphPanel = DebugPanel.subclass({
 		this.ctx.globalAlpha = 1;
 		this.marks = [];
 	}
-});
+}
 /*
 $().ready(function() {
 });
 */
-export default DebugGraphPanel;

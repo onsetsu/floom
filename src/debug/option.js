@@ -1,19 +1,20 @@
-var DebugOption = mini.Class.subclass({
-	name: '',
-	labelName: '',
-	className: 'ig_debug_option',
-	label: null,
-	mark: null,
-	container: null,
-	active: false,
+export default class DebugOption {
 	
-	colors: {
-		enabled: '#fff',
-		disabled: '#444'
-	},
-	
-	
-	initialize: function( name, object, property ) {
+	constructor( name, object, property ) {
+		Object.assign(this, {
+			name: '',
+			labelName: '',
+			className: 'ig_debug_option',
+			label: null,
+			mark: null,
+			container: null,
+			active: false,
+
+			colors: {
+				enabled: '#fff',
+				disabled: '#444'
+			},
+		})
 		this.name = name;
 		this.object = object;
 		this.property = property;
@@ -38,15 +39,15 @@ var DebugOption = mini.Class.subclass({
 		});
 		
 		this.setLabel();
-	},
+	}
 	
 	
-	setLabel: function() {
+	setLabel() {
 		this.mark.css("backgroundColor", this.active ? this.colors.enabled : this.colors.disabled);
-	},
+	}
 	
 	
-	click: function( ev ) {
+	click( ev ) {
 		this.active = !this.active;
 		this.object[this.property] = this.active;
 		this.setLabel();
@@ -55,6 +56,4 @@ var DebugOption = mini.Class.subclass({
 		ev.preventDefault();
 		return false;
 	}
-});
-
-export default DebugOption;
+}
