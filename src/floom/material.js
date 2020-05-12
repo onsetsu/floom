@@ -1,4 +1,5 @@
-	var Material = function(materialIndex) {
+export default class Material {
+	constructor(materialIndex) {
 		this.colorScale = d3.scale.linear()
 			.domain([0,5]);
 		this.setColor(Material.getColor(materialIndex));
@@ -20,144 +21,143 @@
 		this.smoothing = 1;
 		this.isElastic = false;
 		this.springK = 0.3;
-		
+
 		this.yieldPoint = 0;
 		this.yieldRate = 1;
 	};
 
 	// debug colors
-	Material.getColor = function(index) {
-		var materialColors = [
-	        '#1f78b4',
-	        '#e31a1c',
-	        '#fdbf6f',
-	        '#b2df8a',
+	static getColor(index) {
+		const materialColors = [
+			'#1f78b4',
+			'#e31a1c',
+			'#fdbf6f',
+			'#b2df8a',
 			'#fb9a99',
-	        '#ff7f00',
+			'#ff7f00',
 			'#33a02c',
-	        '#cab2d6',
-	        '#6a3d9a',
-	        '#ffff99',
-	        '#b15928'
-	    ];
-		
+			'#cab2d6',
+			'#6a3d9a',
+			'#ffff99',
+			'#b15928'
+		];
+
 		return materialColors[index % materialColors.length];
 	};
 
 	// Property setters
-	Material.prototype.setColor = function(color) {
+	setColor(color) {
 		this.color = color;
 		this.colorScale.range([this.color, d3.rgb(this.color).brighter(3)]);
-		
 		return this;
-	};
+	}
 
-	Material.prototype.setParticleMass = function(particleMass) {
+	setParticleMass(particleMass) {
 		this.particleMass = particleMass;
-		
-		return this;
-	};
 
-	Material.prototype.setRestDensity = function(restDensity) {
+		return this;
+	}
+
+	setRestDensity(restDensity) {
 		this.restDensity = restDensity;
-		
-		return this;
-	};
 
-	Material.prototype.setStiffness = function(stiffness) {
+		return this;
+	}
+
+	setStiffness(stiffness) {
 		this.stiffness = stiffness;
-		
-		return this;
-	};
 
-	Material.prototype.setBulkViscosity  = function(bulkViscosity) {
+		return this;
+	}
+
+	setBulkViscosityfunction(bulkViscosity) {
 		this.bulkViscosity = bulkViscosity ;
-		
-		return this;
-	};
 
-	Material.prototype.setSurfaceTension  = function(surfaceTension) {
+		return this;
+	}
+
+	setSurfaceTensionfunction(surfaceTension) {
 		this.surfaceTension = surfaceTension ;
-		
-		return this;
-	};
 
-	Material.prototype.setElasticity = function(elasticity) {
+		return this;
+	}
+
+	setElasticity(elasticity) {
 		this.elasticity = elasticity;
-		
-		return this;
-	};
 
-	Material.prototype.setMaxDeformation = function(maxDeformation) {
+		return this;
+	}
+
+	setMaxDeformation(maxDeformation) {
 		this.maxDeformation = maxDeformation;
-		
-		return this;
-	};
 
-	Material.prototype.setMeltRate = function(meltRate) {
+		return this;
+	}
+
+	setMeltRate(meltRate) {
 		this.meltRate = meltRate;
-		
-		return this;
-	};
 
-	Material.prototype.setShearViscosity = function(shearViscosity) {
+		return this;
+	}
+
+	setShearViscosity(shearViscosity) {
 		this.shearViscosity = shearViscosity;
-		
-		return this;
-	};
 
-	Material.prototype.setViscosity = function(viscosity) {
+		return this;
+	}
+
+	setViscosity(viscosity) {
 		this.viscosity = viscosity;
-		
-		return this;
-	};
 
-	Material.prototype.setDamping = function(damping) {
+		return this;
+	}
+
+	setDamping(damping) {
 		this.damping = damping;
-		
-		return this;
-	};
 
-	Material.prototype.setWallFrictiong = function(wallFriction) {
+		return this;
+	}
+
+	setWallFrictiong(wallFriction) {
 		this.wallFriction = wallFriction;
-		
-		return this;
-	};
 
-	Material.prototype.setWallAttraction = function(wallAttraction) {
+		return this;
+	}
+
+	setWallAttraction(wallAttraction) {
 		this.wallAttraction = wallAttraction;
-		
-		return this;
-	};
 
-	Material.prototype.setSmoothing = function(smoothing) {
+		return this;
+	}
+
+	setSmoothing(smoothing) {
 		this.smoothing = smoothing;
-		
-		return this;
-	};
 
-	Material.prototype.setIsElastic = function(isElastic) {
+		return this;
+	}
+
+	setIsElastic(isElastic) {
 		this.isElastic = isElastic;
-		
-		return this;
-	};
 
-	Material.prototype.setSpringK = function(springK) {
+		return this;
+	}
+
+	setSpringK(springK) {
 		this.springK = springK;
-		
-		return this;
-	};
 
-	Material.prototype.setYieldPoint = function(yieldPoint) {
+		return this;
+	}
+
+	setYieldPoint(yieldPoint) {
 		this.yieldPoint = yieldPoint;
-		
-		return this;
-	};
 
-	Material.prototype.setYieldRate = function(yieldRate) {
+		return this;
+	}
+
+	setYieldRate(yieldRate) {
 		this.yieldRate = yieldRate;
-		
-		return this;
-	};
 
-	export default Material;
+		return this;
+	}
+
+}
