@@ -8,26 +8,27 @@ import Grid from "./grid.js";
 import Obstacle from "./obstacle.js";
 import Integrator from "./integrator.js";
 
-	var System = function() {
-		this.wall = new AABB(
+	var System = function(settings) {
+		settings = settings ? settings : {};
+		this.wall = settings.wall ? settings.wall : new AABB(
 			new Vector2(-50, 2),
 			new Vector2(50, 100)
 		);
-		this.gravity = new Vector2(0,-0.05);// 0.004, 0.02
-		this.materials = [];
-		this.particles = [];
-		this.springs = [];
-		this.grid = new Grid();
+		this.gravity = settings.gravity ? settings.gravity : new Vector2(0,-0.05);// 0.004, 0.02
+		this.materials = settings.materials ? settings.materials : [];
+		this.particles = settings.particles ? settings.particles : [];
+		this.springs = settings.springs ? settings.springs : [];
+		this.grid = settings.grid ? new Grid(settings.grid) : new Grid();
 		this.integrator = new Integrator(this.grid);
 		
-		this.useSurfaceTensionImplementation = true;
-		this.drawGrid = false;
+		this.useSurfaceTensionImplementation = settings.useSurfaceTensionImplementation ? settings.useSurfaceTensionImplementation : true;
+		this.drawGrid = settings.drawGrid ? settings.drawGrid : false;
 		
-		this.doObstacles = false;
-		this.obstacles = [];
+		this.doObstacles = settings.doObstacles ? settings.doObstacles : false;
+		this.obstacles =  settings.obstacles ? settings.obstacles : [];
 
-		this.doSprings = false;
-		this.drawSprings = false;
+		this.doSprings = settings.doSprings ? settings.doSprings : false;
+		this.drawSprings = settings.drawSprings ? settings.drawSprings : false;
 	};
 
 	System.prototype.getNumberOfParticles = function() {

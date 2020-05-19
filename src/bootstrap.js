@@ -238,10 +238,15 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 	);
 	viewport.jumpToPoint(new Vector2(0, 35));
 	initTools(input, viewport, fluidSystem);
+
+	let timeMachine = [JSON.stringify(fluidSystem)];
+	window.updateIndex = 0;
 	
 	// update routine
 	var lastPoint = Vector2.Zero.copy();
 	function update(timePassed) {
+		let currentFluidSystem = new Floom.System(JSON.parse(timeMachine[window.updateIndex]));
+
 		// entities/map
 		if(graph)
 			graph.beginClock('update');
@@ -262,7 +267,7 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 			viewport.zoomOut();
 		}
 		
-		fluidSystem.update(timePassed);
+		currentFluidSystem.update(timePassed);
 		if(graph)
 			graph.endClock('update');
 		// rendering
@@ -270,7 +275,7 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 			graph.beginClock('draw');
 		renderer.clear();
 		renderer.withViewport(viewport, function() {
-			renderer.drawSystem(fluidSystem);
+			renderer.drawSystem(currentFluidSystem);
 		});
 		drawTool(renderer, input);
 		if(graph)
@@ -278,6 +283,9 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 
 		// interaction
 		input.clearPressed();
+		
+		timeMachine.push(JSON.stringify(currentFluidSystem))
+		window.updateIndex++;
 	}
 
 	
