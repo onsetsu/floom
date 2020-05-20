@@ -1,5 +1,6 @@
 import Vector2 from "./../external/vector2.js";
 import Node from "./node.js";
+import Material from "./material.js"
 
 	var defaultNode = new Node();
 	
@@ -31,6 +32,45 @@ import Node from "./node.js";
 	    this.T00 = 0;
 	    this.T01 = 0;
 	    this.T11 = 0;
+	};
+
+	// snapshotting logic:
+	Particle.prototype.toJSON = function() {
+		let settings = {
+			position: this.position,
+			prevPosition: this.prevPosition,
+			velocity: this.velocity,
+			gridVelocity: this.gridVelocity,
+			material: this.material.materialIndex,
+
+			cellX: this.cellX,
+			cellY: this.cellY,
+
+			px: this.px,
+			py: this.py,
+			gx: this.gx,
+			gy: this.gy,
+
+			s: this.s,
+			sx: this.sx,
+			sy: this.sy,
+
+			node: this.node,
+
+			T00: this.T00,
+			T01: this.T01,
+			T11: this.T11
+		};
+		return settings;
+	};
+
+	Particle.fromJSON = function(settings) {
+		// TODO: why is settings already parsed? :-)
+		let parsedSettings = settings;
+		let particle = new Particle(parsedSettings.position.x, parsedSettings.position.y, parsedSettings.velocity.x, parsedSettings.velocity.y,
+			new Material(parsedSettings.material));
+		// TODO check if any other property has to be set
+		return particle;
 	};
 
 	export default Particle;
