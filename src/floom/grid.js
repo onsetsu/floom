@@ -66,5 +66,22 @@ import AABB from "./../external/aabb.js";
 	Grid.prototype.recalculateSizeY = function() {
 		this.gsizeY = Math.floor(this.boundaries.Max.y-this.boundaries.Min.y);
 	};
+
+	// snapshotting logic:
+	Grid.prototype.toJSON = function() {
+		let settings = {
+			arr: this.arr,
+			activeCount: this.activeCount,
+			gsizeY: this.gsizeY,
+			boundaries: this.boundaries,
+			cellSize: this.cellSize
+		};
+		return JSON.stringify(settings);
+	};
+
+	Grid.fromJSON = function(settings) {
+		// TODO: a cleaner way would be to initialize the Grid and after that fill it with the data from settings
+		return new Grid(JSON.parse(settings));
+	};
 	
 	export default Grid;
