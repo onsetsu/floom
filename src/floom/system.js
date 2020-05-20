@@ -18,7 +18,7 @@ import Integrator from "./integrator.js";
 		this.materials = settings.materials ? settings.materials : [];
 		this.particles = settings.particles ? settings.particles : [];
 		this.springs = settings.springs ? settings.springs : [];
-		this.grid = settings.grid ? new Grid(settings.grid) : new Grid();
+		this.grid = settings.grid ? Grid.fromJSON(settings.grid) : new Grid();
 		this.integrator = new Integrator(this.grid);
 		
 		this.useSurfaceTensionImplementation = settings.useSurfaceTensionImplementation ? settings.useSurfaceTensionImplementation : true;
@@ -359,6 +359,43 @@ import Integrator from "./integrator.js";
 			else if (p.position.y > this.wall.Max.y + 4)
 				p.position.y = this.wall.Max.y + 4 - .01 * Math.random();
 		}, this);
+	};
+
+	// snapshotting logic:
+	System.prototype.toJSON = function() {
+		let settings = {
+			// TODO: maybe go one level deeper, serializing the min/max points of the aabb
+			// we leave this for now, walls don't change and will be recreated with default vallues
+			// wall: this.wall,
+			// we can recreate materials using the index since values are never changed at runtime (I guess??)
+			materials: this.materials.map((material) => material.materialIndex),
+			// TODO: is using .map valid?
+			particles: this.particles.map((particle) => particle.toJSON()),
+			// skipping springs for now since we need to reference particles for them to work
+			// springs: ...
+			// TODO: for now we skip the grid and recreate it
+			// grid: Grid.toJSON(),
+			useSurfaceTensionImplementation: this.useSurfaceTensionImplementation,
+			drawGrid: this.drawGrid,
+			doObstacles: this.doObstacles,
+			obstacles: this.obstacles.map((obstacle) => obstacle.toJSON()),
+			doSprings: this.doSprings,
+			drawSprings: this.drawSprings
+		};
+
+		return JSON.stringify(settings);
+	};
+
+	System.fromJSON = function(settings) {
+		let parsedSettings = JSON.parse(settings)
+		// TODO: a cleaner way would be to initialize the Grid and after that fill it with the data from settings
+		let system = new System(parsedSettings);
+		// System.wall = new AABB(parsedSettings.wall.min, parsedSettings.wall.max)
+		system.materials = parsedSettings.materials.map((materialID) => new Material(materialID));
+		system.particles = parsedSettings.particles.map((particle) => Particle.fromJSON(particle));
+		system.obstacles = parsedSettings.obstacles.map((obstacle) => Obstacle.fromJSON(obstacle));
+		return system;
+
 	};
 
 	export default System;
