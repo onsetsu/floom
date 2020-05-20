@@ -239,14 +239,13 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 	viewport.jumpToPoint(new Vector2(0, 35));
 	initTools(input, viewport, fluidSystem);
 
-	let timeMachine = [JSON.stringify(fluidSystem)];
+	let timeMachine = [fluidSystem.toJSON()];
+	let artificialSystem = Floom.System.fromJSON(timeMachine);
 	window.updateIndex = 0;
-	
 	// update routine
 	var lastPoint = Vector2.Zero.copy();
 	function update(timePassed) {
-		let currentFluidSystem = new Floom.System(JSON.parse(timeMachine[window.updateIndex]));
-
+		let currentFluidSystem = new Floom.System.fromJSON(timeMachine[window.updateIndex]);
 		// entities/map
 		if(graph)
 			graph.beginClock('update');
@@ -284,7 +283,7 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 		// interaction
 		input.clearPressed();
 		
-		timeMachine.push(JSON.stringify(currentFluidSystem))
+		timeMachine.push(currentFluidSystem.toJSON());
 		window.updateIndex++;
 	}
 
