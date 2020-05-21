@@ -38,28 +38,28 @@ import Material from "./material.js"
 	Particle.prototype.toJSON = function() {
 		let settings = {
 			position: this.position,
-			prevPosition: this.prevPosition,
+			// prevPosition: this.prevPosition,
 			velocity: this.velocity,
-			gridVelocity: this.gridVelocity,
+			// gridVelocity: this.gridVelocity,
 			material: this.material.materialIndex,
 
-			cellX: this.cellX,
-			cellY: this.cellY,
+			// cellX: this.cellX,
+			// cellY: this.cellY,
 
-			px: this.px,
-			py: this.py,
-			gx: this.gx,
-			gy: this.gy,
-
-			s: this.s,
-			sx: this.sx,
-			sy: this.sy,
-
-			node: this.node,
-
-			T00: this.T00,
-			T01: this.T01,
-			T11: this.T11
+			// px: this.px,
+			// py: this.py,
+			// gx: this.gx,
+			// gy: this.gy,
+			//
+			// s: this.s,
+			// sx: this.sx,
+			// sy: this.sy,
+			//
+			// node: this.node,
+			//
+			// T00: this.T00,
+			// T01: this.T01,
+			// T11: this.T11
 		};
 		return settings;
 	};
@@ -69,7 +69,7 @@ import Material from "./material.js"
 		let parsedSettings = settings;
 		let particle = new Particle(parsedSettings.position.x, parsedSettings.position.y, parsedSettings.velocity.x, parsedSettings.velocity.y,
 			new Material(parsedSettings.material));
-		// TODO check if any other property has to be set
+		// TODO check if any other property has to be set to be functional
 		return particle;
 	};
 

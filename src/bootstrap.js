@@ -245,7 +245,7 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 	// update routine
 	var lastPoint = Vector2.Zero.copy();
 	function update(timePassed) {
-		let currentFluidSystem = new Floom.System.fromJSON(timeMachine[window.updateIndex]);
+		let currentFluidSystem = Floom.System.fromJSON(timeMachine[window.updateIndex]);
 		// entities/map
 		if(graph)
 			graph.beginClock('update');
