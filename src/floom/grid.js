@@ -70,18 +70,21 @@ import AABB from "./../external/aabb.js";
 	// snapshotting logic:
 	Grid.prototype.toJSON = function() {
 		let settings = {
-			arr: this.arr,
-			activeCount: this.activeCount,
-			gsizeY: this.gsizeY,
-			boundaries: this.boundaries,
-			cellSize: this.cellSize
+			// arr: this.arr,
+			// activeCount: this.activeCount,
+			// gsizeY: this.gsizeY,
+			// boundaries: this.boundaries,
+			// cellSize: this.cellSize
 		};
 		return JSON.stringify(settings);
 	};
 
 	Grid.fromJSON = function(settings) {
 		// TODO: a cleaner way would be to initialize the Grid and after that fill it with the data from settings
-		return new Grid(JSON.parse(settings));
+		//
+		// return new Grid(JSON.parse(settings));
+		// Let's throw away the grid...
+		return new Grid();
 	};
 	
 	export default Grid;

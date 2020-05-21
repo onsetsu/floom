@@ -364,7 +364,6 @@ import Integrator from "./integrator.js";
 	// snapshotting logic:
 	System.prototype.toJSON = function() {
 		let settings = {
-			// TODO: maybe go one level deeper, serializing the min/max points of the aabb
 			// we leave this for now, walls don't change and will be recreated with default vallues
 			// wall: this.wall,
 			// we can recreate materials using the index since values are never changed at runtime (I guess??)
