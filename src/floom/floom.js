@@ -6,6 +6,7 @@ import Spring from "./spring.js";
 import Obstacle from "./obstacle.js";
 import System from "./system.js";
 import "./simplesimulation.js";
+import "./mlsSimulation.js";
 
 var Floom = function() {};
 
