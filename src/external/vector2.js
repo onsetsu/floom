@@ -305,13 +305,5 @@
 	Vector2.fromJson = function(vectorJson) {
 		return new Vector2(vectorJson.x, vectorJson.y);
 	};
-
-	Vector2.fromMatrix = function(matrix) {
-		try {
-			return new Vector2(matrix.data[0][0], matrix.data[0][0])
-		} catch {
-			throw new Error("wrong matrix format");
-		}
-	}
 	
 	export default Vector2;

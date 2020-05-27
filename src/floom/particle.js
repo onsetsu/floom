@@ -1,5 +1,4 @@
 import Vector2 from "./../external/vector2.js";
-import Matrix from "./../external/matrix.js";
 import Node from "./node.js";
 import Material from "./material.js"
 
@@ -33,8 +32,6 @@ import Material from "./material.js"
 	    this.T00 = 0;
 	    this.T01 = 0;
 	    this.T11 = 0;
-
-	    this.affineMomentum = new Matrix(2,2,0);
 	};
 
 	// snapshotting logic:

@@ -57,7 +57,7 @@ import Integrator from "./integrator.js";
 		this.grid.update(this);
 
 		if(this.useSurfaceTensionImplementation) {
-			this.mlsSimulation();
+			this.surfaceTensionImplementation();
 		} else {
 			this.simpleSimulation();
 		}
