@@ -127,6 +127,8 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 		datGui.add(system, "doObstacles").name('Obstacles');
 		datGui.add(system, "doSprings").name('Compute Springs');
 		datGui.add(system, "drawSprings").name('Draw Springs');
+		window.updateIndex = 0;
+		datGui.add(window, "updateIndex").name('Update Index');
 
 		datGuiForMaterials(system.materials, datGui);
 	}
