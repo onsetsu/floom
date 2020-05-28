@@ -240,7 +240,6 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 	initTools(input, viewport, fluidSystem);
 
 	let timeMachine = [fluidSystem.toJSON()];
-	let artificialSystem = Floom.System.fromJSON(timeMachine);
 	window.updateIndex = 0;
 	// update routine
 	var lastPoint = Vector2.Zero.copy();

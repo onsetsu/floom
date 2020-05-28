@@ -76,7 +76,7 @@ import AABB from "./../external/aabb.js";
 			// boundaries: this.boundaries,
 			// cellSize: this.cellSize
 		};
-		return JSON.stringify(settings);
+		return Object.assign({}, settings)
 	};
 
 	Grid.fromJSON = function(settings) {

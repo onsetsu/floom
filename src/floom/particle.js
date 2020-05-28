@@ -37,11 +37,11 @@ import Material from "./material.js"
 	// snapshotting logic:
 	Particle.prototype.toJSON = function() {
 		let settings = {
-			position: this.position,
+			position: Object.assign({}, this.position),
 			// prevPosition: this.prevPosition,
-			velocity: this.velocity,
+			velocity: Object.assign({}, this.velocity),
 			// gridVelocity: this.gridVelocity,
-			material: this.material.materialIndex,
+			material: this.material,
 
 			// cellX: this.cellX,
 			// cellY: this.cellY,
@@ -61,14 +61,12 @@ import Material from "./material.js"
 			// T01: this.T01,
 			// T11: this.T11
 		};
-		return settings;
+		return Object.assign({}, settings)
 	};
 
 	Particle.fromJSON = function(settings) {
-		// TODO: why is settings already parsed? :-)
 		let parsedSettings = settings;
-		let particle = new Particle(parsedSettings.position.x, parsedSettings.position.y, parsedSettings.velocity.x, parsedSettings.velocity.y,
-			new Material(parsedSettings.material));
+		let particle = new Particle(parsedSettings.position.x, parsedSettings.position.y, parsedSettings.velocity.x, parsedSettings.velocity.y, parsedSettings.material);
 		// TODO check if any other property has to be set to be functional
 		return particle;
 	};

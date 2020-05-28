@@ -11,12 +11,11 @@ import Vector2 from "./../external/vector2.js";
 			radius: this.radius
 		};
 
-		return JSON.stringify(settings);
+		return Object.assign({}, settings)
 	};
 
 	Obstacle.fromJSON = function(settings) {
-		let parsedSettings = JSON.parse(settings);
-		return new Obstacle(parsedSettings.position.x, parsedSettings.position.y, parsedSettings.radius)
+		return new Obstacle(settings.position.x, settings.position.y, settings.radius)
 	};
 	
 	export default Obstacle;

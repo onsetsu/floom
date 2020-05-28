@@ -367,7 +367,7 @@ import Integrator from "./integrator.js";
 			// we leave this for now, walls don't change and will be recreated with default vallues
 			// wall: this.wall,
 			// we can recreate materials using the index since values are never changed at runtime (I guess??)
-			materials: this.materials.map((material) => material.materialIndex),
+			materials: this.materials,
 			// TODO: is using .map valid?
 			particles: this.particles.map((particle) => particle.toJSON()),
 			// skipping springs for now since we need to reference particles for them to work
@@ -382,17 +382,15 @@ import Integrator from "./integrator.js";
 			drawSprings: this.drawSprings
 		};
 
-		return JSON.stringify(settings);
+		return Object.assign({}, settings)
 	};
 
 	System.fromJSON = function(settings) {
-		let parsedSettings = JSON.parse(settings)
 		// TODO: a cleaner way would be to initialize the Grid and after that fill it with the data from settings
-		let system = new System(parsedSettings);
-		// System.wall = new AABB(parsedSettings.wall.min, parsedSettings.wall.max)
-		system.materials = parsedSettings.materials.map((materialID) => new Material(materialID));
-		system.particles = parsedSettings.particles.map((particle) => Particle.fromJSON(particle));
-		system.obstacles = parsedSettings.obstacles.map((obstacle) => Obstacle.fromJSON(obstacle));
+		let system = new System(settings);
+		system.materials = settings.materials;
+		system.particles = settings.particles.map((particle) => Particle.fromJSON(particle));
+		system.obstacles = settings.obstacles.map((obstacle) => Obstacle.fromJSON(obstacle));
 		return system;
 
 	};
