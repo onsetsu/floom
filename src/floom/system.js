@@ -21,8 +21,8 @@ import Integrator from "./integrator.js";
 		this.grid = settings.grid ? Grid.fromJSON(settings.grid) : new Grid();
 		this.integrator = new Integrator(this.grid);
 		
-		this.useSurfaceTensionImplementation = settings.useSurfaceTensionImplementation ? settings.useSurfaceTensionImplementation : true;
-		this.drawGrid = settings.drawGrid ? settings.drawGrid : false;
+		this.implementationType = "surfaceTension";
+		this.drawGrid = false;
 		
 		this.doObstacles = settings.doObstacles ? settings.doObstacles : false;
 		this.obstacles =  settings.obstacles ? settings.obstacles : [];
@@ -56,8 +56,10 @@ import Integrator from "./integrator.js";
 	System.prototype.update = function() {
 		this.grid.update(this);
 
-		if(this.useSurfaceTensionImplementation) {
+		if(this.implementationType === "surfaceTension") {
 			this.surfaceTensionImplementation();
+		} else if (this.implementationType === "mls") {
+			this.mlsSimulation();
 		} else {
 			this.simpleSimulation();
 		}
