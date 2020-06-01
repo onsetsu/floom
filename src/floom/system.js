@@ -20,7 +20,7 @@ import Integrator from "./integrator.js";
 		this.grid = new Grid();
 		this.integrator = new Integrator(this.grid);
 		
-		this.useSurfaceTensionImplementation = true;
+		this.implementationType = "surfaceTension";
 		this.drawGrid = false;
 		
 		this.doObstacles = false;
@@ -55,7 +55,9 @@ import Integrator from "./integrator.js";
 	System.prototype.update = function() {
 		this.grid.update(this);
 
-		if(this.useSurfaceTensionImplementation) {
+		if(this.implementationType === "surfaceTension") {
+			this.surfaceTensionImplementation();
+		} else if (this.implementationType === "mls") {
 			this.mlsSimulation();
 		} else {
 			this.simpleSimulation();
