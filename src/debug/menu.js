@@ -161,6 +161,8 @@ export default class Menu {
 
 		this.showNumber( 'ms',  this.debugTime.toFixed(2) );
 		this.showNumber( 'fps',  Math.round(1000/this.debugTickAvg) );
+		this.showNumber( 'render index', window.renderIndex);
+		this.showNumber( 'simulate index', window.simulateIndex);
 		if( renderer ) {
 			this.showNumber( 'draws', renderer.drawCount );
 		}

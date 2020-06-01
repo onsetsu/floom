@@ -8,26 +8,27 @@ import Grid from "./grid.js";
 import Obstacle from "./obstacle.js";
 import Integrator from "./integrator.js";
 
-	var System = function() {
-		this.wall = new AABB(
+	var System = function(settings) {
+		settings = settings ? settings : {};
+		this.wall = settings.wall ? settings.wall : new AABB(
 			new Vector2(-50, 2),
 			new Vector2(50, 100)
 		);
-		this.gravity = new Vector2(0,-0.05);// 0.004, 0.02
-		this.materials = [];
-		this.particles = [];
-		this.springs = [];
-		this.grid = new Grid();
+		this.gravity = settings.gravity ? settings.gravity : new Vector2(0,-0.05);// 0.004, 0.02
+		this.materials = settings.materials ? settings.materials : [];
+		this.particles = settings.particles ? settings.particles : [];
+		this.springs = settings.springs ? settings.springs : [];
+		this.grid = settings.grid ? Grid.fromJSON(settings.grid) : new Grid();
 		this.integrator = new Integrator(this.grid);
 		
 		this.implementationType = "surfaceTension";
 		this.drawGrid = false;
 		
-		this.doObstacles = false;
-		this.obstacles = [];
+		this.doObstacles = settings.doObstacles ? settings.doObstacles : false;
+		this.obstacles =  settings.obstacles ? settings.obstacles : [];
 
-		this.doSprings = false;
-		this.drawSprings = false;
+		this.doSprings = settings.doSprings ? settings.doSprings : false;
+		this.drawSprings = settings.drawSprings ? settings.drawSprings : false;
 	};
 
 	System.prototype.getNumberOfParticles = function() {
@@ -360,6 +361,40 @@ import Integrator from "./integrator.js";
 			else if (p.position.y > this.wall.Max.y + 4)
 				p.position.y = this.wall.Max.y + 4 - .01 * Math.random();
 		}, this);
+	};
+
+	// snapshotting logic:
+	System.prototype.toJSON = function() {
+		let settings = {
+			// we leave this for now, walls don't change and will be recreated with default vallues
+			// wall: this.wall,
+			// we can recreate materials using the index since values are never changed at runtime (I guess??)
+			materials: this.materials,
+			// TODO: is using .map valid?
+			particles: this.particles.map((particle) => particle.toJSON()),
+			// skipping springs for now since we need to reference particles for them to work
+			// springs: ...
+			// TODO: for now we skip the grid and recreate it
+			// grid: Grid.toJSON(),
+			useSurfaceTensionImplementation: this.useSurfaceTensionImplementation,
+			drawGrid: this.drawGrid,
+			doObstacles: this.doObstacles,
+			obstacles: this.obstacles.map((obstacle) => obstacle.toJSON()),
+			doSprings: this.doSprings,
+			drawSprings: this.drawSprings
+		};
+
+		return Object.assign({}, settings)
+	};
+
+	System.fromJSON = function(settings) {
+		// TODO: a cleaner way would be to initialize the Grid and after that fill it with the data from settings
+		let system = new System(settings);
+		system.materials = settings.materials;
+		system.particles = settings.particles.map((particle) => Particle.fromJSON(particle));
+		system.obstacles = settings.obstacles.map((obstacle) => Obstacle.fromJSON(obstacle));
+		return system;
+
 	};
 
 	export default System;

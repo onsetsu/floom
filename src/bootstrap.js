@@ -130,6 +130,8 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 		datGui.add(system, "doObstacles").name('Obstacles');
 		datGui.add(system, "doSprings").name('Compute Springs');
 		datGui.add(system, "drawSprings").name('Draw Springs');
+		window.renderIndex = 0;
+		datGui.add(window, "renderIndex").name('Render Index');
 
 		datGuiForMaterials(system.materials, datGui);
 	}
@@ -241,10 +243,22 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 	);
 	viewport.jumpToPoint(new Vector2(0, 35));
 	initTools(input, viewport, fluidSystem);
-	
+
+	let timeMachine = [fluidSystem.toJSON()];
+	window.simulateIndex = 0;
+	window.renderIndex = 0;
 	// update routine
 	var lastPoint = Vector2.Zero.copy();
+	let currentFluidSystem = fluidSystem;
 	function update(timePassed) {
+		if (window.renderIndex < window.simulateIndex) {
+			// replay
+			currentFluidSystem = Floom.System.fromJSON(timeMachine[window.renderIndex]);
+		} else {
+			// simulate
+			window.simulateIndex++;
+		}
+		window.renderIndex++;
 		// entities/map
 		if(graph)
 			graph.beginClock('update');
@@ -265,7 +279,7 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 			viewport.zoomOut();
 		}
 		
-		fluidSystem.update(timePassed);
+		currentFluidSystem.update(timePassed);
 		if(graph)
 			graph.endClock('update');
 		// rendering
@@ -273,7 +287,7 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 			graph.beginClock('draw');
 		renderer.clear();
 		renderer.withViewport(viewport, function() {
-			renderer.drawSystem(fluidSystem);
+			renderer.drawSystem(currentFluidSystem);
 		});
 		drawTool(renderer, input);
 		if(graph)
@@ -281,6 +295,9 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 
 		// interaction
 		input.clearPressed();
+		if (window.renderIndex === window.simulateIndex) {
+			timeMachine.push(currentFluidSystem.toJSON());
+		}
 	}
 
 	

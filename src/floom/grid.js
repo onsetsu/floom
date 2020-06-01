@@ -2,12 +2,15 @@ import Node from "./node.js";
 import Vector2 from "./../external/vector2.js";
 import AABB from "./../external/aabb.js";
 
-	var Grid = function(){
-		this.arr = [];
-		this.activeCount = 0;
-		this.gsizeY = 0;
-		this.boundaries = new AABB();
-		this.cellSize = Vector2.One.copy();
+	var Grid = function(settings){
+		settings = settings ? settings : {};
+		this.arr = settings.arr ? settings.arr : [];
+		this.activeCount = settings.activeCount ? settings.activeCount : 0;
+		this.gsizeY = settings.gsizeY ? settings.gsizeY : 0;
+		this.boundaries = settings.boundaries ? new AABB(
+			new Vector2(settings.boundaries.Min.x, settings.boundaries.Min.y), 
+			new Vector2(settings.boundaries.Max.x, settings.boundaries.Max.y)) : new AABB();
+		this.cellSize = settings.cellSize ? settings.cellSize : Vector2.One.copy();
 	};
 
 	Grid.prototype.update = function(system) {
@@ -62,6 +65,26 @@ import AABB from "./../external/aabb.js";
 	
 	Grid.prototype.recalculateSizeY = function() {
 		this.gsizeY = Math.floor(this.boundaries.Max.y-this.boundaries.Min.y);
+	};
+
+	// snapshotting logic:
+	Grid.prototype.toJSON = function() {
+		let settings = {
+			// arr: this.arr,
+			// activeCount: this.activeCount,
+			// gsizeY: this.gsizeY,
+			// boundaries: this.boundaries,
+			// cellSize: this.cellSize
+		};
+		return Object.assign({}, settings)
+	};
+
+	Grid.fromJSON = function(settings) {
+		// TODO: a cleaner way would be to initialize the Grid and after that fill it with the data from settings
+		//
+		// return new Grid(JSON.parse(settings));
+		// Let's throw away the grid...
+		return new Grid();
 	};
 	
 	export default Grid;
