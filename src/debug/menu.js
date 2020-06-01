@@ -59,9 +59,9 @@ export default class Menu {
 	}
 
 
-	addPanel( panelDef ) {
+	addPanel( panelDef, system ) {
 		// Create the panel and options
-		var panel = new (panelDef.type)( panelDef.name, panelDef.label );
+		var panel = new (panelDef.type)( panelDef.name, panelDef.label, system );
 		if( panelDef.options ) {
 			for( var i = 0; i < panelDef.options.length; i++ ) {
 				var opt = panelDef.options[i];
