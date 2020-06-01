@@ -122,7 +122,10 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
         gravityFolder.add(system.gravity, "x").min(-0.2).max(0.2).step(-0.01);
         gravityFolder.add(system.gravity, "y").min(-0.2).max(0.2).step(-0.01);
 
-		datGui.add(system, "useSurfaceTensionImplementation").name('Surface Tension');
+		datGui.add(system, "implementationType", { 
+			"Surface Tension": "surfaceTension", 
+			"Simple Implementation": "simple", 
+			"MLS Implementation": "mls" }).name('Implementation Type');
 		datGui.add(system, "drawGrid").name('Draw Grid');
 		datGui.add(system, "doObstacles").name('Obstacles');
 		datGui.add(system, "doSprings").name('Compute Springs');

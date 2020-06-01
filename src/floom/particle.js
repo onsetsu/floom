@@ -1,4 +1,5 @@
 import Vector2 from "./../external/vector2.js";
+import Matrix from "./../external/matrix.js";
 import Node from "./node.js";
 
 	var defaultNode = new Node();
@@ -31,6 +32,8 @@ import Node from "./node.js";
 	    this.T00 = 0;
 	    this.T01 = 0;
 	    this.T11 = 0;
+
+	    this.affineMomentum = new Matrix(2,2,0);
 	};
 
 	export default Particle;

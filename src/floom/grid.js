@@ -11,7 +11,7 @@ import AABB from "./../external/aabb.js";
 	};
 
 	Grid.prototype.update = function(system) {
-	    this.recalculateBoundaries(system);
+		this.recalculateBoundaries(system);
 		this.clear();
 		this.recalculateSizeY();
 	};
