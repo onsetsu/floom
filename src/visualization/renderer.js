@@ -134,6 +134,26 @@ export default class Renderer {
 		);
 	}
 
+	drawCircle(vec, radius, color, opacity){
+		this.drawCount++;
+
+		this.configuration.setGlobalAlpha(opacity);
+
+		this.context.beginPath();
+		this.context.arc(
+			vec.x,
+			vec.y,
+			this.singlePixelExtent.x * radius,
+			0,
+			2 * Math.PI,
+			false
+		);
+		this.context.closePath();
+		this.context.lineWidth = 0.2;
+		this.context.strokeStyle = color;
+		this.context.stroke();
+	}
+
 	drawDot(vec, size, color, opacity){
 		this.drawCount++;
 
@@ -280,6 +300,10 @@ export default class Renderer {
 
 		// draw all particles in the system
 		system.particles.forEach(p => this.drawParticle(p));
+
+		// highlight inspected particle
+		let inspectedParticle = system.particles[window.inspectedParticleIndex];
+		this.drawCircle(inspectedParticle.position, 5, "white", 1.0);
 
 		// draw all springs in the system
 		if(system.drawSprings) {
