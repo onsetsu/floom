@@ -1,3 +1,5 @@
+import $ from 'jquery';
+
 export default class DebugPanel {
 
 	constructor( name, label ) {

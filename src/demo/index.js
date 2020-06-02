@@ -1,11 +1,27 @@
-import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "./index.js";
+import forEach from "lodash.foreach";
+import $ from 'jquery';
+import Stats from 'stats.js';
+import d3 from 'd3';
+
+import dat from "@/demo/vendor/dat.gui.js";
+
+import Floom from "@/floom/index.js";
+
+import Input from "@/demo/interaction/input.js";
+import Viewport from "@/demo/visualization/viewport.js";
+import CombinedRenderer from "@/demo/visualization/renderer.js";
+import Vector2 from "@/utils/vector2.js";
+import Debug from "@/demo/debug/debug.js";
+import Tool from "@/demo/interaction/tool.js";
+
+
 
 	var debug;
 
 	function initTools(input, viewport, system) {
 		var dragTool = new Tool(input);
 		dragTool.onMouseDrag(function(event) {
-			_.each(system.particles, function(p) {
+			forEach(system.particles, function(p) {
 				if(p.position.sub(event.getPositionInWorld(viewport)).lengthSquared() < 50)
 					p.velocity.lerpSelf(event.getLastDeltaInWorld(viewport), 0.2);
 			});
@@ -14,7 +30,7 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 
 		var attractTool = new Tool(input);
 		attractTool.onMouseDrag(function(event) {
-			_.each(system.particles, function(p) {
+			forEach(system.particles, function(p) {
 				var vectorToMouse = event.getPositionInWorld(viewport).sub(p.position);
 				var distanceToMouse = vectorToMouse.lengthSquared();
 				if(distanceToMouse < 150)
@@ -25,7 +41,7 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 
 		var repelTool = new Tool(input);
 		repelTool.onMouseDrag(function(event) {
-			_.each(system.particles, function(p) {
+			forEach(system.particles, function(p) {
 				var vectorToMouse = event.getPositionInWorld(viewport).sub(p.position);
 				var distanceToMouse = vectorToMouse.lengthSquared();
 				if(distanceToMouse < 150)
@@ -35,7 +51,7 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 		repelTool.name = "repel";
 		
 		function getRandomPointInCircleUniformly() {
-			var TWO_PI = (3.14159265 * 2.0);
+			var TWO_PI = (Math.PI * 2.0);
 			var t = TWO_PI*Math.random();
 			var u = Math.random()+Math.random();
 			var r = u>1 ? 2-u : u;
@@ -81,14 +97,13 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 			S: spawnTool,
 			C: consumeTool
 		};
-		_.each(keyToolMap, function(tool, key, map) {
+		forEach(keyToolMap, function(tool, key, map) {
 			input.bind(Input.KEY[key], key);
 			var toTool = function() {
-				console.log("its " + key);
 				tool.activate();
 			};
 			
-			_.each(map, function(fromTool) {
+			forEach(map, function(fromTool) {
 				fromTool.onKeyUp(key, toTool);
 			});
 		});
@@ -143,7 +158,7 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 		var materialFolder = parent.addFolder("Materials");
 		materialFolder.open();
 
-		_.each(materials, function(material) {
+		forEach(materials, function(material) {
 			datGuiForMaterial(material, materialFolder);
 		});
 	}
@@ -209,6 +224,11 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 	var mat4 = fluidSystem.createNewMaterial()
 		.setParticleMass(8.0)
 		.setIsElastic(true);
+
+	forEach([mat0, mat1, mat2, mat3, mat4], (matterial) => {
+		matterial.colorScale = d3.scale.linear().domain([0,5]);
+		matterial.colorScale.range([matterial.color, d3.rgb(matterial.color).brighter(3)]);
+	});
 
 	// create Particles of these Materials
 	new Floom.Group(fluidSystem, -45,  5,  0, 25,  0.1, 0, mat0);

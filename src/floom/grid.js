@@ -1,6 +1,8 @@
-import Node from "./node.js";
-import Vector2 from "./../external/vector2.js";
-import AABB from "./../external/aabb.js";
+import forEach from "lodash.foreach";
+
+import Node from "@/floom/node.js";
+import Vector2 from "@/utils/vector2.js";
+import AABB from "@/utils/aabb.js";
 
 	var Grid = function(settings){
 		settings = settings ? settings : {};
@@ -52,9 +54,9 @@ import AABB from "./../external/aabb.js";
 	Grid.prototype.recalculateBoundaries = function(system) {
 	    // expand boundaries to include all particles
 	    this.boundaries.clear();
-	    _.each(system.particles, function(p) {
+	    forEach(system.particles, (p) => {
 	    	this.boundaries.expandToInclude(p.position);
-	    }, this);
+	    });
 
 		// expand boundaries a bit further
 		this.boundaries.Min.x = Math.floor(this.boundaries.Min.x-1);

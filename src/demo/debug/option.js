@@ -1,3 +1,5 @@
+import $ from 'jquery';
+
 export default class DebugOption {
 	
 	constructor( name, object, property ) {

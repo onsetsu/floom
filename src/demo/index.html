@@ -33,19 +33,17 @@
 			#help-icon:hover ~ #help-display {
 				display: block;
 			}
-		</style>
 
-		<script src="src/external/jquery.js"></script>
-		<script src="src/external/underscore.js"></script>
-		<script src="src/external/d3.js"></script>
-		<script src="src/external/stats.js"></script>
-		<script src="src/external/dat.gui.js"></script>
-		<script src="src/external/libraryextensions.js"></script>
+			#floom {
+				background: #000
+			}
+			.dg.main {
+				height: 100vh;
+			}
+		</style>
 	</head>
 	<body>
-		<canvas id="floom" width=1366 height=768 resize style="width:1366px; height:768px; background-color:black"></canvas>
-		<script src="src/bootstrap.js" type="module"></script>
-
+		<canvas id="floom" width=1366 height=768 resize></canvas>
 		<div id="help">
 			<h1 id="help-icon">?</h1>
 			<div id="help-display">
@@ -89,15 +87,5 @@
 				<p>Toggle performance monitoring using the button in the lower left corner</p>
 			</div>
 		</div>
-        <script>
-            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-                        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-                    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-            ga('create', 'UA-54779372-1', 'auto');
-            ga('send', 'pageview');
-
-        </script>
 	</body>
 </html>

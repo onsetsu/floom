@@ -1,7 +1,7 @@
-import Vector2 from "./../external/vector2.js";
-import Matrix from "./../external/matrix.js";
-import Node from "./node.js";
-import Material from "./material.js"
+import Vector2 from "@/utils/vector2.js";
+import Matrix from "@/utils/matrix.js";
+import Node from "@/floom/node.js";
+import Material from "@/floom/material.js"
 
 	var defaultNode = new Node();
 	

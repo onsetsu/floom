@@ -1,3 +1,5 @@
+import dat from 'dat.gui';
+
 // extend dat.GUI with a convenient method to remove folders
 dat.gui.GUI.prototype.removeFolder = function(name) {
 	if(typeof this.__folders[name] === "undefined") {
@@ -23,3 +25,4 @@ dat.gui.GUI.prototype.attachFolder = function(folder, name) {
 	this.onResize();
 };
 
+export default dat;
