@@ -1,4 +1,4 @@
-import Vector2 from "./../external/vector2.js";
+import Vector2 from "@/utils/vector2.js";
 
 	var Node = function() {
 	    this.mass = 0;

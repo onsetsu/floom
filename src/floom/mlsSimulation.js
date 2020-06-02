@@ -1,12 +1,13 @@
-import System from "./system.js";
-import Material from "./material.js";
-import Particle from "./particle.js";
-import Node from "./node.js";
-import Grid from "./grid.js";
-import Obstacle from "./obstacle.js";
-import Integrator from "./integrator.js";
-import Vector2 from "./../external/vector2.js";
-import Matrix from "./../external/matrix.js";
+import System from "@/floom/system.js";
+import Material from "@/floom/material.js";
+import Particle from "@/floom/particle.js";
+import Node from "@/floom/node.js";
+import Grid from "@/floom/grid.js";
+import Obstacle from "@/floom/obstacle.js";
+import Integrator from "@/floom/integrator.js";
+import Vector2 from "@/utils/vector2.js";
+import Matrix from "@/utils/matrix.js";
+import forEach from "lodash.foreach";
 
 
 /*
@@ -21,7 +22,7 @@ System.prototype.mlsSimulation = function() {
 
 System.prototype.__particleToGrid = function() {
 
-	_.each(this.particles, function(p, particleIndex) {
+	forEach(this.particles, (p, particleIndex) => {
 
 		this.integrator.updateStateAndGradientOf(p);
 		this.integrator.prepareParticle(p);
@@ -39,7 +40,7 @@ System.prototype.__particleToGrid = function() {
 
 			node.velocity.weightedAddSelf(p.velocity.add(Q), mass_contrib);
 		})
-	}, this);
+	});
 };
 
 
@@ -57,7 +58,7 @@ System.prototype.__gridVelocityUpdate = function() {
 
 System.prototype.__gridToParticle = function() {
 
-	_.each(this.particles, function(p, particleIndex) {
+	forEach(this.particles, (p, particleIndex) => {
 		// reset particle velocity. we calculate it from scratch each step using the grid
 		p.velocity.clear();
 
@@ -85,6 +86,6 @@ System.prototype.__gridToParticle = function() {
 		p.C = B.mult(4);
 		p.position.addSelf(p.velocity);
 
-	}, this);
+	});
 };
 	

@@ -1,4 +1,6 @@
-import Vector2 from "./../external/vector2.js";
+import d3 from 'd3';
+
+import Vector2 from "@/utils/vector2.js";
 
 class Configuration {
 

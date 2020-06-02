@@ -1,7 +1,5 @@
 export default class Material {
 	constructor(materialIndex) {
-		this.colorScale = d3.scale.linear()
-			.domain([0,5]);
 		this.setColor(Material.getColor(materialIndex));
 
 		this.materialIndex = materialIndex;
@@ -48,7 +46,6 @@ export default class Material {
 	// Property setters
 	setColor(color) {
 		this.color = color;
-		this.colorScale.range([this.color, d3.rgb(this.color).brighter(3)]);
 		return this;
 	}
 

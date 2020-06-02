@@ -1,6 +1,6 @@
-import Particle from "./particle.js";
-import Spring from "./spring.js";
-import Material from "./material.js";
+import Particle from "@/floom/particle.js";
+import Spring from "@/floom/spring.js";
+import Material from "@/floom/material.js";
 
 	var Group = function(system, minX, minY, maxX, maxY, u, v, material) {
 		this.material = material;

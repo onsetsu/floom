@@ -1,4 +1,5 @@
-import DebugOption from "./option.js";
+import DebugOption from "@/demo/debug/option.js";
+import $ from 'jquery';
 
 export default class Menu {
 
@@ -20,7 +21,7 @@ export default class Menu {
 		var style = $("<link />");
 		style.attr("rel", 'stylesheet');
 		style.attr("type", 'text/css');
-		style.attr("href", 'src/debug/debug.css');
+		style.attr("href", '../src/debug/debug.css');
 		$("body").append(style);
 
 		// Create the Debug Container

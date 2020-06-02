@@ -1,9 +1,9 @@
-import Material from "./material.js";
-import Particle from "./particle.js";
-import Group from "./group.js";
-import Node from "./node.js";
-import Obstacle from "./obstacle.js";
-import System from "./system.js";
+import Material from "@/floom/material.js";
+import Particle from "@/floom/particle.js";
+import Group from "@/floom/group.js";
+import Node from "@/floom/node.js";
+import Obstacle from "@/floom/obstacle.js";
+import System from "@/floom/system.js";
 
 	var Spring = function(particle1, particle2, restLength) {
 		this.particle1 = particle1;

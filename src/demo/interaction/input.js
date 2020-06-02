@@ -1,3 +1,5 @@
+import $ from 'jquery';
+
 export default class Input {
 	constructor(domElementId) {
 		const that = this;
