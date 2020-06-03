@@ -1,91 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<meta charset="UTF-8">
-		<title>Floom - MPM Fluid Simulation</title>
-		<style>
-			#help {
-				position: absolute;
-				top: -15px;
-				left: 100px;
-			}
-			#help-icon {
-				background-color: rgba(0, 0, 0, 0.7);
-				border-radius: 10px;
-				border: 2px solid #dddddd;
-				padding: 0 10px;
-				width: 15px;
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="UTF-8">
+    <title>Floom - MPM Fluid Simulation</title>
+    <style>
+      #help {
+        position: absolute;
+        top: -15px;
+        left: 100px;
+      }
+      #help-icon {
+        background-color: rgba(0, 0, 0, 0.7);
+        border-radius: 10px;
+        border: 2px solid #dddddd;
+        padding: 0 10px;
+        width: 15px;
 
-				color:  white;
-			}
-			#help-display {
-				display: none;
+        color:  white;
+      }
+      #help-display {
+        display: none;
 
-				background-color: rgba(0, 0, 0, 0.7);
-				border-radius: 10px;
-				border: 2px solid #dddddd;
-				padding: 0 15px;
-				margin: 2px;
+        background-color: rgba(0, 0, 0, 0.7);
+        border-radius: 10px;
+        border: 2px solid #dddddd;
+        padding: 0 15px;
+        margin: 2px;
 
-				color:  white;
-			}
-			#help-icon:hover ~ #help-display {
-				display: block;
-			}
+        color:  white;
+      }
+      #help-icon:hover ~ #help-display {
+        display: block;
+      }
 
-			#floom {
-				background: #000
-			}
-			.dg.main {
-				height: 100vh;
-			}
-		</style>
-	</head>
-	<body>
-		<canvas id="floom" width=1366 height=768 resize></canvas>
-		<div id="help">
-			<h1 id="help-icon">?</h1>
-			<div id="help-display">
-				<h2>Floom - A Fluid Simulation using the Material Point Method</h2>
-				<h3>Controls</h3>
-				<ul>
-					<li>Mouse Wheel - Zoom in/out</li>
-					<li>Right Mouse Button - Hold to pan</li>
-					<li>Left Mouse Button - Use current tool</li>
-					<li>Switch to a specific tool by pressing the respective button</li>
-				</ul>
-				Available tools:
-				<ul>
-					<li>[D] Drag - Particles follow the movement of your pointer</li>
-					<li>[A] Attract - Draws nearby particles to mouse pointer</li>
-					<li>[R] Repel - Repels nearly particles from mouse pointer</li>
-					<li>[S] Spawn - Creates new particles under mouse position</li>
-					<li>[C] Consume - Removes particle near pointer<br />
-						(Caveat: Springs of elastic Material are not removed currently)
-					</li>
-				</ul>
-				<h3>Options</h3>
-				<ul>
-					<li>Gravity - Affect gravity of the simulation</li>
-					<li>Implementation Type - Switch between a simple fast, a mls and a more sophisticated implementation</li>
-					<ul>
-						<li>Simple - All particles share the same common characteristics</li>
-						<li>MLS - implementation taken from https://github.com/nialltl/incremental_mpm</li>
-						<li>Surface Tension - Different Materials may have different properties and 'blob' together</li>
-					</ul>
-					<li>Draw Grid - Render the grid extent and active nodes of the simulation</li>
-					<li>Obstacles - Render and calculate simple circular objects</li>
-					<li>Compute Springs - Use experimental to simulate elastic materials</li>
-					<li>Draw Springs - Render springs with colors representing the spring's tension</li>
-					<li>Materials - Configure various properties of the used materials<br />
-						(E.g. changing a material's mass affects the buoyancy of the corresponding particles)
-					</li>
-				</ul>
+      #floom {
+        background: #000
+      }
+      .dg.main {
+        height: 100vh;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="floom" width=1366 height=768 resize></canvas>
+    <div id="help">
+      <h1 id="help-icon">?</h1>
+      <div id="help-display">
+        <h2>Floom - A Fluid Simulation using the Material Point Method</h2>
+        <h3>Controls</h3>
+        <ul>
+          <li>Mouse Wheel - Zoom in/out</li>
+          <li>Right Mouse Button - Hold to pan</li>
+          <li>Left Mouse Button - Use current tool</li>
+          <li>Switch to a specific tool by pressing the respective button</li>
+        </ul>
+        Available tools:
+        <ul>
+          <li>[D] Drag - Particles follow the movement of your pointer</li>
+          <li>[A] Attract - Draws nearby particles to mouse pointer</li>
+          <li>[R] Repel - Repels nearly particles from mouse pointer</li>
+          <li>[S] Spawn - Creates new particles under mouse position</li>
+          <li>[C] Consume - Removes particle near pointer<br />
+            (Caveat: Springs of elastic Material are not removed currently)
+          </li>
+        </ul>
+        <h3>Options</h3>
+        <ul>
+          <li>Gravity - Affect gravity of the simulation</li>
+          <li>Implementation Type - Switch between a simple fast, a mls and a more sophisticated implementation</li>
+          <ul>
+            <li>Simple - All particles share the same common characteristics</li>
+            <li>MLS - implementation taken from https://github.com/nialltl/incremental_mpm</li>
+            <li>Surface Tension - Different Materials may have different properties and 'blob' together</li>
+          </ul>
+          <li>Draw Grid - Render the grid extent and active nodes of the simulation</li>
+          <li>Obstacles - Render and calculate simple circular objects</li>
+          <li>Compute Springs - Use experimental to simulate elastic materials</li>
+          <li>Draw Springs - Render springs with colors representing the spring's tension</li>
+          <li>Materials - Configure various properties of the used materials<br />
+            (E.g. changing a material's mass affects the buoyancy of the corresponding particles)
+          </li>
+        </ul>
 
-				<h3>Performance</h3>
-				<p>Toggle performance monitoring using the button in the lower left corner</p>
-			</div>
-		</div>
-	</body>
+        <h3>Performance</h3>
+        <p>Toggle performance monitoring using the button in the lower left corner</p>
+      </div>
+    </div>
+  </body>
 </html>
