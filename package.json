@@ -26,13 +26,13 @@
   "homepage": "https://github.com/onsetsu/floom#readme",
   "main": "dist/floom.min.js",
   "scripts": {
+    "lint": "eslint ./src --ext .js",
     "serve": "webpack-dev-server --config ./builder/webpack.config.dev.js --mode=development",
     "watch": "webpack --config ./builder/webpack.config.js --watch",
     "build": "webpack --config ./builder/webpack.config.js",
     "build:demo": "webpack --config ./builder/webpack.config.dev.js"
   },
   "dependencies": {
-    "d3": "^3.5.12",
     "lodash.foreach": "^4.5.0"
   },
   "devDependencies": {
@@ -42,7 +42,13 @@
     "@babel/runtime": "^7.9.6",
     "babel-loader": "^8.1.0",
     "css-loader": "^3.5.3",
+    "d3": "^3.5.12",
     "dat.gui": "^0.7.7",
+    "eslint": "^7.1.0",
+    "eslint-config-airbnb-base": "^14.1.0",
+    "eslint-import-resolver-webpack": "^0.12.1",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-sonarjs": "^0.5.0",
     "html-webpack-plugin": "^4.3.0",
     "jquery": "^3.5.1",
     "mini-css-extract-plugin": "^0.9.0",
