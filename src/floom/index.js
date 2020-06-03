@@ -1,15 +1,15 @@
-import Material from "@/floom/material.js";
-import Particle from "@/floom/particle.js";
-import Group from "@/floom/group.js";
-import Node from "@/floom/node.js";
-import Spring from "@/floom/spring.js";
-import Obstacle from "@/floom/obstacle.js";
-import System from "@/floom/system.js";
+import Material from '@/floom/material';
+import Particle from '@/floom/particle';
+import Group from '@/floom/group';
+import Node from '@/floom/node';
+import Spring from '@/floom/spring';
+import Obstacle from '@/floom/obstacle';
+import System from '@/floom/system';
 
-import "@/floom/simplesimulation.js";
-import "@/floom/mlsSimulation.js";
+import '@/floom/simplesimulation';
+import '@/floom/mlsSimulation';
 
-var Floom = function() {};
+function Floom() {}
 
 Floom.Material = Material;
 Floom.Particle = Particle;
