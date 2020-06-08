@@ -13,7 +13,7 @@
 	Vector2.fromAngle = function(theta) {
 		return new Vector2(Math.cos(theta), Math.sin(theta));
 	};
-	
+
 	Vector2.prototype.copy = function() {
 		return new Vector2(this.x, this.y);
 	};
@@ -78,13 +78,13 @@
 		this.y += vector.y;
 		return this;
 	};
-		
+
 	Vector2.prototype.weightedAddSelf = function(vector, scalar) {
 		this.x += vector.x * scalar;
 		this.y += vector.y * scalar;
 		return this;
 	};
-		
+
 	Vector2.prototype.sub = function(vector) {
 		return new Vector2(
 			this.x - vector.x,
@@ -96,7 +96,7 @@
 		this.y -= vector.y;
 		return this;
 	};
-		
+
 	// scaling!
 	Vector2.prototype.mulFloat = function(right) {
 		return new Vector2(
@@ -109,7 +109,7 @@
 		this.y *= right;
 		return this;
 	};
-		
+
 	Vector2.prototype.divFloat = function(right) {
 		var inv = 1.0 / right;
 		return new Vector2(
@@ -246,8 +246,8 @@
 		this.y = si * this.x + co * this.y;
 		this.x = xx;
 	};
-	
-	// get (signed and directional) angle between this and the given vector in degrees 
+
+	// get (signed and directional) angle between this and the given vector in degrees
 	Vector2.prototype.getDirectedAngle = function(point) {
 		return Math.atan2(this.crossProduct(point), this.dotProduct(point)) * 180 / Math.PI;
 	};
@@ -261,7 +261,7 @@
 				.mulFloat(2)
 			);
 		return newVector;
-		
+
 	};
 
 	Vector2.prototype.toCartesian = function() {
@@ -301,7 +301,7 @@
 
 		return resultJson;
 	};
-	
+
 	Vector2.fromJson = function(vectorJson) {
 		return new Vector2(vectorJson.x, vectorJson.y);
 	};
@@ -312,6 +312,14 @@
 		} catch {
 			throw new Error("wrong matrix format");
 		}
-	}
-	
+	};
+
+	Vector2.fromMathMatrix = function(matrix) {
+		try {
+			return new Vector2(matrix._data[0], matrix._data[1])
+		} catch {
+			throw new Error("wrong matrix format");
+		}
+	};
+
 	export default Vector2;

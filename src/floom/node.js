@@ -1,7 +1,7 @@
 import Vector2 from "./../external/vector2.js";
 
 	var Node = function() {
-	    this.mass = 0;
+	    this.mass = 0.85;
 	    this.d = 0;
 	    this.gx = 0;
 	    this.gy = 0;
@@ -11,8 +11,8 @@ import Vector2 from "./../external/vector2.js";
 	    this.velocity = Vector2.Zero.copy();
 	    this.velocity2 = Vector2.Zero.copy();
 	    this.acceleration = Vector2.Zero.copy();
-	    
+
 	    this.particleDensity = 0;
 	};
-	
+
 	export default Node;

@@ -13,13 +13,13 @@ import Matrix from "./../external/matrix.js";
  * Simple incremental implementation of MPM taken from https://github.com/nialltl/incremental_mpm
  */
 System.prototype.mlsSimulation = function() {
-	this.__particleToGrid();
+	this.__mlsParticleToGrid();
 	this.__gridVelocityUpdate();
-	this.__gridToParticle();
+	this.__mlsGridToParticle();
 	this.boundaryCorrection();
 };
 
-System.prototype.__particleToGrid = function() {
+System.prototype.__mlsParticleToGrid = function() {
 
 	_.each(this.particles, function(p, particleIndex) {
 
@@ -39,6 +39,7 @@ System.prototype.__particleToGrid = function() {
 
 			node.velocity.weightedAddSelf(p.velocity.add(Q), mass_contrib);
 		})
+		console.log(node.mass)
 	}, this);
 };
 
@@ -55,7 +56,7 @@ System.prototype.__gridVelocityUpdate = function() {
 	}, this);
 };
 
-System.prototype.__gridToParticle = function() {
+System.prototype.__mlsGridToParticle = function() {
 
 	_.each(this.particles, function(p, particleIndex) {
 		// reset particle velocity. we calculate it from scratch each step using the grid
@@ -87,4 +88,4 @@ System.prototype.__gridToParticle = function() {
 
 	}, this);
 };
-	
+

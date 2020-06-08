@@ -59,6 +59,7 @@ export default class ParticlePanel extends DebugPanel {
         this.positionSpan.innerHTML = `
         position.x: ${round(particle.position.x, 2)}, 
         position.y: ${round(particle.position.y, 2)} <br>
+        initialVolume: ${round(particle.initialVolume, 2)}<br>
         velocity.u: ${round(particle.velocity.x, 2)},
         velocity.v: ${round(particle.velocity.y, 2)}
         `;
