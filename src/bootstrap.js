@@ -131,7 +131,7 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 		datGui.add(system, "doObstacles").name('Obstacles');
 		datGui.add(system, "doSprings").name('Compute Springs');
 		datGui.add(system, "drawSprings").name('Draw Springs');
-		window.renderIndex = 0;
+		datGui.add(window, "paused");
 
 		// TODO: move both indices from window and put into e.g. bootstrap or system scope
 		datGui.add(window, "renderIndex").name('Render Index');
@@ -218,7 +218,10 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 	new Floom.Group(fluidSystem,   5, 30, 50, 50, -0.1, 0, mat3);
 	new Floom.Group(fluidSystem, -10, 55, 10, 75,    0, 0, mat4);
 
-	 window.inspectedParticleIndex = 0;
+	window.inspectedParticleIndex = 0;
+	window.simulateIndex = 0;
+	window.renderIndex = 0;
+	window.paused = false;
 
     // example to spawn individual particles
 	// var p = new Floom.Particle(-45.00001,  55.000001,  0.100001, 0.000001, mat3);
@@ -251,12 +254,14 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 	initTools(input, viewport, fluidSystem);
 
 	let timeMachine = [fluidSystem.toJSON()];
-	window.simulateIndex = 0;
-	window.renderIndex = 0;
+
 	// update routine
 	var lastPoint = Vector2.Zero.copy();
 	let currentFluidSystem = fluidSystem;
 	function update(timePassed) {
+		if (window.paused) {
+			return;
+		}
 		if (window.renderIndex < window.simulateIndex) {
 			// replay
 			currentFluidSystem = Floom.System.fromJSON(timeMachine[window.renderIndex]);
