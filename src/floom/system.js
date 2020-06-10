@@ -75,6 +75,13 @@ import Integrator from "./integrator.js";
 		this.mapPropertiesToGrid();
 		this.sumUpPerMaterialGradients();
 
+		// https://github.com/hughsk/clamp/blob/master/index.js
+		function clamp(value, min, max) {
+			return min < max
+				? (value < min ? min : value > max ? max : value)
+				: (value < max ? max : value > min ? min : value);
+		}
+
 		// Calculate pressure and add forces to grid
 		_.each(this.particles, function(p, pIndex) {
 			var material = p.material;
@@ -182,14 +189,44 @@ import Integrator from "./integrator.js";
 
 				// circular obstacles
 				_.each(this.obstacles, function(obstacle) {
-					var obstacleRadius  = obstacle.radius;
-					var obstacleRadiusSquared = obstacleRadius * obstacleRadius;
-					var particleDistanceToMiddlePoint = obstacle.position.sub(p.position);
-					var distanceSquared = particleDistanceToMiddlePoint.lengthSquared();
-					if (distanceSquared < obstacleRadiusSquared){
-						var distance = Math.sqrt(distanceSquared);
-						var dR = obstacleRadius-distance;
-						f.subSelf(particleDistanceToMiddlePoint.mulFloat(dR/distance));
+					if (obstacle.type === 'circle') {
+						var obstacleRadius  = obstacle.radius;
+						var obstacleRadiusSquared = obstacleRadius * obstacleRadius;
+						var particleDistanceToMiddlePoint = obstacle.position.sub(p.position);
+						var distanceSquared = particleDistanceToMiddlePoint.lengthSquared();
+						if (distanceSquared < obstacleRadiusSquared){
+							var distance = Math.sqrt(distanceSquared);
+							var dR = obstacleRadius-distance;
+							f.subSelf(particleDistanceToMiddlePoint.mulFloat(dR/distance));
+						}
+					}
+					if (obstacle.type === 'capsul') {
+						// https://github.com/Erkaman/gl-water2d/blob/master/src/simulation.js#L348
+						//
+						// for particle, handle collision with all the capsules.
+						// to do the collision checking, we are representing the capsules as implicit functions.
+						// we are using the formulas derived in section 4.4.2.2 of the paper
+						// "Lagrangian Fluid Dynamics Using Smoothed Particle Hydrodynamics"
+						// http://image.diku.dk/projects/media/kelager.06.pdf#page=33
+
+						var x = p.position;
+						var capsulStart = obstacle.position.start;
+						var capsulEnd = obstacle.position.end;
+						var radius = obstacle.radius;
+
+						var subPos = capsulEnd.sub(capsulStart);
+						var t = clamp(-(capsulStart.sub(x).dotProduct(subPos)) / subPos.dotProduct(subPos), 0.0, 1.0);
+						var q = capsulStart.scaleAndAdd(subPos, t);
+						var fx = q.sub(x).length() - radius;
+
+						if (fx <= 0) {
+							const xSubQ = q.sub(x);
+							const xSubQL = xSubQ.length();
+							const n = xSubQ.mulFloat(-Math.sign(fx) / xSubQL);
+							const nx = x.scaleAndAdd(n, -fx);
+
+							f.subSelf(x.sub(nx).negative());
+						}
 					}
 				}, this);
 			}

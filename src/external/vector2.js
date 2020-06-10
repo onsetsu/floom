@@ -85,6 +85,14 @@
 		return this;
 	};
 
+	// https://github.com/stackgl/gl-vec2/blob/master/scaleAndAdd.js
+	Vector2.prototype.scaleAndAdd = function(vector, scale) {
+		return new Vector2(
+			this.x + (vector.x * scale),
+			this.y + (vector.y * scale),
+		);
+	};
+
 	Vector2.prototype.sub = function(vector) {
 		return new Vector2(
 			this.x - vector.x,

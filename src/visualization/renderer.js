@@ -345,7 +345,12 @@ export default class Renderer {
 	}
 
 	drawObstacle(obstacle) {
-		this.drawDot(obstacle.position, obstacle.radius, "pink", 0.8);
+		if (obstacle.type === 'circle') {
+			this.drawDot(obstacle.position, obstacle.radius, "pink", 0.8);
+		}
+		if (obstacle.type === 'capsul') {
+			this.drawLine(obstacle.position.start, obstacle.position.end, "pink", 0.8, obstacle.radius * 2)
+		}
 	}
 
 	drawParticle(particle) {
