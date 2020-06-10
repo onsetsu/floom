@@ -384,7 +384,9 @@ import Integrator from "./integrator.js";
 			doObstacles: this.doObstacles,
 			obstacles: this.obstacles.map((obstacle) => obstacle.toJSON()),
 			doSprings: this.doSprings,
-			drawSprings: this.drawSprings
+			drawSprings: this.drawSprings,
+			implementationType: this.implementationType,
+			gravity: this.gravity
 		};
 
 		return Object.assign({}, settings)
@@ -394,6 +396,7 @@ import Integrator from "./integrator.js";
 		// TODO: a cleaner way would be to initialize the Grid and after that fill it with the data from settings
 		let system = new System(settings);
 		system.materials = settings.materials;
+		system.implementationType = settings.implementationType;
 		system.particles = settings.particles.map((particle) => Particle.fromJSON(particle));
 		system.obstacles = settings.obstacles.map((obstacle) => Obstacle.fromJSON(obstacle));
 		return system;

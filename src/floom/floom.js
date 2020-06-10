@@ -5,6 +5,7 @@ import Node from "./node.js";
 import Spring from "./spring.js";
 import Obstacle from "./obstacle.js";
 import System from "./system.js";
+import TimeMachine from "./timeMachine.js";
 import "./simplesimulation.js";
 import "./elasticitySimulation.js";
 import "./mlsSimulation.js";
@@ -18,5 +19,6 @@ Floom.Node = Node;
 Floom.Spring = Spring;
 Floom.Obstacle = Obstacle;
 Floom.System = System;
+Floom.TimeMachine = TimeMachine;
 
 export default Floom;

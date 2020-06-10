@@ -1,6 +1,7 @@
 import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "./index.js";
 
 	var debug;
+	const MAX_NUMBER_OF_FLUID_SYSTEMS = 100;
 
 	function initTools(input, viewport, system) {
 		var dragTool = new Tool(input);
@@ -114,30 +115,41 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 	}
 
 	// datGui
-	function datGuiForSystem(system) {
+	function datGuiForSystem(fluidSystem, timeMachine) {
 		var datGui = new dat.GUI();
 
         var gravityFolder = datGui.addFolder("Gravity");
         gravityFolder.open();
-        gravityFolder.add(system.gravity, "x").min(-0.2).max(0.2).step(-0.01);
-        gravityFolder.add(system.gravity, "y").min(-0.2).max(0.2).step(-0.01);
+        gravityFolder.add(fluidSystem.gravity, "x").min(-0.2).max(0.2).step(-0.01);
+        gravityFolder.add(fluidSystem.gravity, "y").min(-0.2).max(0.2).step(-0.01);
 
-		datGui.add(system, "implementationType", {
+		datGui.add(fluidSystem, "implementationType", {
 			"Surface Tension": "surfaceTension",
 			"Simple Implementation": "simple",
 			"Elasticity Implementation": "elasticity",
 			"MLS Implementation": "mls" }).name('Implementation Type');
-		datGui.add(system, "drawGrid").name('Draw Grid');
-		datGui.add(system, "doObstacles").name('Obstacles');
-		datGui.add(system, "doSprings").name('Compute Springs');
-		datGui.add(system, "drawSprings").name('Draw Springs');
-		datGui.add(window, "paused");
-
-		// TODO: move both indices from window and put into e.g. bootstrap or system scope
-		datGui.add(window, "renderIndex").name('Render Index');
+		datGui.add(fluidSystem, "drawGrid").name('Draw Grid');
+		datGui.add(fluidSystem, "doObstacles").name('Obstacles');
+		datGui.add(fluidSystem, "doSprings").name('Compute Springs');
+		datGui.add(fluidSystem, "drawSprings").name('Draw Springs');
+		const setPlayPauseName = () => {
+			playPause.name(timeMachine.paused ? "▶️ " : "⏸️ ");
+		};
+		const playPause = datGui.add({playPause: () => {
+			timeMachine.paused = !timeMachine.paused;
+			setPlayPauseName();
+		}}, "playPause");
+		setPlayPauseName();
+		datGui.add({stepForewards: () => {
+			if (timeMachine.renderIndex < timeMachine.simulateIndex) timeMachine.renderIndex++
+			}}, "stepForewards").name("⏭️ ")
+		datGui.add({stepBackwards: () => {
+				if (timeMachine.renderIndex > 0) timeMachine.renderIndex--
+			}}, "stepBackwards").name("⏮️ ")
+		datGui.add(timeMachine, "renderIndex").name('Render Index');
 		let inspectedParticleController = datGui.add(window, "inspectedParticleIndex");
 
-		datGuiForMaterials(system.materials, datGui);
+		datGuiForMaterials(timeMachine.materials, datGui);
 	}
 
 	function datGuiForMaterials(materials, parent) {
@@ -218,10 +230,10 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 	new Floom.Group(fluidSystem,   5, 30, 50, 50, -0.1, 0, mat3);
 	new Floom.Group(fluidSystem, -10, 55, 10, 75,    0, 0, mat4);
 
+
 	window.inspectedParticleIndex = 0;
-	window.simulateIndex = 0;
-	window.renderIndex = 0;
-	window.paused = false;
+
+	const timeMachine = new Floom.TimeMachine();
 
     // example to spawn individual particles
 	// var p = new Floom.Particle(-45.00001,  55.000001,  0.100001, 0.000001, mat3);
@@ -241,8 +253,7 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
     fluidSystem.doSprings = true;
     fluidSystem.drawSprings = false;
 
-	// initialize specific datGui for the fluid System
-	datGuiForSystem(fluidSystem);
+
 
 	// choose, which subset of the world should be displayed
 	var viewport = new Viewport(
@@ -253,44 +264,51 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 	viewport.jumpToPoint(new Vector2(0, 35));
 	initTools(input, viewport, fluidSystem);
 
-	let timeMachine = [fluidSystem.toJSON()];
+
+	// insert first fluidSystem into timeMachine
+	timeMachine.fluidSystems.push(fluidSystem.toJSON());
+	// initialize specific datGui for the fluid System
+	datGuiForSystem(fluidSystem, timeMachine);
 
 	// update routine
 	var lastPoint = Vector2.Zero.copy();
-	let currentFluidSystem = fluidSystem;
 	function update(timePassed) {
-		if (window.paused) {
-			return;
-		}
-		if (window.renderIndex < window.simulateIndex) {
+		let shouldUpdate = timeMachine.renderIndex === timeMachine.simulateIndex;
+		if (!shouldUpdate) {
 			// replay
-			currentFluidSystem = Floom.System.fromJSON(timeMachine[window.renderIndex]);
+			fluidSystem = Floom.System.fromJSON(timeMachine.fluidSystems[timeMachine.renderIndex]);
 		} else {
 			// simulate
-			window.simulateIndex++;
+			if (!timeMachine.paused) {
+				timeMachine.simulateIndex++;
+			}
 		}
-		window.renderIndex++;
+		if (!timeMachine.paused) {
+			timeMachine.renderIndex++;
+		}
 		// entities/map
 		if(graph)
 			graph.beginClock('update');
 
-		input.update();
-		// viewport manipulation
-		if(input.pressed("rightclick")) {
-			lastPoint.set(input.mouse);
-		}
-		if(input.state("rightclick")) {
-			viewport.translateBy(lastPoint.sub(input.mouse));
-			lastPoint.set(input.mouse);
-		}
-		if(input.state("zoomIn")) {
-			viewport.zoomIn();
-		}
-		if(input.state("zoomOut")) {
-			viewport.zoomOut();
-		}
+		if (!timeMachine.paused && shouldUpdate){
+			input.update();
+			// viewport manipulation
+			if(input.pressed("rightclick")) {
+				lastPoint.set(input.mouse);
+			}
+			if(input.state("rightclick")) {
+				viewport.translateBy(lastPoint.sub(input.mouse));
+				lastPoint.set(input.mouse);
+			}
+			if(input.state("zoomIn")) {
+				viewport.zoomIn();
+			}
+			if(input.state("zoomOut")) {
+				viewport.zoomOut();
+			}
 
-		currentFluidSystem.update(timePassed);
+			fluidSystem.update(timePassed);
+		}
 		if(graph)
 			graph.endClock('update');
 		// rendering
@@ -298,7 +316,7 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 			graph.beginClock('draw');
 		renderer.clear();
 		renderer.withViewport(viewport, function() {
-			renderer.drawSystem(currentFluidSystem);
+			renderer.drawSystem(fluidSystem);
 		});
 		drawTool(renderer, input);
 		if(graph)
@@ -306,8 +324,14 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 
 		// interaction
 		input.clearPressed();
-		if (window.renderIndex === window.simulateIndex) {
-			timeMachine.push(currentFluidSystem.toJSON());
+		if (!timeMachine.paused) {
+			if (timeMachine.renderIndex === timeMachine.simulateIndex) {
+				timeMachine.fluidSystems.push(fluidSystem.toJSON());
+				if(timeMachine.fluidSystems.length > MAX_NUMBER_OF_FLUID_SYSTEMS) {
+					// throw away one fluidSystem
+					timeMachine.fluidSystems[timeMachine.simulateIndex - MAX_NUMBER_OF_FLUID_SYSTEMS] = false;
+				}
+			}
 		}
 	}
 
@@ -328,7 +352,7 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 		update(dt);
 
 		if(debug)
-			debug.afterRun(renderer, fluidSystem);
+			debug.afterRun(renderer, timeMachine);
 
 		requestAnimationFrame(animate);
 	}
@@ -339,11 +363,11 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 			type: Debug.Performance,
 			name: 'graph',
 			label: 'Performance'
-		}, fluidSystem);
+		}, timeMachine);
 		debug.addPanel({
 			type: Debug.Particle,
 			name: 'particle',
 			label: 'Particle'
-		}, fluidSystem);
+		}, timeMachine);
 		animate();
 	});

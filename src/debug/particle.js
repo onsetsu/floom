@@ -11,11 +11,11 @@ var round = function(number, precision) {
  */
 export default class ParticlePanel extends DebugPanel {
 
-    constructor( name, label, system) {
+    constructor( name, label, timeMachine) {
         super(name, label);
 
         this.positionSpan = document.createElement("SPAN");
-        this.system = system;
+        this.timeMachine = timeMachine;
 
         this.container.append(this.positionSpan);
         this.updateParticleData()
@@ -55,7 +55,7 @@ export default class ParticlePanel extends DebugPanel {
     }
 
     updateParticleData() {
-        let particle = this.system.particles[window.inspectedParticleIndex];
+        let particle = this.timeMachine.fluidSystems[this.timeMachine.renderIndex].particles[window.inspectedParticleIndex];
         this.positionSpan.innerHTML = `
         position.x: ${round(particle.position.x, 2)}, 
         position.y: ${round(particle.position.y, 2)} <br>
