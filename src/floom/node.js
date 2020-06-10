@@ -1,7 +1,7 @@
 import Vector2 from "./../external/vector2.js";
 
 	var Node = function() {
-	    this.mass = 0.85;
+	    this.mass = 0;
 	    this.d = 0;
 	    this.gx = 0;
 	    this.gy = 0;

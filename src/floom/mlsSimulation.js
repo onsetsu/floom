@@ -38,8 +38,7 @@ System.prototype.__mlsParticleToGrid = function() {
 			node.mass += mass_contrib;
 
 			node.velocity.weightedAddSelf(p.velocity.add(Q), mass_contrib);
-		})
-		console.log(node.mass)
+		});
 	}, this);
 };
 
