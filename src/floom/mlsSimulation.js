@@ -21,7 +21,7 @@ System.prototype.mlsSimulation = function() {
 
 System.prototype.__mlsParticleToGrid = function() {
 
-	_.each(this.particles, function(p, particleIndex) {
+	this.particles.forEach(function(p, particleIndex) {
 
 		this.integrator.updateStateAndGradientOf(p);
 		this.integrator.prepareParticle(p);
@@ -57,7 +57,7 @@ System.prototype.__gridVelocityUpdate = function() {
 
 System.prototype.__mlsGridToParticle = function() {
 
-	_.each(this.particles, function(p, particleIndex) {
+	this.particles.forEach(function(p, particleIndex) {
 		// reset particle velocity. we calculate it from scratch each step using the grid
 		p.velocity.clear();
 

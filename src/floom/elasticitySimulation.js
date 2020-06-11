@@ -22,7 +22,7 @@ System.prototype.elasticitySimulation = function() {
 
 System.prototype.__calculateInitialVolume = function() {
 
-	_.each(this.particles, function(p, particleIndex) {
+	this.particles.forEach(function(p, particleIndex) {
 
 		this.integrator.updateStateAndGradientOf(p);
 		this.integrator.prepareParticle(p);
@@ -39,7 +39,7 @@ System.prototype.__calculateInitialVolume = function() {
 
 System.prototype.__elasticParticleToGrid = function() {
 
-	_.each(this.particles, function(p, particleIndex) {
+	this.particles.forEach(function(p, particleIndex) {
 
 		const J = math.det(p.deformationGradient);
 		const volume = p.initialVolume * J;
@@ -108,7 +108,7 @@ System.prototype.__elasticGridVelocityUpdate = function() {
 };
 
 System.prototype.__elasticGridToParticle = function() {
-	_.each(this.particles, function(p, particleIndex) {
+	this.particles.forEach(function(p, particleIndex) {
 		// reset particle velocity. we calculate it from scratch each step using the grid
 		p.velocity.clear();
 

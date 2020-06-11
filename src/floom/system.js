@@ -76,7 +76,7 @@ import Integrator from "./integrator.js";
 		this.sumUpPerMaterialGradients();
 
 		// Calculate pressure and add forces to grid
-		_.each(this.particles, function(p, pIndex) {
+		this.particles.forEach(function(p, pIndex) {
 			var material = p.material;
 			var dudx = 0, dudy = 0,
 				dvdx = 0, dvdy = 0,
@@ -181,7 +181,7 @@ import Integrator from "./integrator.js";
 			if (this.doObstacles){
 
 				// circular obstacles
-				_.each(this.obstacles, function(obstacle) {
+				this.obstacles.forEach(function(obstacle) {
 					var obstacleRadius  = obstacle.radius;
 					var obstacleRadiusSquared = obstacleRadius * obstacleRadius;
 					var particleDistanceToMiddlePoint = obstacle.position.sub(p.position);
@@ -207,7 +207,7 @@ import Integrator from "./integrator.js";
 			}
 		}, this);
 
-		_.each(this.particles, function(p, pIndex) {
+		this.particles.forEach(function(p, pIndex) {
 			var material = p.material;
 
 			// Update particle velocities
@@ -237,7 +237,7 @@ import Integrator from "./integrator.js";
 	};
 
 	System.prototype.mapPropertiesToGrid = function() {
-		_.each(this.particles, function(p, pIndex) {
+		this.particles.forEach(function(p, pIndex) {
 			var material = p.material;
 
 			// Update grid cell index and kernel weights
@@ -298,7 +298,7 @@ import Integrator from "./integrator.js";
 	};
 
 	System.prototype.advanceParticles = function() {
-		_.each(this.particles, function(p, pIndex) {
+		this.particles.forEach(function(p, pIndex) {
 			var material = p.material;
 
 			var gVelocity = Vector2.Zero.copy();
@@ -345,7 +345,7 @@ import Integrator from "./integrator.js";
 
 	System.prototype.springDisplacement = function() {
 		if(this.doSprings) {
-			_.each(this.springs, function(s, sIndex) {
+			this.springs.forEach(function(s, sIndex) {
 				s.update();
 				s.solve();
 			}, this);
@@ -354,7 +354,7 @@ import Integrator from "./integrator.js";
 
 	// hard boundary correction
 	System.prototype.boundaryCorrection = function() {
-		_.each(this.particles, function(p, pIndex) {
+		this.particles.forEach(function(p, pIndex) {
 			if (p.position.x < this.wall.Min.x - 4)
 				p.position.x = this.wall.Min.x - 4 + .01 * Math.random();
 			else if (p.position.x > this.wall.Max.x + 4)

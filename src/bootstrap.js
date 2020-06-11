@@ -6,7 +6,7 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 	function initTools(input, viewport, system) {
 		var dragTool = new Tool(input);
 		dragTool.onMouseDrag(function(event) {
-			_.each(system.particles, function(p) {
+			system.particles.forEach(function(p) {
 				if(p.position.sub(event.getPositionInWorld(viewport)).lengthSquared() < 50)
 					p.velocity.lerpSelf(event.getLastDeltaInWorld(viewport), 0.2);
 			});
@@ -15,7 +15,7 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 
 		var attractTool = new Tool(input);
 		attractTool.onMouseDrag(function(event) {
-			_.each(system.particles, function(p) {
+			system.particles.forEach(function(p) {
 				var vectorToMouse = event.getPositionInWorld(viewport).sub(p.position);
 				var distanceToMouse = vectorToMouse.lengthSquared();
 				if(distanceToMouse < 150)
@@ -26,7 +26,7 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 
 		var repelTool = new Tool(input);
 		repelTool.onMouseDrag(function(event) {
-			_.each(system.particles, function(p) {
+			system.particles.forEach(function(p) {
 				var vectorToMouse = event.getPositionInWorld(viewport).sub(p.position);
 				var distanceToMouse = vectorToMouse.lengthSquared();
 				if(distanceToMouse < 150)
@@ -82,16 +82,14 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 			S: spawnTool,
 			C: consumeTool
 		};
-		_.each(keyToolMap, function(tool, key, map) {
+
+		Object.entries(keyToolMap).forEach(function([key, tool]) {
 			input.bind(Input.KEY[key], key);
-			var toTool = function() {
+			function toTool() {
 				console.log("its " + key);
 				tool.activate();
-			};
-
-			_.each(map, function(fromTool) {
-				fromTool.onKeyUp(key, toTool);
-			});
+			}
+			Object.values(keyToolMap).forEach(fromTool => fromTool.onKeyUp(key, toTool));
 		});
 
 		// activate default tool
@@ -156,9 +154,7 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 		var materialFolder = parent.addFolder("Materials");
 		materialFolder.open();
 
-		_.each(materials, function(material) {
-			datGuiForMaterial(material, materialFolder);
-		});
+		materials.forEach(material => datGuiForMaterial(material, materialFolder));
 	}
 
 	function datGuiForMaterial(material, parent) {
