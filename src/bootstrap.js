@@ -154,6 +154,10 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 		var materialFolder = parent.addFolder("Materials");
 		materialFolder.open();
 
+		// #TODO, #BUG: `materials` are currently not defined
+		if (!Array.isArray(materials)) {
+			return;
+		}
 		materials.forEach(material => datGuiForMaterial(material, materialFolder));
 	}
 
@@ -353,17 +357,15 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 		requestAnimationFrame(animate);
 	}
 
-	$().ready(function() {
-		debug = new Debug.Menu();
-		debug.addPanel({
-			type: Debug.Performance,
-			name: 'graph',
-			label: 'Performance'
-		}, timeMachine);
-		debug.addPanel({
-			type: Debug.Particle,
-			name: 'particle',
-			label: 'Particle'
-		}, timeMachine);
-		animate();
-	});
+	debug = new Debug.Menu();
+	debug.addPanel({
+		type: Debug.Performance,
+		name: 'graph',
+		label: 'Performance'
+	}, timeMachine);
+	debug.addPanel({
+		type: Debug.Particle,
+		name: 'particle',
+		label: 'Particle'
+	}, timeMachine);
+	animate();
