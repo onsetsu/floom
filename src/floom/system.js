@@ -216,14 +216,14 @@ import Integrator from "./integrator.js";
 
 						var subPos = capsulEnd.sub(capsulStart);
 						var t = clamp(-(capsulStart.sub(x).dotProduct(subPos)) / subPos.dotProduct(subPos), 0.0, 1.0);
-						var q = capsulStart.scaleAndAdd(subPos, t);
+						var q = capsulStart.weightedAdd(subPos, t);
 						var fx = q.sub(x).length() - radius;
 
 						if (fx <= 0) {
 							const xSubQ = q.sub(x);
 							const xSubQL = xSubQ.length();
 							const n = xSubQ.mulFloat(-Math.sign(fx) / xSubQL);
-							const nx = x.scaleAndAdd(n, -fx);
+							const nx = x.weightedAdd(n, -fx);
 
 							f.subSelf(x.sub(nx).negative());
 						}
