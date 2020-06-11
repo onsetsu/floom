@@ -67,6 +67,12 @@ import Integrator from "./integrator.js";
 		}
 	};
 
+	// https://github.com/hughsk/clamp/blob/master/index.js
+	function clamp(value, min, max) {
+		return min < max
+			? (value < min ? min : value > max ? max : value)
+			: (value < max ? max : value > min ? min : value);
+	}
 
 	/*
 	 * surface tension implementation
@@ -74,13 +80,6 @@ import Integrator from "./integrator.js";
 	System.prototype.surfaceTensionImplementation = function() {
 		this.mapPropertiesToGrid();
 		this.sumUpPerMaterialGradients();
-
-		// https://github.com/hughsk/clamp/blob/master/index.js
-		function clamp(value, min, max) {
-			return min < max
-				? (value < min ? min : value > max ? max : value)
-				: (value < max ? max : value > min ? min : value);
-		}
 
 		// Calculate pressure and add forces to grid
 		this.particles.forEach(function(p, pIndex) {
