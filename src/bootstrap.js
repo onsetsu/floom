@@ -1,7 +1,5 @@
 import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "./index.js";
 
-	var debug;
-
 	function initTools(input, viewport, system) {
 		var dragTool = new Tool(input);
 		dragTool.onMouseDrag(function(event) {
@@ -276,6 +274,12 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 		input.clearPressed();
 	}
 
+	const debug = new Debug.Menu();
+	debug.addPanel({
+		type: Debug.Performance,
+		name: 'graph',
+		label: 'Performance'
+	});
 
 	// main loop
 	var lastFrame = window.performance.now();
@@ -298,12 +302,4 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 		requestAnimationFrame(animate);
 	}
 
-	$().ready(function() {
-		debug = new Debug.Menu();
-		debug.addPanel({
-			type: Debug.Performance,
-			name: 'graph',
-			label: 'Performance'
-		});
-		animate();
-	});
+	animate();
