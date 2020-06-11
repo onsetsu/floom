@@ -6,7 +6,6 @@ import Grid from "./grid.js";
 import Obstacle from "./obstacle.js";
 import Integrator from "./integrator.js";
 import Vector2 from "./../external/vector2.js";
-import Matrix from "./../external/matrix.js";
 
 
 /*
@@ -28,8 +27,8 @@ System.prototype.__mlsParticleToGrid = function() {
 
 		this.integrator.integrate(p, function(particle, node, phi, gxpy, pxgy){
 
-			const cellToParticle = Matrix.fromArray([gxpy, pxgy]);
-			const Q =  Vector2.fromMatrix(Matrix.mult(cellToParticle, particle.affineMomentum));
+			const cellToParticle = math.matrix([gxpy, pxgy]);
+			const Q =  Vector2.fromMathMatrix(math.multiply(cellToParticle, particle.affineMomentum));
 
 			// MPM course, equation 172
 			const mass_contrib = phi * particle.material.particleMass;
@@ -66,23 +65,23 @@ System.prototype.__mlsGridToParticle = function() {
 		// see APIC paper (https://web.archive.org/web/20190427165435/https://www.math.ucla.edu/~jteran/papers/JSSTS15.pdf), page 6
 		// below equation 11 for clarification. this is calculating C = B * (D^-1) for APIC equation 8,
 		// where B is calculated in the inner loop at (D^-1) = 4 is a constant when using quadratic interpolation functions
-		const B = new Matrix(2, 2, 0);
+		let B = math.zeros(2, 2);
 
 		this.integrator.integrate(p, function(particle, node, phi, gxpy, pxgy){
 
 			const weighted_velocity = new Vector2(node.velocity.x * phi, node.velocity.y * phi);
 
 			// APIC paper equation 10, constructing inner term for B
-			const term = Matrix.fromArray( [
+			const term = math.matrix( [
 				[weighted_velocity.x * gxpy, weighted_velocity.y * gxpy],
 				[weighted_velocity.x * pxgy, weighted_velocity.y * pxgy]]);
 
 
-			B.add(term);
+			B = math.add(B,term);
 			particle.velocity.addSelf(weighted_velocity);
-		})
+		});
 
-		p.C = B.mult(4);
+		p.C = math.multiply(B, 4);
 		p.position.addSelf(p.velocity);
 
 	}, this);
