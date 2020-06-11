@@ -1,6 +1,5 @@
 import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "./index.js";
 
-	var debug;
 	const MAX_NUMBER_OF_FLUID_SYSTEMS = 100;
 
 	function initTools(input, viewport, system) {
@@ -335,6 +334,17 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 		}
 	}
 
+	const debug = new Debug.Menu();
+	debug.addPanel({
+		type: Debug.Performance,
+		name: 'graph',
+		label: 'Performance'
+	}, timeMachine);
+	debug.addPanel({
+		type: Debug.Particle,
+		name: 'particle',
+		label: 'Particle'
+	}, timeMachine);
 
 	// main loop
 	var lastFrame = window.performance.now();
@@ -357,15 +367,4 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 		requestAnimationFrame(animate);
 	}
 
-	debug = new Debug.Menu();
-	debug.addPanel({
-		type: Debug.Performance,
-		name: 'graph',
-		label: 'Performance'
-	}, timeMachine);
-	debug.addPanel({
-		type: Debug.Particle,
-		name: 'particle',
-		label: 'Particle'
-	}, timeMachine);
 	animate();
