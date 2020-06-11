@@ -345,11 +345,10 @@ export default class Renderer {
 	}
 
 	drawObstacle(obstacle) {
-		if (obstacle.type === 'circle') {
+		if (obstacle.constructor.name === 'Circle') {
 			this.drawDot(obstacle.position, obstacle.radius, "pink", 0.8);
-		}
-		if (obstacle.type === 'capsul') {
-			this.drawLine(obstacle.position.start, obstacle.position.end, "pink", 0.8, obstacle.radius * 2)
+		} else {
+			this.drawLine(obstacle.positions.from, obstacle.positions.to, "pink", 0.8, obstacle.radius * 2)
 		}
 	}
 

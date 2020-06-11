@@ -5,8 +5,12 @@ import Material from "./material.js";
 import Particle from "./particle.js";
 import Node from "./node.js";
 import Grid from "./grid.js";
-import Obstacle from "./obstacle.js";
 import Integrator from "./integrator.js";
+import {
+	Circle as ObstacleCircle,
+	Capsule as ObstacleCapsule,
+	factory as obstacleFactory
+} from "./obstacles/index.js";
 
 	var System = function(settings) {
 		settings = settings ? settings : {};
@@ -66,13 +70,6 @@ import Integrator from "./integrator.js";
 			this.simpleSimulation();
 		}
 	};
-
-	// https://github.com/hughsk/clamp/blob/master/index.js
-	function clamp(value, min, max) {
-		return min < max
-			? (value < min ? min : value > max ? max : value)
-			: (value < max ? max : value > min ? min : value);
-	}
 
 	/*
 	 * surface tension implementation
@@ -188,44 +185,9 @@ import Integrator from "./integrator.js";
 
 				// circular obstacles
 				this.obstacles.forEach(function(obstacle) {
-					if (obstacle.type === 'circle') {
-						var obstacleRadius  = obstacle.radius;
-						var obstacleRadiusSquared = obstacleRadius * obstacleRadius;
-						var particleDistanceToMiddlePoint = obstacle.position.sub(p.position);
-						var distanceSquared = particleDistanceToMiddlePoint.lengthSquared();
-						if (distanceSquared < obstacleRadiusSquared){
-							var distance = Math.sqrt(distanceSquared);
-							var dR = obstacleRadius-distance;
-							f.subSelf(particleDistanceToMiddlePoint.mulFloat(dR/distance));
-						}
-					}
-					if (obstacle.type === 'capsul') {
-						// https://github.com/Erkaman/gl-water2d/blob/master/src/simulation.js#L348
-						//
-						// for particle, handle collision with all the capsules.
-						// to do the collision checking, we are representing the capsules as implicit functions.
-						// we are using the formulas derived in section 4.4.2.2 of the paper
-						// "Lagrangian Fluid Dynamics Using Smoothed Particle Hydrodynamics"
-						// http://image.diku.dk/projects/media/kelager.06.pdf#page=33
-
-						var x = p.position;
-						var capsulStart = obstacle.position.start;
-						var capsulEnd = obstacle.position.end;
-						var radius = obstacle.radius;
-
-						var subPos = capsulEnd.sub(capsulStart);
-						var t = clamp(-(capsulStart.sub(x).dotProduct(subPos)) / subPos.dotProduct(subPos), 0.0, 1.0);
-						var q = capsulStart.weightedAdd(subPos, t);
-						var fx = q.sub(x).length() - radius;
-
-						if (fx <= 0) {
-							const xSubQ = q.sub(x);
-							const xSubQL = xSubQ.length();
-							const n = xSubQ.mulFloat(-Math.sign(fx) / xSubQL);
-							const nx = x.weightedAdd(n, -fx);
-
-							f.subSelf(x.sub(nx).negative());
-						}
+					var force = obstacle.ifIntersectionGetForce(p.position);
+					if (typeof force !== 'undefined') {
+						f.subSelf(force);
 					}
 				}, this);
 			}
@@ -434,7 +396,7 @@ import Integrator from "./integrator.js";
 		system.materials = settings.materials;
 		system.implementationType = settings.implementationType;
 		system.particles = settings.particles.map((particle) => Particle.fromJSON(particle));
-		system.obstacles = settings.obstacles.map((obstacle) => Obstacle.fromJSON(obstacle));
+		system.obstacles = settings.obstacles.map((obstacle) => obstacleFactory(obstacle));
 		return system;
 
 	};

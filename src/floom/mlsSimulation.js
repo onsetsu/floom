@@ -3,7 +3,6 @@ import Material from "./material.js";
 import Particle from "./particle.js";
 import Node from "./node.js";
 import Grid from "./grid.js";
-import Obstacle from "./obstacle.js";
 import Integrator from "./integrator.js";
 import Vector2 from "./../external/vector2.js";
 import Matrix from "./../external/matrix.js";

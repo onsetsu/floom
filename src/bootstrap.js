@@ -241,24 +241,9 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 	// create obstacles
 	// fluidSystem.doObstacles = true;
 	fluidSystem.obstacles.push(
-		new Floom.Obstacle({
-			type: 'circle',
-			position: { x: -20, y: 20},
-			radius: 5
-		}),
-		new Floom.Obstacle({
-			type: 'circle',
-			position: { x: 20, y: 0},
-			radius: 9
-		}),
-		new Floom.Obstacle({
-			type: 'capsul',
-			position: {
-				start: { x: -5, y: 0},
-				end: { x: 15, y: 20},
-			},
-			radius: 5
-		}),
+		new Floom.obstacles.Circle(-20, 20, 5),
+		new Floom.obstacles.Circle(20, 0, 9),
+		new Floom.obstacles.Capsule(-5, 0, 15, 20, 5)
 	);
 
 	// configure grid rendering
