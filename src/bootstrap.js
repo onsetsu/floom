@@ -146,7 +146,7 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 		datGui.add(timeMachine, "renderIndex").name('Render Index');
 		let inspectedParticleController = datGui.add(window, "inspectedParticleIndex");
 
-		datGuiForMaterials(timeMachine.materials, datGui);
+		datGuiForMaterials(fluidSystem.materials, datGui);
 	}
 
 	function datGuiForMaterials(materials, parent) {
