@@ -5,7 +5,7 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 	function initTools(input, viewport, system) {
 		var dragTool = new Tool(input);
 		dragTool.onMouseDrag(function(event) {
-			_.each(system.particles, function(p) {
+			system.particles.forEach(function(p) {
 				if(p.position.sub(event.getPositionInWorld(viewport)).lengthSquared() < 50)
 					p.velocity.lerpSelf(event.getLastDeltaInWorld(viewport), 0.2);
 			});
@@ -14,7 +14,7 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 
 		var attractTool = new Tool(input);
 		attractTool.onMouseDrag(function(event) {
-			_.each(system.particles, function(p) {
+			system.particles.forEach(function(p) {
 				var vectorToMouse = event.getPositionInWorld(viewport).sub(p.position);
 				var distanceToMouse = vectorToMouse.lengthSquared();
 				if(distanceToMouse < 150)
@@ -25,7 +25,7 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 
 		var repelTool = new Tool(input);
 		repelTool.onMouseDrag(function(event) {
-			_.each(system.particles, function(p) {
+			system.particles.forEach(function(p) {
 				var vectorToMouse = event.getPositionInWorld(viewport).sub(p.position);
 				var distanceToMouse = vectorToMouse.lengthSquared();
 				if(distanceToMouse < 150)
@@ -33,7 +33,7 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 			});
 		});
 		repelTool.name = "repel";
-		
+
 		function getRandomPointInCircleUniformly() {
 			var TWO_PI = (3.14159265 * 2.0);
 			var t = TWO_PI*Math.random();
@@ -62,7 +62,7 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
             spawnMaterialIndex = (spawnMaterialIndex + 1) % system.materials.length;
         });
 		spawnTool.name = "spawn";
-		
+
 		var consumeTool = new Tool(input);
 		consumeTool.onMouseDrag(function(event) {
 			for(var i = 0; i < system.getNumberOfParticles();) {
@@ -81,16 +81,14 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 			S: spawnTool,
 			C: consumeTool
 		};
-		_.each(keyToolMap, function(tool, key, map) {
+
+		Object.entries(keyToolMap).forEach(function([key, tool]) {
 			input.bind(Input.KEY[key], key);
-			var toTool = function() {
+			function toTool() {
 				console.log("its " + key);
 				tool.activate();
-			};
-			
-			_.each(map, function(fromTool) {
-				fromTool.onKeyUp(key, toTool);
-			});
+			}
+			Object.values(keyToolMap).forEach(fromTool => fromTool.onKeyUp(key, toTool));
 		});
 
 		// activate default tool
@@ -102,7 +100,7 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 
 		// draw mouse cursor
 		renderer.drawDot(input.mouse, 10, color, 0.5);
-		
+
 		// draw current interaction name
 		renderer.drawText(
 			input.tool.name,
@@ -135,15 +133,13 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 		var materialFolder = parent.addFolder("Materials");
 		materialFolder.open();
 
-		_.each(materials, function(material) {
-			datGuiForMaterial(material, materialFolder);
-		});
+		materials.forEach(material => datGuiForMaterial(material, materialFolder));
 	}
-	
+
 	function datGuiForMaterial(material, parent) {
 		var folder = parent.addFolder("Mat" + material.materialIndex);
 		folder.open();
-		
+
 		folder.addColor(material, "color").onChange(material.setColor.bind(material));
 		folder.add(material, "particleMass").min(0.01).max(5.0).step(0.1);
 		folder.add(material, "restDensity").min(0.1).max(5.0).step(0.1);
@@ -175,7 +171,7 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 	$(window).scroll(function() {
 		$(stats.domElement).css('top', $(this).scrollTop() + "px");
 	});
-	
+
 	// prepare input
 	var input = new Input(canvasId);
 	input.initMouse();
@@ -238,7 +234,7 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 	);
 	viewport.jumpToPoint(new Vector2(0, 35));
 	initTools(input, viewport, fluidSystem);
-	
+
 	// update routine
 	var lastPoint = Vector2.Zero.copy();
 	function update(timePassed) {
@@ -261,7 +257,7 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 		if(input.state("zoomOut")) {
 			viewport.zoomOut();
 		}
-		
+
 		fluidSystem.update(timePassed);
 		if(graph)
 			graph.endClock('update');
@@ -280,7 +276,7 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 		input.clearPressed();
 	}
 
-	
+
 	// main loop
 	var lastFrame = window.performance.now();
 	function animate() {
