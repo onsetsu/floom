@@ -49,6 +49,10 @@ import Material from "./material.js"
 			// gridVelocity: this.gridVelocity,
 			material: this.material,
 
+			affineMomentum: this.affineMomentum,
+			deformationGradient: this.deformationGradient,
+			initialVolume: this.initialVolume,
+
 			// cellX: this.cellX,
 			// cellY: this.cellY,
 
@@ -71,9 +75,11 @@ import Material from "./material.js"
 	};
 
 	Particle.fromJSON = function(settings) {
-		let parsedSettings = settings;
-		let particle = new Particle(parsedSettings.position.x, parsedSettings.position.y, parsedSettings.velocity.x, parsedSettings.velocity.y, parsedSettings.material);
+		let particle = new Particle(settings.position.x, settings.position.y, settings.velocity.x, settings.velocity.y, settings.material);
 		// TODO check if any other property has to be set to be functional
+		particle.affineMomentum = settings.affineMomentum;
+		particle.deformationGradient = settings.deformationGradient;
+		particle.initialVolume = settings.initialVolume;
 		return particle;
 	};
 

@@ -4,23 +4,25 @@ import Vector2 from "../external/vector2.js";
 // Lamé parameters for stress-strain relationship
 const elastic_lambda = 10.0;
 const elastic_mu = 20.0;
+const timeStep = 0.2;
 
 /*
  * Simple elasticity implementation of MPM taken from https://github.com/nialltl/incremental_mpm
  */
 System.prototype.elasticitySimulation = function() {
 	if (this.particles[0].initialVolume === -1) {
+		this.__elasticParticleToGrid();
 		this.__calculateInitialVolume()
 	}
 	this.__elasticParticleToGrid();
-	this.__gridVelocityUpdate();
+	this.__elasticGridVelocityUpdate();
 	this.__elasticGridToParticle();
 	this.boundaryCorrection();
 };
 
 System.prototype.__calculateInitialVolume = function() {
 
-	_.each(this.particles, function(p, particleIndex) {
+	this.particles.forEach(function(p, particleIndex) {
 
 		this.integrator.updateStateAndGradientOf(p);
 		this.integrator.prepareParticle(p);
@@ -37,7 +39,7 @@ System.prototype.__calculateInitialVolume = function() {
 
 System.prototype.__elasticParticleToGrid = function() {
 
-	_.each(this.particles, function(p, particleIndex) {
+	this.particles.forEach(function(p, particleIndex) {
 
 		const J = math.det(p.deformationGradient);
 		const volume = p.initialVolume * J;
@@ -62,7 +64,7 @@ System.prototype.__elasticParticleToGrid = function() {
 		// this term is used in MLS-MPM paper eq. 16. with quadratic weights, Mp = (1/4) * (delta_x)^2.
 		// in this simulation, delta_x = 1, because i scale the rendering of the domain rather than the domain itself.
 		// we multiply by dt as part of the process of fusing the momentum and force update for MLS-MPM
-		const eq_16_term_0 = math.multiply(stress, -volume * 4) ;
+		const eq_16_term_0 = math.multiply(math.multiply(stress, -volume * 4), timeStep);
 
 		this.integrator.updateStateAndGradientOf(p);
 		this.integrator.prepareParticle(p);
@@ -96,8 +98,17 @@ System.prototype.__elasticParticleToGrid = function() {
 	}, this);
 };
 
+
+System.prototype.__elasticGridVelocityUpdate = function() {
+	this.grid.iterate(function(node) {
+		// convert momentum to velocity, apply gravity
+		node.velocity.divFloatSelf(node.mass);
+		node.velocity.addSelf(this.gravity.mulFloat(timeStep));
+	}, this);
+};
+
 System.prototype.__elasticGridToParticle = function() {
-	_.each(this.particles, function(p, particleIndex) {
+	this.particles.forEach(function(p, particleIndex) {
 		// reset particle velocity. we calculate it from scratch each step using the grid
 		p.velocity.clear();
 
@@ -122,13 +133,13 @@ System.prototype.__elasticGridToParticle = function() {
 		});
 
 		p.affineMomentum = math.multiply(B, 4);
-		p.position.addSelf(p.velocity);
+		p.position.addSelf(p.velocity.mulFloat(timeStep));
 
 		let newDeformationGradient = math.matrix([
 			[1, 0],
 			[0, 1]]);
 
-		newDeformationGradient = math.add(newDeformationGradient, p.affineMomentum);
+		newDeformationGradient = math.add(newDeformationGradient, math.multiply(p.affineMomentum, timeStep));
 		p.deformationGradient = math.multiply(newDeformationGradient, p.deformationGradient);
 	}, this);
 };

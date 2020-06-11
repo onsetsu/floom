@@ -52,7 +52,7 @@ import AABB from "./../external/aabb.js";
 	Grid.prototype.recalculateBoundaries = function(system) {
 	    // expand boundaries to include all particles
 	    this.boundaries.clear();
-	    _.each(system.particles, function(p) {
+		system.particles.forEach(function(p) {
 	    	this.boundaries.expandToInclude(p.position);
 	    }, this);
 

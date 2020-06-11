@@ -21,7 +21,7 @@ import Vector2 from "./../external/vector2.js";
 
 	System.prototype.__calculateParticleKernels = function() {
 		// calculate particle kernels, and add density and density gradients to the grid
-		_.each(this.particles, function(p, pIndex) {
+		this.particles.forEach(function(p, pIndex) {
 			this.integrator.updateStateAndGradientOf(p);
 			this.integrator.prepareParticle(p);
 			
@@ -33,7 +33,7 @@ import Vector2 from "./../external/vector2.js";
 	
 	System.prototype.__sumParticleDensityFromGridAndAddPressureansElasticForcesToGrid = function() {
 		// Sum particle density from grid, and add pressure and elastic forces to grid
-		_.each(this.particles, function(p, pIndex) {
+		this.particles.forEach(function(p, pIndex) {
 	        var density = 0;
 			this.integrator.integrate(p, function(particle, node, phi, gxpy, pxgy) {
 				density += phi*node.mass;
@@ -81,7 +81,7 @@ import Vector2 from "./../external/vector2.js";
 	
 	// accelerate particles and interpolate velocity back to grid
 	System.prototype.__accelerateParticlesAndInterpolateVelocityBackToGrid = function() {
-		_.each(this.particles, function(p, pIndex) {
+		this.particles.forEach(function(p, pIndex) {
 			this.integrator.integrate(p, function(particle, node, phi, gxpy, pxgy) {
 				particle.velocity.weightedAddSelf(node.acceleration, phi);
 			});
@@ -102,7 +102,7 @@ import Vector2 from "./../external/vector2.js";
 	
 	System.prototype.__advanceParticles = function() {
 		// advance particles
-		_.each(this.particles, function(p, pIndex) {
+		this.particles.forEach(function(p, pIndex) {
 	        p.gridVelocity.clear();
 			this.integrator.integrate(p, function(particle, node, phi, gxpy, pxgy) {
 				particle.gridVelocity.weightedAddSelf(node.velocity, phi);

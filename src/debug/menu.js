@@ -150,7 +150,7 @@ export default class Menu {
 	}
 
 
-	afterRun(renderer, fluidSystem) {
+	afterRun(renderer, timeMachine) {
 		var frameTime = window.performance.now() - this.debugRealTime;
 
 		this.debugTime = this.debugTime * 0.8 + frameTime * 0.2;
@@ -161,14 +161,14 @@ export default class Menu {
 
 		this.showNumber( 'ms',  this.debugTime.toFixed(2) );
 		this.showNumber( 'fps',  Math.round(1000/this.debugTickAvg) );
-		this.showNumber( 'render index', window.renderIndex);
-		this.showNumber( 'simulate index', window.simulateIndex);
+		this.showNumber( 'render index', timeMachine.renderIndex);
+		this.showNumber( 'simulate index', timeMachine.simulateIndex);
 		if( renderer ) {
 			this.showNumber( 'draws', renderer.drawCount );
 		}
-		if( fluidSystem ) {
+		if( timeMachine.fluidSystems[timeMachine.renderIndex] ) {
 			// calculate number of particles in all layers
-			var numberOfParticles = fluidSystem.getNumberOfParticles();
+			var numberOfParticles = timeMachine.fluidSystems[timeMachine.renderIndex].particles.length;
 			this.showNumber( 'particles', numberOfParticles );
 		}
 	}
