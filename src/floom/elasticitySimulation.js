@@ -56,7 +56,7 @@ System.prototype.__elasticParticleToGrid = function() {
 
 		// cauchy_stress = (1 / det(F)) * P * F_T
 		// equation 38, MPM course
-		const stress = math.multiply(math.multiply(P, F_T), (1.0 / J));
+		const stress = math.multiply((1.0 / J), math.multiply(P, F_T));
 
 
 
@@ -64,7 +64,7 @@ System.prototype.__elasticParticleToGrid = function() {
 		// this term is used in MLS-MPM paper eq. 16. with quadratic weights, Mp = (1/4) * (delta_x)^2.
 		// in this simulation, delta_x = 1, because i scale the rendering of the domain rather than the domain itself.
 		// we multiply by dt as part of the process of fusing the momentum and force update for MLS-MPM
-		const eq_16_term_0 = math.multiply(math.multiply(stress, -volume * 4), timeStep);
+		const eq_16_term_0 = math.multiply(stress, -volume * 4 * timeStep);
 
 		this.integrator.updateStateAndGradientOf(p);
 		this.integrator.prepareParticle(p);
@@ -75,7 +75,7 @@ System.prototype.__elasticParticleToGrid = function() {
 
 			const weightedMass = phi * particle.material.particleMass;
 			node.mass += weightedMass;
-			node.velocity.addSelf((particle.velocity.mulVector(Q).mulFloat(weightedMass)));
+			node.velocity.addSelf((particle.velocity.add(Q).mulFloat(weightedMass)));
 
 
 
