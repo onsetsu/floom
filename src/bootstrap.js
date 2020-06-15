@@ -269,6 +269,12 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 	// initialize specific datGui for the fluid System
 	datGuiForSystem(fluidSystem, timeMachine);
 
+	const checkParticles = () => {
+		fluidSystem.particles.findIndex((particle) => {
+
+		})
+	};
+
 	// update routine
 	var lastPoint = Vector2.Zero.copy();
 	function update(timePassed) {
@@ -308,6 +314,9 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 
 			fluidSystem.update(timePassed);
 		}
+
+
+
 		if(graph)
 			graph.endClock('update');
 		// rendering

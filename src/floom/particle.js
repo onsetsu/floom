@@ -40,6 +40,10 @@ import Material from "./material.js"
 	    this.initialVolume = -1;
 	};
 
+	Particle.prototype.isAnyPropertyNaN = function() {
+		this.position.x
+	};
+
 	// snapshotting logic:
 	Particle.prototype.toJSON = function() {
 		let settings = {
