@@ -4,7 +4,8 @@ import Vector2 from "../external/vector2.js";
 // Lamé parameters for stress-strain relationship
 const elastic_lambda = 10.0;
 const elastic_mu = 20.0;
-const timeStep = 0.2;
+// TODO: calculate this dynamically, depending on FPS. CAUTION: when this value is too low, NaNs will occur.
+const timeStep = 1/14.0;
 
 /*
  * Simple elasticity implementation of MPM taken from https://github.com/nialltl/incremental_mpm
