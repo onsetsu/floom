@@ -133,6 +133,11 @@ System.prototype.__elasticGridToParticle = function() {
 			particle.velocity.addSelf(weighted_velocity);
 		});
 
+		// Pause execution if NaN occurs.
+		if(p.isAnyPropertyNaN()) {
+			this.breakCallback()
+		}
+
 		p.affineMomentum = math.multiply(B, 4);
 		p.position.addSelf(p.velocity.mulFloat(timeStep));
 

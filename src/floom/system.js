@@ -8,7 +8,7 @@ import Grid from "./grid.js";
 import Obstacle from "./obstacle.js";
 import Integrator from "./integrator.js";
 
-	var System = function(settings) {
+	var System = function(settings, breakCallback) {
 		settings = settings ? settings : {};
 		this.wall = settings.wall ? settings.wall : new AABB(
 			new Vector2(-50, 2),
@@ -29,6 +29,8 @@ import Integrator from "./integrator.js";
 
 		this.doSprings = settings.doSprings ? settings.doSprings : false;
 		this.drawSprings = settings.drawSprings ? settings.drawSprings : false;
+
+		this.breakCallback = breakCallback;
 	};
 
 	System.prototype.getNumberOfParticles = function() {
@@ -392,9 +394,9 @@ import Integrator from "./integrator.js";
 		return Object.assign({}, settings)
 	};
 
-	System.fromJSON = function(settings) {
+	System.fromJSON = function(settings, breakCallback) {
 		// TODO: a cleaner way would be to initialize the Grid and after that fill it with the data from settings
-		let system = new System(settings);
+		let system = new System(settings, breakCallback);
 		system.materials = settings.materials;
 		system.implementationType = settings.implementationType;
 		system.particles = settings.particles.map((particle) => Particle.fromJSON(particle));

@@ -129,20 +129,15 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 		datGui.add(fluidSystem, "doObstacles").name('Obstacles');
 		datGui.add(fluidSystem, "doSprings").name('Compute Springs');
 		datGui.add(fluidSystem, "drawSprings").name('Draw Springs');
-		const setPlayPauseName = () => {
-			playPause.name(timeMachine.paused ? "▶️ " : "⏸️ ");
-		};
-		const playPause = datGui.add({playPause: () => {
-			timeMachine.paused = !timeMachine.paused;
-			setPlayPauseName();
-		}}, "playPause");
-		setPlayPauseName();
+
+		datGui.add(timeMachine, "paused").name('Pause').listen();
 		datGui.add({stepForewards: () => {
 			if (timeMachine.renderIndex < timeMachine.simulateIndex) timeMachine.renderIndex++
 			}}, "stepForewards").name("⏭️ ")
 		datGui.add({stepBackwards: () => {
 				if (timeMachine.renderIndex > 0) timeMachine.renderIndex--
 			}}, "stepBackwards").name("⏮️ ")
+
 		datGui.add(timeMachine, "renderIndex").name('Render Index');
 		let inspectedParticleController = datGui.add(window, "inspectedParticleIndex");
 
@@ -206,8 +201,12 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 	input.initKeyboard();
 	input.bind(Input.KEY.N, "nextAction");
 
+	const timeMachine = new Floom.TimeMachine();
+
+	let breakCallback = () => { timeMachine.pause() };
+
 	// create fluid System
-	var fluidSystem = new Floom.System();
+	var fluidSystem = new Floom.System({}, breakCallback);
 
 	// create and customize Materials
 	var mat0 = fluidSystem.createNewMaterial()
@@ -231,8 +230,6 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 
 
 	window.inspectedParticleIndex = 0;
-
-	const timeMachine = new Floom.TimeMachine();
 
     // example to spawn individual particles
 	// var p = new Floom.Particle(-45.00001,  55.000001,  0.100001, 0.000001, mat3);
@@ -269,19 +266,13 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 	// initialize specific datGui for the fluid System
 	datGuiForSystem(fluidSystem, timeMachine);
 
-	const checkParticles = () => {
-		fluidSystem.particles.findIndex((particle) => {
-
-		})
-	};
-
 	// update routine
 	var lastPoint = Vector2.Zero.copy();
 	function update(timePassed) {
 		let shouldUpdate = timeMachine.renderIndex === timeMachine.simulateIndex;
 		if (!shouldUpdate) {
 			// replay
-			fluidSystem = Floom.System.fromJSON(timeMachine.fluidSystems[timeMachine.renderIndex]);
+			fluidSystem = Floom.System.fromJSON(timeMachine.fluidSystems[timeMachine.renderIndex], breakCallback);
 		} else {
 			// simulate
 			if (!timeMachine.paused) {
@@ -314,8 +305,6 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 
 			fluidSystem.update(timePassed);
 		}
-
-
 
 		if(graph)
 			graph.endClock('update');

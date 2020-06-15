@@ -14,4 +14,12 @@ export default class TimeMachine {
 	getSimulatedFluidSystem() {
 		return this.fluidSystems[this.simulateIndex];
 	}
+
+	pause() {
+		this.paused = true;
+	}
+
+	resume() {
+		this.paused = false;
+	}
 }
