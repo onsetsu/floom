@@ -41,7 +41,9 @@ import Material from "./material.js"
 	};
 
 	Particle.prototype.isAnyPropertyNaN = function() {
-		this.position.x
+		return isNaN(this.velocity.x) || isNaN(this.velocity.y) || isNaN(this.position.x) || isNaN(this.position.y) ||
+			isNaN(this.gridVelocity.x) || isNaN(this.gridVelocity.y) || math.isNaN(this.affineMomentum) ||
+			math.isNaN(this.deformationGradient);
 	};
 
 	// snapshotting logic:
