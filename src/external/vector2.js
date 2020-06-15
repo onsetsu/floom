@@ -292,6 +292,10 @@
 		);
 	};
 
+	Vector2.prototype.toString = function() {
+		return `x: ${this.x}, y: ${this.y}`
+	};
+
 
 	Vector2.prototype.toJson = function() {
 		var resultJson = {

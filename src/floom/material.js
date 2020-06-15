@@ -26,6 +26,10 @@ export default class Material {
 		this.yieldRate = 1;
 	};
 
+	toString() {
+		return `Mat${this.materialIndex}`
+	}
+
 	// debug colors
 	static getColor(index) {
 		const materialColors = [
