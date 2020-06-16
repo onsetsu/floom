@@ -141,10 +141,11 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 			if (timeMachine.renderIndex < timeMachine.simulateIndex) timeMachine.renderIndex++
 			}}, "stepForewards").name("⏭️ ")
 		datGui.add({stepBackwards: () => {
-				if (timeMachine.renderIndex > 0) timeMachine.renderIndex--
+				if (timeMachine.renderIndex > 0 && timeMachine.renderIndex > timeMachine.simulateIndex - MAX_NUMBER_OF_FLUID_SYSTEMS) timeMachine.renderIndex--
 			}}, "stepBackwards").name("⏮️ ")
 		datGui.add(timeMachine, "renderIndex").name('Render Index');
 		let inspectedParticleController = datGui.add(window, "inspectedParticleIndex");
+		let drawTraceController = datGui.add(window, "drawTrace");
 
 		datGuiForMaterials(fluidSystem.materials, datGui);
 	}
@@ -231,6 +232,7 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 
 
 	window.inspectedParticleIndex = 0;
+	window.drawTrace = false;
 
 	const timeMachine = new Floom.TimeMachine();
 
