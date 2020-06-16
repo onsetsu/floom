@@ -282,14 +282,6 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 		if (!shouldUpdate) {
 			// replay
 			fluidSystem = Floom.System.fromJSON(timeMachine.fluidSystems[timeMachine.renderIndex]);
-		} else {
-			// simulate
-			if (!timeMachine.paused) {
-				timeMachine.simulateIndex++;
-			}
-		}
-		if (!timeMachine.paused) {
-			timeMachine.renderIndex++;
 		}
 		// entities/map
 		if(graph)
@@ -315,8 +307,6 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 			fluidSystem.update(timePassed);
 		}
 
-
-
 		if(graph)
 			graph.endClock('update');
 		// rendering
@@ -324,7 +314,7 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 			graph.beginClock('draw');
 		renderer.clear();
 		renderer.withViewport(viewport, function() {
-			renderer.drawSystem(fluidSystem);
+			renderer.drawSystem(timeMachine);
 		});
 		drawTool(renderer, input);
 		if(graph)
@@ -333,13 +323,15 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 		// interaction
 		input.clearPressed();
 		if (!timeMachine.paused) {
-			if (timeMachine.renderIndex === timeMachine.simulateIndex) {
+			if (shouldUpdate) {
 				timeMachine.fluidSystems.push(fluidSystem.toJSON());
 				if(timeMachine.fluidSystems.length > MAX_NUMBER_OF_FLUID_SYSTEMS) {
 					// throw away one fluidSystem
 					timeMachine.fluidSystems[timeMachine.simulateIndex - MAX_NUMBER_OF_FLUID_SYSTEMS] = false;
 				}
+				timeMachine.simulateIndex++
 			}
+			timeMachine.renderIndex++;
 		}
 	}
 
