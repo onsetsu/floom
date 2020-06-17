@@ -21,7 +21,7 @@ export default class ParticlePanel extends DebugPanel {
         this.blackListedParams = ['node'];
 
         this.container.append(this.positionSpan);
-        this.updateParticleData()
+        this.updateParticleData();
     }
 
     beforeRun() {
@@ -31,16 +31,17 @@ export default class ParticlePanel extends DebugPanel {
     updateParticleData() {
         let particle = Particle.fromJSON(this.timeMachine.fluidSystems[this.timeMachine.renderIndex].particles[window.inspectedParticleIndex]);
         let paramString = "";
+        paramString += 'particleIndex' + ': ' + window.inspectedParticleIndex + '<br>';
         for(let parameter in particle){
             if( particle.hasOwnProperty( parameter ) && !this.isBlacklistedParam(parameter) ) {
-                paramString += parameter + ': ' + particle[parameter] + '<br>'
+                paramString += parameter + ': ' + particle[parameter] + '<br>';
             }
         }
         this.positionSpan.innerHTML = paramString;
     }
 
     isBlacklistedParam(param) {
-        return !!this.blackListedParams.find((blackListedParam) => blackListedParam === param)
+        return !!this.blackListedParams.find((blackListedParam) => blackListedParam === param);
     }
 
     afterRun() {

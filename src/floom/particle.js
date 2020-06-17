@@ -40,10 +40,10 @@ import Material from "./material.js"
 	    this.initialVolume = -1;
 	};
 
+	// TODO: make this method check implicitly check all properties (and infer the right method to call, e.g. for a matrix math.isNaN...)
 	Particle.prototype.isAnyPropertyNaN = function() {
 		return isNaN(this.velocity.x) || isNaN(this.velocity.y) || isNaN(this.position.x) || isNaN(this.position.y) ||
-			isNaN(this.gridVelocity.x) || isNaN(this.gridVelocity.y) || math.isNaN(this.affineMomentum) ||
-			math.isNaN(this.deformationGradient);
+			isNaN(this.gridVelocity.x) || isNaN(this.gridVelocity.y);
 	};
 
 	// snapshotting logic:
@@ -58,7 +58,7 @@ import Material from "./material.js"
 			affineMomentum: this.affineMomentum,
 			deformationGradient: this.deformationGradient,
 			initialVolume: this.initialVolume,
-
+			particleIndex: this.index
 			// cellX: this.cellX,
 			// cellY: this.cellY,
 

@@ -203,8 +203,8 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 	input.bind(Input.KEY.N, "nextAction");
 
 	const timeMachine = new Floom.TimeMachine();
-
-	let breakCallback = () => { timeMachine.pause() };
+	let pauseAfterUpdateCycle = false;
+	let breakCallback = () => { pauseAfterUpdateCycle = true };
 
 	// create fluid System
 	var fluidSystem = new Floom.System({}, breakCallback);
@@ -325,6 +325,10 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 				timeMachine.simulateIndex++
 			}
 			timeMachine.renderIndex++;
+		}
+		if (pauseAfterUpdateCycle) {
+			timeMachine.pause();
+			pauseAfterUpdateCycle = false;
 		}
 	}
 

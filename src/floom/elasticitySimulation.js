@@ -5,12 +5,14 @@ import Vector2 from "../external/vector2.js";
 const elastic_lambda = 10.0;
 const elastic_mu = 20.0;
 // TODO: calculate this dynamically, depending on FPS. CAUTION: when this value is too low, NaNs will occur.
-const timeStep = 1/14.0;
+const timeStep = 0.2;
 
 /*
  * Simple elasticity implementation of MPM taken from https://github.com/nialltl/incremental_mpm
  */
 System.prototype.elasticitySimulation = function() {
+	this.alreadyBreaked = false;
+
 	if (this.particles[0].initialVolume === -1) {
 		this.__elasticParticleToGrid();
 		this.__calculateInitialVolume()
@@ -43,6 +45,7 @@ System.prototype.__elasticParticleToGrid = function() {
 	this.particles.forEach(function(p, particleIndex) {
 
 		const J = math.det(p.deformationGradient);
+		// TODO: what's the volume about? There also seems to be am
 		const volume = p.initialVolume * J;
 		const F_T = math.transpose(p.deformationGradient);
 		const F_inv_T = math.inv(F_T);
@@ -105,6 +108,9 @@ System.prototype.__elasticGridVelocityUpdate = function() {
 		// convert momentum to velocity, apply gravity
 		node.velocity.divFloatSelf(node.mass);
 		node.velocity.addSelf(this.gravity.mulFloat(timeStep));
+		// if(isNaN(node.velocity.x) || isNaN(node.velocity.y)) {
+		// 	debugger
+		// }
 	}, this);
 };
 
@@ -131,11 +137,19 @@ System.prototype.__elasticGridToParticle = function() {
 
 			B = math.add(B, term);
 			particle.velocity.addSelf(weighted_velocity);
+
+			if(isNaN(particle.velocity.x) || isNaN(particle.velocity.y)) {
+				console.log("NAN");
+				// debugger
+			}
 		});
 
-		// Pause execution if NaN occurs.
-		if(p.isAnyPropertyNaN()) {
-			this.breakCallback()
+		// Pause execution first time a NaN occurs.
+		if(p.isAnyPropertyNaN() && !this.alreadyBreaked) {
+			this.breakCallback();
+			// TODO: find a nicer solution than keeping this index globally
+			window.inspectedParticleIndex = particleIndex
+			this.alreadyBreaked = true;
 		}
 
 		p.affineMomentum = math.multiply(B, 4);
