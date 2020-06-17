@@ -35,7 +35,7 @@ class Configuration {
 	}
 
 }
-	
+
 export default class Renderer {
 
 	/*
@@ -46,6 +46,8 @@ export default class Renderer {
 		this.context = canvas.getContext('2d');
 
 		this.drawCount = 0;
+
+		this.traceCount = 30;
 
 		// set default pixel extent to allow setOptions
 		this.singlePixelExtent = Vector2.One.copy();
@@ -287,27 +289,41 @@ export default class Renderer {
 	/*
 	 * Draw fluid system
 	 */
-	drawSystem(system) {
+	drawSystem(timeMachine) {
+		let renderedSystem = timeMachine.getRenderedFluidSystem();
 		// draw grid nodes
-		if(system.drawGrid) {
-			this.drawGrid(system.grid);
+		if(renderedSystem.drawGrid) {
+			this.drawGrid(renderedSystem.grid);
 		}
 
 		// draw obstacles
-		if(system.doObstacles) {
-			system.obstacles.forEach(obstacle => this.drawObstacle(obstacle));
+		if(renderedSystem.doObstacles) {
+			renderedSystem.obstacles.forEach(obstacle => this.drawObstacle(obstacle));
 		}
 
 		// draw all particles in the system
-		system.particles.forEach(p => this.drawParticle(p));
+		renderedSystem.particles.forEach(p => this.drawParticle(p));
 
 		// highlight inspected particle
-		let inspectedParticle = system.particles[window.inspectedParticleIndex];
+		let inspectedParticle = renderedSystem.particles[window.inspectedParticleIndex];
 		this.drawCircle(inspectedParticle.position, 5, "white", 1.0);
 
+		// draw trace for inspected particle
+		if(window.drawTrace){
+			const lowerIndex = (timeMachine.renderIndex - this.traceCount) < 0 ? 0 : timeMachine.renderIndex - this.traceCount;
+			for (let traceIndex = lowerIndex; traceIndex < timeMachine.renderIndex; traceIndex++){
+				const traceSystem = timeMachine.fluidSystems[traceIndex];
+				if (!traceSystem) {
+					break
+				}
+				const traceParticle = traceSystem.particles[window.inspectedParticleIndex];
+				this.drawCircle(traceParticle.position, 5, "white", 0.2);
+			}
+		}
+
 		// draw all springs in the system
-		if(system.drawSprings) {
-			system.springs.forEach(s => this.drawSpring(s));
+		if(renderedSystem.drawSprings) {
+			renderedSystem.springs.forEach(s => this.drawSpring(s));
 		}
 	}
 

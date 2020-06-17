@@ -135,11 +135,12 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 			if (timeMachine.renderIndex < timeMachine.simulateIndex) timeMachine.renderIndex++
 			}}, "stepForewards").name("⏭️ ")
 		datGui.add({stepBackwards: () => {
-				if (timeMachine.renderIndex > 0) timeMachine.renderIndex--
+				if (timeMachine.renderIndex > 0 && timeMachine.renderIndex > timeMachine.simulateIndex - MAX_NUMBER_OF_FLUID_SYSTEMS) timeMachine.renderIndex--
 			}}, "stepBackwards").name("⏮️ ")
 
 		datGui.add(timeMachine, "renderIndex").name('Render Index');
 		let inspectedParticleController = datGui.add(window, "inspectedParticleIndex");
+		let drawTraceController = datGui.add(window, "drawTrace");
 
 		datGuiForMaterials(fluidSystem.materials, datGui);
 	}
@@ -230,6 +231,7 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 
 
 	window.inspectedParticleIndex = 0;
+	window.drawTrace = false;
 
     // example to spawn individual particles
 	// var p = new Floom.Particle(-45.00001,  55.000001,  0.100001, 0.000001, mat3);
@@ -273,14 +275,6 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 		if (!shouldUpdate) {
 			// replay
 			fluidSystem = Floom.System.fromJSON(timeMachine.fluidSystems[timeMachine.renderIndex], breakCallback);
-		} else {
-			// simulate
-			if (!timeMachine.paused) {
-				timeMachine.simulateIndex++;
-			}
-		}
-		if (!timeMachine.paused) {
-			timeMachine.renderIndex++;
 		}
 		// entities/map
 		if(graph)
@@ -313,7 +307,7 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 			graph.beginClock('draw');
 		renderer.clear();
 		renderer.withViewport(viewport, function() {
-			renderer.drawSystem(fluidSystem);
+			renderer.drawSystem(timeMachine);
 		});
 		drawTool(renderer, input);
 		if(graph)
@@ -322,13 +316,15 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 		// interaction
 		input.clearPressed();
 		if (!timeMachine.paused) {
-			if (timeMachine.renderIndex === timeMachine.simulateIndex) {
+			if (shouldUpdate) {
 				timeMachine.fluidSystems.push(fluidSystem.toJSON());
 				if(timeMachine.fluidSystems.length > MAX_NUMBER_OF_FLUID_SYSTEMS) {
 					// throw away one fluidSystem
 					timeMachine.fluidSystems[timeMachine.simulateIndex - MAX_NUMBER_OF_FLUID_SYSTEMS] = false;
 				}
+				timeMachine.simulateIndex++
 			}
+			timeMachine.renderIndex++;
 		}
 	}
 

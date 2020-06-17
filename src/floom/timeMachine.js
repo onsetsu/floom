@@ -1,3 +1,5 @@
+import System from "./system.js";
+
 export default class TimeMachine {
 	constructor() {
 		this.simulateIndex = 0;
@@ -8,7 +10,7 @@ export default class TimeMachine {
 
 	// Property setters
 	getRenderedFluidSystem() {
-		return this.fluidSystems[this.renderIndex];
+		return System.fromJSON(this.fluidSystems[this.renderIndex]);
 	}
 
 	getSimulatedFluidSystem() {
