@@ -2,7 +2,7 @@ import Vector2 from "./../external/vector2.js";
 import Node from "./node.js";
 import Material from "./material.js"
 
-	var defaultNode = new Node();
+	var defaultNode = new Node(new Vector2(0,0));
 
 	var Particle = function(x, y, u, v, material){
 	    this.position = new Vector2(x, y);
@@ -38,6 +38,34 @@ import Material from "./material.js"
 	    	[1, 0],
 			[0, 1]]);
 	    this.initialVolume = -1;
+
+		return new Proxy(this, {
+			set(target, name, value) {
+				target[name] = value;
+
+				if (name === 'deformationGradient') {
+					if (math.det(value) < 0) {
+						debugger;
+					}
+				}
+
+				// TODO: check if this works for vector2
+				let isNaN = math.isNaN(value);
+				if (typeof(isNaN) !== 'boolean') {
+					let naNValues = isNaN;
+					isNaN = false;
+					math.forEach(naNValues, (value) => {
+						isNaN = isNaN || value;
+					} )
+				}
+
+				if (isNaN) {
+					debugger;
+				}
+				return true;
+			}
+		});
+
 	};
 
 	// TODO: make this method check implicitly check all properties (and infer the right method to call, e.g. for a matrix math.isNaN...)

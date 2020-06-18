@@ -4,6 +4,17 @@
 
 		this.x = x;
 		this.y = y;
+
+		return new Proxy(this, {
+			set(target, name, value) {
+				target[name] = value;
+
+				if (isNaN(value)) {
+					debugger;
+				}
+				return true;
+			}
+		});
 	};
 
 	Vector2.Zero = new Vector2(0, 0);

@@ -42,7 +42,7 @@ import AABB from "./../external/aabb.js";
 		var node = this.arr[cell];
 		
 		if(node === undefined) {
-			this.arr[cell] = node = new Node();
+			this.arr[cell] = node = new Node(new Vector2(cellX, cellY));
 			this.activeCount++;
 		}
 		
