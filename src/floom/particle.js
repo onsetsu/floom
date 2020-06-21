@@ -42,24 +42,22 @@ import Material from "./material.js"
 				target[name] = value;
 
 				if (name === 'deformationGradient') {
-					if (math.det(value) < 0) {
+					if (glMatrix.mat2.determinant(value) < 0) {
 						debugger;
 					}
 				}
 
-				// TODO: check if this works for vector2
-				let isNaN = math.isNaN(value);
-				if (typeof(isNaN) !== 'boolean') {
-					let naNValues = isNaN;
-					isNaN = false;
-					math.forEach(naNValues, (value) => {
-						isNaN = isNaN || value;
-					} )
+				if (value.constructor.name === "Float32Array") {
+					if (value.some((element)=>isNaN(element))) {
+						debugger
+					}
+					return true
 				}
 
-				if (isNaN) {
-					debugger;
+				if (isNaN(value)) {
+					debugger
 				}
+
 				return true;
 			}
 		});
@@ -84,7 +82,6 @@ import Material from "./material.js"
 			affineMomentum: this.affineMomentum,
 			deformationGradient: this.deformationGradient,
 			initialVolume: this.initialVolume,
-			particleIndex: this.index
 			// cellX: this.cellX,
 			// cellY: this.cellY,
 
