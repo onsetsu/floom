@@ -6,7 +6,7 @@ import Vector2 from "../external/vector2.js";
 const elastic_lambda = 10.0;
 const elastic_mu = 20.0;
 // TODO: calculate this dynamically, depending on FPS. CAUTION: when this value is too low, NaNs will occur.
-const timeStep = 0.02;
+const timeStep = 1;
 const mat2 = glMatrix.mat2;
 const vec2 = glMatrix.vec2;
 
@@ -157,26 +157,15 @@ System.prototype.__elasticGridToParticle = function() {
 
 			B = mat2.add(B, B, term);
 			particle.velocity.addSelf(weighted_velocity);
-
-
-			let isNaNMatrix = math.isNaN(B);
-			let nan = false;
-			math.forEach(isNaNMatrix, (value) => {
-				nan = nan || value;
-			} )
-			if(isNaN(particle.velocity.x) || isNaN(particle.velocity.y) || nan) {
-				console.log("NAN");
-				debugger
-			}
 		});
 
 		// Pause execution first time a NaN occurs.
-		if(p.isAnyPropertyNaN() && !this.alreadyBreaked) {
-			this.breakCallback();
-			// TODO: find a nicer solution than keeping this index globally
-			window.inspectedParticleIndex = particleIndex
-			this.alreadyBreaked = true;
-		}
+		// if(p.isAnyPropertyNaN() && !this.alreadyBreaked) {
+		// 	this.breakCallback();
+		// 	// TODO: find a nicer solution than keeping this index globally
+		// 	window.inspectedParticleIndex = particleIndex
+		// 	this.alreadyBreaked = true;
+		// }
 
 		p.affineMomentum = mat2.multiplyScalar(p.affineMomentum, B, 4);
 		p.position.addSelf(p.velocity.mulFloat(timeStep));
