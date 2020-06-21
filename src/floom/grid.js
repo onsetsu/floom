@@ -40,9 +40,12 @@ import AABB from "./../external/aabb.js";
 	Grid.prototype.getOrCreateAt = function(cellX, cellY) {
 		var cell = cellX * this.gsizeY + cellY;
 		var node = this.arr[cell];
-		
+
+		let nodePositionX = this.boundaries.Min.x + cellX;
+		let nodePositionY = this.boundaries.Min.y + cellY;
+
 		if(node === undefined) {
-			this.arr[cell] = node = new Node();
+			this.arr[cell] = node = new Node(new Vector2(nodePositionX, nodePositionY));
 			this.activeCount++;
 		}
 		
