@@ -120,14 +120,18 @@ System.prototype.__elasticParticleToGrid = function() {
 System.prototype.__elasticGridVelocityUpdate = function() {
 	this.grid.iterate(function(node) {
 		// convert momentum to velocity, apply gravity
-		node.velocity.divFloatSelf(node.mass);
-		node.velocity.addSelf(this.gravity.mulFloat(timeStep));
-		// if (node.cellPosition.x < this.wall.Min.x + 2 && node.cellPosition.x > this.wall.Max.x - 2) {
-		// 	node.velocity.x = 0;
-		// }
-		// if (node.cellPosition.y < this.wall.Min.y + 2 && node.cellPosition.y > this.wall.Max.y - 2) {
-		// 	node.velocity.y = 0;
-		// }
+		if (node.mass > 0) {
+			node.velocity.divFloatSelf(node.mass);
+			node.velocity.addSelf(this.gravity.mulFloat(timeStep));
+
+			if (node.cellPosition.x < this.wall.Min.x + 2 || node.cellPosition.x > this.wall.Max.x - 2) {
+				node.velocity.x = 0;
+			}
+			if (node.cellPosition.y < this.wall.Min.y + 2 || node.cellPosition.y > this.wall.Max.y - 2) {
+				node.velocity.y = 0;
+			}
+		}
+
 
 		// if(isNaN(node.velocity.x) || isNaN(node.velocity.y)) {
 		// 	debugger
@@ -170,6 +174,9 @@ System.prototype.__elasticGridToParticle = function() {
 
 		p.affineMomentum = mat2.multiplyScalar(p.affineMomentum, B, 4);
 		p.position.addSelf(p.velocity.mulFloat(timeStep));
+
+		// safety clamp to ensure particles don't exit simulation domain
+		// p.x = math.clamp(p.x, 1, grid_res - 2);
 
 		let newDeformationGradient = mat2.create();
 

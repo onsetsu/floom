@@ -2,6 +2,8 @@ import Vector2 from "./../external/vector2.js";
 import Node from "./node.js";
 import Material from "./material.js"
 
+const mat2 = glMatrix.mat2;
+
 	var defaultNode = new Node(new Vector2(0,0));
 
 	var Particle = function(x, y, u, v, material){
@@ -79,8 +81,8 @@ import Material from "./material.js"
 			// gridVelocity: this.gridVelocity,
 			material: this.material,
 
-			affineMomentum: this.affineMomentum,
-			deformationGradient: this.deformationGradient,
+			affineMomentum: [...this.affineMomentum],
+			deformationGradient: [...this.deformationGradient],
 			initialVolume: this.initialVolume,
 			// cellX: this.cellX,
 			// cellY: this.cellY,
@@ -106,8 +108,8 @@ import Material from "./material.js"
 	Particle.fromJSON = function(settings) {
 		let particle = new Particle(settings.position.x, settings.position.y, settings.velocity.x, settings.velocity.y, settings.material);
 		// TODO check if any other property has to be set to be functional
-		particle.affineMomentum = settings.affineMomentum;
-		particle.deformationGradient = settings.deformationGradient;
+		particle.affineMomentum = mat2.fromValues(...settings.affineMomentum);
+		particle.deformationGradient = mat2.fromValues(...settings.deformationGradient);
 		particle.initialVolume = settings.initialVolume;
 		return particle;
 	};
