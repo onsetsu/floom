@@ -33,10 +33,8 @@ import Material from "./material.js"
 	    this.T01 = 0;
 	    this.T11 = 0;
 
-	    this.affineMomentum = math.zeros(2,2);
-	    this.deformationGradient = math.matrix([
-	    	[1, 0],
-			[0, 1]]);
+	    this.affineMomentum = glMatrix.mat2.fromValues(0,0,0,0);
+	    this.deformationGradient = glMatrix.mat2.create();
 	    this.initialVolume = -1;
 
 		return new Proxy(this, {

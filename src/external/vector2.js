@@ -303,10 +303,6 @@
 		);
 	};
 
-	Vector2.prototype.toString = function() {
-		return `x: ${this.x}, y: ${this.y}`
-	};
-
 
 	Vector2.prototype.toJson = function() {
 		var resultJson = {
@@ -332,6 +328,14 @@
 	Vector2.fromMathMatrix = function(matrix) {
 		try {
 			return new Vector2(matrix._data[0], matrix._data[1])
+		} catch {
+			throw new Error("wrong matrix format");
+		}
+	};
+
+	Vector2.fromGlMatrixVec2 = function(vec2) {
+		try {
+			return new Vector2(vec2[0], vec2[1])
 		} catch {
 			throw new Error("wrong matrix format");
 		}
