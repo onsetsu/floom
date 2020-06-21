@@ -2,19 +2,26 @@
 		if(typeof y === "undefined")
 			throw Error("initialize Vector2 with less than 2 parameter");
 
-		this.x = x;
-		this.y = y;
+		if (isNaN(x) || isNaN(y)) {
+			debugger;
+		}
 
-		return new Proxy(this, {
+		let proxyVector =  new Proxy(this, {
 			set(target, name, value) {
-				target[name] = value;
-
 				if (isNaN(value)) {
 					debugger;
 				}
+				target[name] = value;
 				return true;
 			}
 		});
+
+		proxyVector.x = x;
+		proxyVector.y = y;
+
+		// proxyVector.toString = () => "x: " + this.x + ", y: " + this.y;
+
+		return proxyVector;
 	};
 
 	Vector2.Zero = new Vector2(0, 0);
@@ -303,6 +310,9 @@
 		);
 	};
 
+	Vector2.prototype.toString = function() {
+		return `x: ${this.x}, y: ${this.y}`;
+	};
 
 	Vector2.prototype.toJson = function() {
 		var resultJson = {

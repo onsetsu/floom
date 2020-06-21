@@ -301,6 +301,8 @@ export default class Renderer {
 			renderedSystem.obstacles.forEach(obstacle => this.drawObstacle(obstacle));
 		}
 
+		this.drawAABB(renderedSystem.wall)
+
 		// draw all particles in the system
 		renderedSystem.particles.forEach(p => this.drawParticle(p));
 

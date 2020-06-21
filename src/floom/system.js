@@ -22,7 +22,7 @@ import Integrator from "./integrator.js";
 		this.integrator = new Integrator(this.grid);
 
 		this.implementationType = "elasticity";
-		this.drawGrid = false;
+		this.drawGrid = true;
 
 		this.doObstacles = settings.doObstacles ? settings.doObstacles : false;
 		this.obstacles =  settings.obstacles ? settings.obstacles : [];
