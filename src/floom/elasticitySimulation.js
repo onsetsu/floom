@@ -6,7 +6,7 @@ import Vector2 from "../external/vector2.js";
 const elastic_lambda = 10.0;
 const elastic_mu = 20.0;
 // TODO: calculate this dynamically, depending on FPS. CAUTION: when this value is too low, NaNs will occur.
-const timeStep = 0.02;
+const timeStep = 1/5;
 const mat2 = glMatrix.mat2;
 const vec2 = glMatrix.vec2;
 
