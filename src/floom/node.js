@@ -1,6 +1,6 @@
 import Vector2 from "./../external/vector2.js";
 
-	var Node = function() {
+	var Node = function(cellPosition) {
 	    this.mass = 0;
 	    this.d = 0;
 	    this.gx = 0;
@@ -13,6 +13,8 @@ import Vector2 from "./../external/vector2.js";
 	    this.acceleration = Vector2.Zero.copy();
 
 	    this.particleDensity = 0;
+
+		this.cellPosition = cellPosition;
 	};
 
 	export default Node;
