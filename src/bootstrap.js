@@ -343,6 +343,11 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 		name: 'particle',
 		label: 'Particle'
 	}, timeMachine);
+	debug.addPanel({
+		type: Debug.Plot,
+		name: 'plot',
+		label: 'Plot Determinant'
+	}, timeMachine);
 
 	// main loop
 	var lastFrame = window.performance.now();
