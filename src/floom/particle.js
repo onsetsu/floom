@@ -38,6 +38,32 @@ const mat2 = glMatrix.mat2;
 	    this.affineMomentum = glMatrix.mat2.fromValues(0,0,0,0);
 	    this.deformationGradient = glMatrix.mat2.create();
 	    this.initialVolume = -1;
+	};
+
+	// TODO: make this method check implicitly check all properties (and infer the right method to call, e.g. for a matrix math.isNaN...)
+	Particle.prototype.isAnyPropertyNaN = function() {
+		return isNaN(this.velocity.x) || isNaN(this.velocity.y) || isNaN(this.position.x) || isNaN(this.position.y) ||
+			isNaN(this.gridVelocity.x) || isNaN(this.gridVelocity.y);
+	};
+
+	Particle.prototype.asProxy = function() {
+		// Replacing all nodes and vector2s with their respective proxy
+		for (const property in this) {
+			if (!this.hasOwnProperty(property)) {
+				continue;
+			}
+			if (Array.isArray(this[property])) {
+				if (typeof this[property][0].asProxy === 'function') {
+					this[property] = this[property].map((element) => element.asProxy());
+				} else {
+					continue;
+				}
+			}
+
+			if (typeof this[property].asProxy === 'function') {
+				this[property] = this[property].asProxy();
+			}
+		}
 
 		return new Proxy(this, {
 			set(target, name, value) {
@@ -63,13 +89,6 @@ const mat2 = glMatrix.mat2;
 				return true;
 			}
 		});
-
-	};
-
-	// TODO: make this method check implicitly check all properties (and infer the right method to call, e.g. for a matrix math.isNaN...)
-	Particle.prototype.isAnyPropertyNaN = function() {
-		return isNaN(this.velocity.x) || isNaN(this.velocity.y) || isNaN(this.position.x) || isNaN(this.position.y) ||
-			isNaN(this.gridVelocity.x) || isNaN(this.gridVelocity.y);
 	};
 
 	// snapshotting logic:
@@ -113,5 +132,7 @@ const mat2 = glMatrix.mat2;
 		particle.initialVolume = settings.initialVolume;
 		return particle;
 	};
+
+
 
 	export default Particle;

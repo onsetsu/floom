@@ -16,6 +16,9 @@ import Vector2 from "./../external/vector2.js";
 
 	    this.cellPosition = cellPosition;
 
+	};
+
+	Node.prototype.asProxy = function() {
 		return new Proxy(this, {
 			set(target, name, value) {
 				target[name] = value;
@@ -36,7 +39,6 @@ import Vector2 from "./../external/vector2.js";
 				return true;
 			}
 		});
-
 	};
 
 	export default Node;

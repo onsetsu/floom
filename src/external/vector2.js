@@ -6,6 +6,12 @@
 			debugger;
 		}
 
+		this.x = x;
+		this.y = y;
+
+	};
+
+	Vector2.prototype.asProxy = function() {
 		let proxyVector =  new Proxy(this, {
 			set(target, name, value) {
 				if (isNaN(value)) {
@@ -15,10 +21,6 @@
 				return true;
 			}
 		});
-
-		proxyVector.x = x;
-		proxyVector.y = y;
-
 		// proxyVector.toString = () => "x: " + this.x + ", y: " + this.y;
 
 		return proxyVector;
