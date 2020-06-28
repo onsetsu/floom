@@ -14,15 +14,15 @@ import Integrator from "./integrator.js";
 			new Vector2(-50, 2),
 			new Vector2(50, 100)
 		);
-		this.gravity = settings.gravity ? settings.gravity : new Vector2(0,-0.05);// 0.004, 0.02
+		this.gravity = settings.gravity ? settings.gravity : new Vector2(0,-0.3);// 0.004, 0.02
 		this.materials = settings.materials ? settings.materials : [];
 		this.particles = settings.particles ? settings.particles : [];
 		this.springs = settings.springs ? settings.springs : [];
 		this.grid = settings.grid ? Grid.fromJSON(settings.grid) : new Grid();
 		this.integrator = new Integrator(this.grid);
 
-		this.implementationType = "surfaceTension";
-		this.drawGrid = false;
+		this.implementationType = "elasticity";
+		this.drawGrid = true;
 
 		this.doObstacles = settings.doObstacles ? settings.doObstacles : false;
 		this.obstacles =  settings.obstacles ? settings.obstacles : [];
@@ -50,6 +50,12 @@ import Integrator from "./integrator.js";
 
 	System.prototype.addParticle = function(particle) {
     	this.particles.push(particle);
+	};
+
+	System.prototype.particlesToProxies = function() {
+		this.particles = this.particles.map((particle) => {
+			return particle.asProxy();
+		});
 	};
 
 	/*

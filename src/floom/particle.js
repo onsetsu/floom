@@ -46,6 +46,51 @@ const mat2 = glMatrix.mat2;
 			isNaN(this.gridVelocity.x) || isNaN(this.gridVelocity.y);
 	};
 
+	Particle.prototype.asProxy = function() {
+		// Replacing all nodes and vector2s with their respective proxy
+		for (const property in this) {
+			if (!this.hasOwnProperty(property)) {
+				continue;
+			}
+			if (Array.isArray(this[property])) {
+				if (typeof this[property][0].asProxy === 'function') {
+					this[property] = this[property].map((element) => element.asProxy());
+				} else {
+					continue;
+				}
+			}
+
+			if (typeof this[property].asProxy === 'function') {
+				this[property] = this[property].asProxy();
+			}
+		}
+
+		return new Proxy(this, {
+			set(target, name, value) {
+				target[name] = value;
+
+				if (name === 'deformationGradient') {
+					if (glMatrix.mat2.determinant(value) < 0) {
+						debugger;
+					}
+				}
+
+				if (value.constructor.name === "Float32Array") {
+					if (value.some((element)=>isNaN(element))) {
+						debugger
+					}
+					return true
+				}
+
+				if (isNaN(value)) {
+					debugger
+				}
+
+				return true;
+			}
+		});
+	};
+
 	// snapshotting logic:
 	Particle.prototype.toJSON = function() {
 		let settings = {
@@ -58,7 +103,6 @@ const mat2 = glMatrix.mat2;
 			affineMomentum: [...this.affineMomentum],
 			deformationGradient: [...this.deformationGradient],
 			initialVolume: this.initialVolume,
-			particleIndex: this.index
 			// cellX: this.cellX,
 			// cellY: this.cellY,
 
@@ -88,5 +132,7 @@ const mat2 = glMatrix.mat2;
 		particle.initialVolume = settings.initialVolume;
 		return particle;
 	};
+
+
 
 	export default Particle;

@@ -14,7 +14,31 @@ import Vector2 from "./../external/vector2.js";
 
 	    this.particleDensity = 0;
 
-		this.cellPosition = cellPosition;
+	    this.cellPosition = cellPosition;
+
+	};
+
+	Node.prototype.asProxy = function() {
+		return new Proxy(this, {
+			set(target, name, value) {
+				target[name] = value;
+
+				let nan = false;
+
+				if(value.x !== undefined && value.y !== undefined) {
+					nan = isNaN(value.x) || isNaN(value.y)
+				}
+
+				if(Array.isArray(value)) {
+					nan = value.some((v) => isNaN(v))
+				}
+
+				if (nan) {
+					debugger;
+				}
+				return true;
+			}
+		});
 	};
 
 	export default Node;

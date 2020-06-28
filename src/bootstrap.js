@@ -131,6 +131,13 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 		datGui.add(fluidSystem, "drawSprings").name('Draw Springs');
 
 		datGui.add(timeMachine, "paused").name('Pause').listen();
+
+		datGui.add(window, "proxy").name('Proxy').onChange(function(value) {
+			if (value === true) {
+				fluidSystem.particlesToProxies();
+			}
+		});
+
 		datGui.add({stepForewards: () => {
 			if (timeMachine.renderIndex < timeMachine.simulateIndex) timeMachine.renderIndex++
 			}}, "stepForewards").name("⏭️ ")
@@ -211,27 +218,28 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 
 	// create and customize Materials
 	var mat0 = fluidSystem.createNewMaterial()
-		.setParticleMass(0.5);
-	var mat1 = fluidSystem.createNewMaterial()
 		.setParticleMass(1.0);
-	var mat2 = fluidSystem.createNewMaterial()
-		.setParticleMass(2.0);
-	var mat3 = fluidSystem.createNewMaterial()
-		.setParticleMass(4.0);
-	var mat4 = fluidSystem.createNewMaterial()
-		.setParticleMass(8.0)
-		.setIsElastic(true);
+	// var mat1 = fluidSystem.createNewMaterial()
+	// 	.setParticleMass(1.0);
+	// var mat2 = fluidSystem.createNewMaterial()
+	// 	.setParticleMass(2.0);
+	// var mat3 = fluidSystem.createNewMaterial()
+	// 	.setParticleMass(4.0);
+	// var mat4 = fluidSystem.createNewMaterial()
+	// 	.setParticleMass(8.0)
+	// 	.setIsElastic(true);
 
 	// create Particles of these Materials
 	new Floom.Group(fluidSystem, -45,  5,  0, 25,  0.1, 0, mat0);
-	new Floom.Group(fluidSystem,   5,  5, 50, 25, -0.1, 0, mat1);
-	new Floom.Group(fluidSystem, -45, 30,  0, 50,  0.1, 0, mat2);
-	new Floom.Group(fluidSystem,   5, 30, 50, 50, -0.1, 0, mat3);
-	new Floom.Group(fluidSystem, -10, 55, 10, 75,    0, 0, mat4);
+	// new Floom.Group(fluidSystem,   5,  5, 50, 25, -0.1, 0, mat1);
+	// new Floom.Group(fluidSystem, -45, 30,  0, 50,  0.1, 0, mat2);
+	// new Floom.Group(fluidSystem,   5, 30, 50, 50, -0.1, 0, mat3);
+	// new Floom.Group(fluidSystem, -10, 55, 10, 75,    0, 0, mat4);
 
 
 	window.inspectedParticleIndex = 0;
 	window.drawTrace = false;
+	window.proxy = false;
 
     // example to spawn individual particles
 	// var p = new Floom.Particle(-45.00001,  55.000001,  0.100001, 0.000001, mat3);
