@@ -131,6 +131,13 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 		datGui.add(fluidSystem, "drawSprings").name('Draw Springs');
 
 		datGui.add(timeMachine, "paused").name('Pause').listen();
+
+		datGui.add(window, "proxy").name('Proxy').onChange(function(value) {
+			if (value === true) {
+				fluidSystem.particlesToProxies();
+			}
+		});
+
 		datGui.add({stepForewards: () => {
 			if (timeMachine.renderIndex < timeMachine.simulateIndex) timeMachine.renderIndex++
 			}}, "stepForewards").name("⏭️ ")
@@ -232,6 +239,7 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 
 	window.inspectedParticleIndex = 0;
 	window.drawTrace = false;
+	window.proxy = false;
 
     // example to spawn individual particles
 	// var p = new Floom.Particle(-45.00001,  55.000001,  0.100001, 0.000001, mat3);

@@ -52,6 +52,12 @@ import Integrator from "./integrator.js";
     	this.particles.push(particle);
 	};
 
+	System.prototype.particlesToProxies = function() {
+		this.particles = this.particles.map((particle) => {
+			return particle.asProxy();
+		});
+	};
+
 	/*
 	 * UPDATE
 	 */
