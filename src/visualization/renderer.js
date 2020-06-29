@@ -1,4 +1,5 @@
 import Vector2 from "./../external/vector2.js";
+import System from "../floom/system.js";
 
 class Configuration {
 
@@ -46,8 +47,6 @@ export default class Renderer {
 		this.context = canvas.getContext('2d');
 
 		this.drawCount = 0;
-
-		this.traceCount = 30;
 
 		// set default pixel extent to allow setOptions
 		this.singlePixelExtent = Vector2.One.copy();
@@ -290,7 +289,7 @@ export default class Renderer {
 	 * Draw fluid system
 	 */
 	drawSystem(timeMachine) {
-		let renderedSystem = timeMachine.getRenderedFluidSystem();
+		let renderedSystem = System.fromJSON(timeMachine.getRenderedFluidSystem());
 		// draw grid nodes
 		if(renderedSystem.drawGrid) {
 			this.drawGrid(renderedSystem.grid);
@@ -312,15 +311,10 @@ export default class Renderer {
 
 		// draw trace for inspected particle
 		if(window.drawTrace){
-			const lowerIndex = (timeMachine.renderIndex - this.traceCount) < 0 ? 0 : timeMachine.renderIndex - this.traceCount;
-			for (let traceIndex = lowerIndex; traceIndex < timeMachine.renderIndex; traceIndex++){
-				const traceSystem = timeMachine.fluidSystems[traceIndex];
-				if (!traceSystem) {
-					break
-				}
-				const traceParticle = traceSystem.particles[window.inspectedParticleIndex];
+			timeMachine.forEachFluidSystem((fluidSystem) => {
+				const traceParticle = fluidSystem.particles[window.inspectedParticleIndex];
 				this.drawCircle(traceParticle.position, 5, "white", 0.2);
-			}
+			});
 		}
 
 		// draw all springs in the system

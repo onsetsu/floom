@@ -166,9 +166,10 @@ export default class Menu {
 		if( renderer ) {
 			this.showNumber( 'draws', renderer.drawCount );
 		}
-		if( timeMachine.fluidSystems[timeMachine.renderIndex] ) {
+		let fluidSystem = timeMachine.getRenderedFluidSystem();
+		if( fluidSystem ) {
 			// calculate number of particles in all layers
-			var numberOfParticles = timeMachine.fluidSystems[timeMachine.renderIndex].particles.length;
+			var numberOfParticles = fluidSystem.particles.length;
 			this.showNumber( 'particles', numberOfParticles );
 		}
 	}

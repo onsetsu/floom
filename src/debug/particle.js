@@ -29,7 +29,7 @@ export default class ParticlePanel extends DebugPanel {
     }
 
     updateParticleData() {
-        let particle = Particle.fromJSON(this.timeMachine.fluidSystems[this.timeMachine.renderIndex].particles[window.inspectedParticleIndex]);
+        let particle = Particle.fromJSON(this.timeMachine.getRenderedFluidSystem().particles[window.inspectedParticleIndex]);
         let paramString = "";
         paramString += 'particleIndex' + ': ' + window.inspectedParticleIndex + '<br>';
         for(let parameter in particle){

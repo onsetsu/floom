@@ -64,20 +64,23 @@ export default class PlotPanel extends DebugPanel {
         if (this.lastIndex === this.timeMachine.simulateIndex) {
             return;
         }
-        let particle = this.timeMachine.fluidSystems[this.timeMachine.simulateIndex].particles[window.inspectedParticleIndex];
-        let determinant = glMatrix.mat2.determinant(particle.deformationGradient);
-        this.updateChart(determinant, this.timeMachine.simulateIndex);
+        this.chart.data.labels = [];
+        this.chart.data.datasets.forEach((dataset) => {
+            dataset.data = [];
+        });
+        this.timeMachine.forEachFluidSystem((fluidSystem, index) => {
+            let particle = fluidSystem.particles[window.inspectedParticleIndex];
+            let determinant = glMatrix.mat2.determinant(particle.deformationGradient);
+            this.chart.data.labels.push(index)
+            this.chart.data.datasets.forEach((dataset) => {
+                dataset.data.push(determinant);
+            });
+        });
+
+        this.chart.update();
 
 
         this.lastIndex = this.timeMachine.simulateIndex;
-    }
-
-    updateChart(value, label){
-        this.chart.data.labels.push(label);
-        this.chart.data.datasets.forEach((dataset) => {
-            dataset.data.push(value);
-        });
-        this.chart.update();
     }
 
     afterRun() {

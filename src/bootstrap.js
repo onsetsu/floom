@@ -1,7 +1,5 @@
 import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "./index.js";
 
-	const MAX_NUMBER_OF_FLUID_SYSTEMS = 100;
-
 	function initTools(input, viewport, system) {
 		var dragTool = new Tool(input);
 		dragTool.onMouseDrag(function(event) {
@@ -142,11 +140,12 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 			if (timeMachine.renderIndex < timeMachine.simulateIndex) timeMachine.renderIndex++
 			}}, "stepForewards").name("⏭️ ")
 		datGui.add({stepBackwards: () => {
-				if (timeMachine.renderIndex > 0 && timeMachine.renderIndex > timeMachine.simulateIndex - MAX_NUMBER_OF_FLUID_SYSTEMS) timeMachine.renderIndex--
+				if (timeMachine.renderIndex > 0 && timeMachine.renderIndex > timeMachine.simulateIndex - timeMachine.maxNumberOfFluidSystems) timeMachine.renderIndex--
 			}}, "stepBackwards").name("⏮️ ")
 
 		datGui.add(timeMachine, "renderIndex").name('Render Index');
 		let inspectedParticleController = datGui.add(window, "inspectedParticleIndex");
+		let inspectedParticleExpressionController = datGui.add(window, "inspectedParticleExpression");
 		let drawTraceController = datGui.add(window, "drawTrace");
 
 		datGuiForMaterials(fluidSystem.materials, datGui);
@@ -238,6 +237,8 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 
 
 	window.inspectedParticleIndex = 0;
+	window.inspectedParticleExpression = "determinant";
+
 	window.drawTrace = false;
 	window.proxy = false;
 
@@ -272,7 +273,7 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 
 
 	// insert first fluidSystem into timeMachine
-	timeMachine.fluidSystems.push(fluidSystem.toJSON());
+	timeMachine.addFluidSystem(fluidSystem.toJSON());
 	// initialize specific datGui for the fluid System
 	datGuiForSystem(fluidSystem, timeMachine);
 
@@ -282,7 +283,7 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 		let shouldUpdate = timeMachine.renderIndex === timeMachine.simulateIndex;
 		if (!shouldUpdate) {
 			// replay
-			fluidSystem = Floom.System.fromJSON(timeMachine.fluidSystems[timeMachine.renderIndex], breakCallback);
+			fluidSystem = Floom.System.fromJSON(timeMachine.getRenderedFluidSystem(), breakCallback);
 		}
 		// entities/map
 		if(graph)
@@ -325,11 +326,7 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 		input.clearPressed();
 		if (!timeMachine.paused) {
 			if (shouldUpdate) {
-				timeMachine.fluidSystems.push(fluidSystem.toJSON());
-				if(timeMachine.fluidSystems.length > MAX_NUMBER_OF_FLUID_SYSTEMS) {
-					// throw away one fluidSystem
-					timeMachine.fluidSystems[timeMachine.simulateIndex - MAX_NUMBER_OF_FLUID_SYSTEMS] = false;
-				}
+				timeMachine.addFluidSystem(fluidSystem.toJSON());
 				timeMachine.simulateIndex++
 			}
 			timeMachine.renderIndex++;
