@@ -16,7 +16,7 @@ export default class TimeMachine {
 		return this.fluidSystems[
 			this.simulateIndex < this.maxNumberOfFluidSystems ?
 				this.renderIndex :
-				this.maxNumberOfFluidSystems - (this.simulateIndex - this.renderIndex)
+				this.maxNumberOfFluidSystems - (this.simulateIndex - this.renderIndex) - 1
 			];
 	}
 
@@ -29,11 +29,9 @@ export default class TimeMachine {
 	}
 
 	forEachFluidSystem(callback) {
-		for(let index = 0; index < this.maxNumberOfFluidSystems && index < this.simulateIndex; index++) {
-			let fluidIndex =  this.simulateIndex < this.maxNumberOfFluidSystems ?
-				this.simulateIndex :
-				this.maxNumberOfFluidSystems;
-			callback(this.fluidSystems[index], fluidIndex);
+		const upperBound = this.simulateIndex < this.maxNumberOfFluidSystems ? this.simulateIndex : this.maxNumberOfFluidSystems - 1;
+		for(let index = 0; index < upperBound; index++) {
+			callback(this.fluidSystems[index], this.simulateIndex - (upperBound - index));
 		}
 	}
 
@@ -42,11 +40,10 @@ export default class TimeMachine {
 	}
 
 	addFluidSystem(fluidSystem){
+		this.fluidSystems.push(fluidSystem);
 		if (this.fluidSystems.length > this.maxNumberOfFluidSystems) {
 			this.fluidSystems.shift();
 		}
-
-		this.fluidSystems.push(fluidSystem)
 	}
 
 	resume() {
