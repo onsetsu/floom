@@ -143,8 +143,8 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 				if (timeMachine.renderIndex > 0 && timeMachine.renderIndex > timeMachine.simulateIndex - timeMachine.maxNumberOfFluidSystems) timeMachine.renderIndex--
 			}}, "stepBackwards").name("⏮️ ")
 
-		datGui.add(timeMachine, "renderIndex").name('Render Index');
-		let inspectedParticleController = datGui.add(window, "inspectedParticleIndex");
+		datGui.add(timeMachine, "renderIndex", 0).name('Render Index');
+		let inspectedParticleController = datGui.add(window, "inspectedParticleIndex", 0);
 		let inspectedParticleExpressionController = datGui.add(window, "inspectedParticleExpression");
 		let drawTraceController = datGui.add(window, "drawTrace");
 
