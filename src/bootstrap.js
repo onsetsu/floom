@@ -237,7 +237,7 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 
 
 	window.inspectedParticleIndex = 0;
-	window.inspectedParticleExpression = "determinant";
+	window.inspectedParticleExpression = "glMatrix.mat2.determinant(particle.deformationGradient)";
 
 	window.drawTrace = false;
 	window.proxy = false;

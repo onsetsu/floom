@@ -23,7 +23,7 @@ export default class PlotPanel extends DebugPanel {
             type: 'line',
             data: {
                 datasets: [{
-                    label: 'Determinant',
+                    label: 'Expression Plot',
                     data: [],
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)'
@@ -59,28 +59,45 @@ export default class PlotPanel extends DebugPanel {
 
 
     updatePlotData(){
-        // Note: Will only plot the determinant for now
-
-        if (this.lastIndex === this.timeMachine.simulateIndex) {
+        if (this.lastIndex === this.timeMachine.simulateIndex || this.failedExpression === window.inspectedParticleExpression) {
             return;
         }
+
         this.chart.data.labels = [];
         this.chart.data.datasets.forEach((dataset) => {
             dataset.data = [];
         });
+
         this.timeMachine.forEachFluidSystem((fluidSystem, index) => {
             let particle = fluidSystem.particles[window.inspectedParticleIndex];
-            let determinant = glMatrix.mat2.determinant(particle.deformationGradient);
-            this.chart.data.labels.push(index)
-            this.chart.data.datasets.forEach((dataset) => {
-                dataset.data.push(determinant);
-            });
+            let evaluationResult = this.evaluateParticleExperession(particle);
+            if(evaluationResult){
+                this.chart.data.labels.push(index)
+                this.chart.data.datasets.forEach((dataset) => {
+                    dataset.data.push(evaluationResult);
+                    dataset.label = "Expression Plot";
+                });
+            } else {
+                this.chart.data.datasets.forEach((dataset) => {
+                    dataset.label = "Expression for the inspected particle (" + window.inspectedParticleIndex + ") could not be evaluated: " +  window.inspectedParticleExpression
+                });
+            }
         });
 
         this.chart.update();
 
 
         this.lastIndex = this.timeMachine.simulateIndex;
+    }
+
+    evaluateParticleExperession(particle) {
+        let value = false;
+        try {
+            value = eval(window.inspectedParticleExpression);
+        } catch {
+            this.failedExpression = window.inspectedParticleExpression;
+        }
+        return value;
     }
 
     afterRun() {
