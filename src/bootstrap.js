@@ -147,6 +147,7 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 		let inspectedParticleController = datGui.add(window, "inspectedParticleIndex", 0);
 		let inspectedParticleExpressionController = datGui.add(window, "inspectedParticleExpression");
 		let drawTraceController = datGui.add(window, "drawTrace");
+		datGui.add(window, "timeStep");
 
 		datGuiForMaterials(fluidSystem.materials, datGui);
 	}
@@ -178,6 +179,8 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 		folder.add(material, "damping").min(0).max(1).step(0.05);
 		folder.add(material, "smoothing").min(0).max(1).step(0.05);
 		folder.add(material, "springK").min(0).max(5).step(0.05);
+		folder.add(material, "elastic_lambda").min(0).max(100).step(1);
+		folder.add(material, "elastic_mu").min(0).max(100).step(1);
 	}
 
 	var canvasId = "floom";
@@ -229,7 +232,7 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 	// 	.setIsElastic(true);
 
 	// create Particles of these Materials
-	new Floom.Group(fluidSystem, -45,  5,  0, 25,  0.1, 0, mat0);
+	new Floom.Group(fluidSystem, -45,  50,  0, 100,  0, 0, mat0);
 	// new Floom.Group(fluidSystem,   5,  5, 50, 25, -0.1, 0, mat1);
 	// new Floom.Group(fluidSystem, -45, 30,  0, 50,  0.1, 0, mat2);
 	// new Floom.Group(fluidSystem,   5, 30, 50, 50, -0.1, 0, mat3);
@@ -241,6 +244,7 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 
 	window.drawTrace = false;
 	window.proxy = false;
+	window.timeStep = 1/5;
 
     // example to spawn individual particles
 	// var p = new Floom.Particle(-45.00001,  55.000001,  0.100001, 0.000001, mat3);

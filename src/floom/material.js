@@ -22,6 +22,9 @@ export default class Material {
 		this.isElastic = false;
 		this.springK = 0.3;
 
+		this.elastic_lambda = 50.0;
+		this.elastic_mu = 20.0;
+
 		this.yieldPoint = 0;
 		this.yieldRate = 1;
 	};

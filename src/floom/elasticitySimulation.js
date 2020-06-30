@@ -3,10 +3,10 @@ import Vector2 from "../external/vector2.js";
 // import * as glMatrix from "../external/glMatrix.js";
 
 // Lamé parameters for stress-strain relationship
-const elastic_lambda = 10.0;
-const elastic_mu = 20.0;
+// const elastic_lambda = 50.0;
+// const elastic_mu = 20.0;
 // TODO: calculate this dynamically, depending on FPS. CAUTION: when this value is too low, NaNs will occur.
-const timeStep = 1/5;
+// const timeStep = 1/50;
 const mat2 = glMatrix.mat2;
 const vec2 = glMatrix.vec2;
 
@@ -17,7 +17,7 @@ System.prototype.elasticitySimulation = function() {
 	this.alreadyBreaked = false;
 	this.drawGrid = true;
 
-	if (this.particles[0].initialVolume === -1) {
+	if (this.particles[0].initialVolume === 0) {
 		this.__elasticParticleToGrid();
 		this.__calculateInitialVolume()
 	}
@@ -36,8 +36,8 @@ System.prototype.__calculateInitialVolume = function() {
 
 		let density = 0;
 
-		this.integrator.integrate(p, function(particle, node, phi, gxpy, pxgy){
-			density += node.mass * phi
+		this.integrator.integrate(p, function(particle, node, phi, gxpy, pxgy, weight){
+			density += node.mass * (weight + 0.5)
 		});
 
 		p.initialVolume = p.material.particleMass / density
@@ -56,8 +56,8 @@ System.prototype.__elasticParticleToGrid = function() {
 		const F_minus_F_inv_T = mat2.subtract(mat2.create(), p.deformationGradient, F_inv_T);
 
 		// MPM course equation 48
-		const P_term_0 = mat2.multiplyScalar(mat2.create(), F_minus_F_inv_T ,elastic_mu);
-		const P_term_1 = mat2.multiplyScalar(mat2.create(), F_inv_T, elastic_lambda * Math.log(J));
+		const P_term_0 = mat2.multiplyScalar(mat2.create(), F_minus_F_inv_T, p.material.elastic_mu);
+		const P_term_1 = mat2.multiplyScalar(mat2.create(), F_inv_T, p.material.elastic_lambda * Math.log(J));
 		const P = mat2.add(mat2.create(), P_term_0, P_term_1);
 
 
@@ -74,13 +74,16 @@ System.prototype.__elasticParticleToGrid = function() {
 		// this term is used in MLS-MPM paper eq. 16. with quadratic weights, Mp = (1/4) * (delta_x)^2.
 		// in this simulation, delta_x = 1, because i scale the rendering of the domain rather than the domain itself.
 		// we multiply by dt as part of the process of fusing the momentum and force update for MLS-MPM
-		const eq_16_term_0 = mat2.multiplyScalar(mat2.create(), stress, -volume * 4 * timeStep);
+		const eq_16_term_0 = mat2.multiplyScalar(mat2.create(), stress, -volume * 4 * window.timeStep);
 
 		this.integrator.updateStateAndGradientOf(p);
 		this.integrator.prepareParticle(p);
-
-		this.integrator.integrate(p, function(particle, node, phi, gxpy, pxgy){
-			const cell_dist = vec2.create(gxpy, pxgy);
+		let index = 0;
+		this.integrator.integrate(p, function(particle, node, phi, gxpy, pxgy, weight){
+			// cell_dist needs to be the distance of the particle to the cell
+			// const cell_dist = vec2.create(gxpy, pxgy);
+			const cell_dist_vector = node.cellPosition.sub(particle.position).add(new Vector2(0.5,0.5));
+			const cell_dist = new vec2.fromValues(cell_dist_vector.x, cell_dist_vector.y);
 			const Q = Vector2.fromGlMatrixVec2(
 				vec2.transformMat2(
 					vec2.create(),
@@ -89,17 +92,16 @@ System.prototype.__elasticParticleToGrid = function() {
 
 			// const Q = Vector2.fromMathMatrix(math.multiply(p.affineMomentum, cell_dist));
 
-			const weightedMass = phi * particle.material.particleMass;
+			const weightedMass = (weight + 0.5) * particle.material.particleMass;
 			node.mass += weightedMass;
 			node.velocity.addSelf((particle.velocity.add(Q).mulFloat(weightedMass)));
-
 
 			// fused force/momentum update from MLS-MPM
 			// see MLS-MPM paper, equation listed after eqn. 28
 			const momentum = Vector2.fromGlMatrixVec2(vec2.transformMat2(
 				vec2.create(),
 				cell_dist,
-				mat2.multiplyScalar(mat2.create(), eq_16_term_0, phi)));
+				mat2.multiplyScalar(mat2.create(), eq_16_term_0, weight)));
 			node.velocity.addSelf(momentum);
 
 
@@ -122,7 +124,7 @@ System.prototype.__elasticGridVelocityUpdate = function() {
 		// convert momentum to velocity, apply gravity
 		if (node.mass > 0) {
 			node.velocity.divFloatSelf(node.mass);
-			node.velocity.addSelf(this.gravity.mulFloat(timeStep));
+			node.velocity.addSelf(this.gravity.mulFloat(window.timeStep));
 
 			if (node.cellPosition.x < this.wall.Min.x + 2 || node.cellPosition.x > this.wall.Max.x - 2) {
 				node.velocity.x = 0;
@@ -151,14 +153,14 @@ System.prototype.__elasticGridToParticle = function() {
 		// where B is calculated in the inner loop at (D^-1) = 4 is a constant when using quadratic interpolation functions
 		let B = mat2.fromValues(0,0,0,0);;
 
-		this.integrator.integrate(p, function(particle, node, phi, gxpy, pxgy){
+		this.integrator.integrate(p, function(particle, node, phi, gxpy, pxgy, weight){
 
-			const weighted_velocity = new Vector2(node.velocity.x * phi, node.velocity.y * phi);
+			const weighted_velocity = new Vector2(node.velocity.x * weight, node.velocity.y * weight);
 
 			// APIC paper equation 10, constructing inner term for B
 			const term = mat2.fromValues(
-				weighted_velocity.x * gxpy, weighted_velocity.x * pxgy,
-				weighted_velocity.y * gxpy, weighted_velocity.y * pxgy);
+				weighted_velocity.x * gxpy, weighted_velocity.x * gxpy,
+				weighted_velocity.y * pxgy, weighted_velocity.y * pxgy);
 
 			B = mat2.add(B, B, term);
 			particle.velocity.addSelf(weighted_velocity);
@@ -173,10 +175,10 @@ System.prototype.__elasticGridToParticle = function() {
 		// }
 
 		p.affineMomentum = mat2.multiplyScalar(p.affineMomentum, B, 4);
-		p.position.addSelf(p.velocity.mulFloat(timeStep));
+		p.position.addSelf(p.velocity.mulFloat(window.timeStep));
 
 		// safety clamp to ensure particles don't exit simulation domain
-		// p.x = math.clamp(p.x, 1, grid_res - 2);
+		p.position.clampSelf(this.wall.Min, this.wall.Max);
 
 		let newDeformationGradient = mat2.create();
 
@@ -186,7 +188,7 @@ System.prototype.__elasticGridToParticle = function() {
 			mat2.multiplyScalar(
 				mat2.create(),
 				p.affineMomentum,
-				timeStep));
+				window.timeStep));
 
 		p.deformationGradient = mat2.multiply(
 			p.deformationGradient,

@@ -70,6 +70,17 @@ export default class Integrator {
 		p.sy[6] = p.px[0] * p.gy[0];
 		p.sy[7] = p.px[1] * p.gy[0];
 		p.sy[8] = p.px[2] * p.gy[0];
+
+		// a very new try to finally get it right
+		p.cellDist[0] = p.gx[1] * p.gy[1];
+		p.cellDist[1] = p.gx[2] * p.gy[1];
+		p.cellDist[2] = p.gx[2] * p.gy[2];
+		p.cellDist[3] = p.gx[1] * p.gy[2];
+		p.cellDist[4] = p.gx[0] * p.gy[2];
+		p.cellDist[5] = p.gx[0] * p.gy[1];
+		p.cellDist[6] = p.gx[0] * p.gy[0];
+		p.cellDist[7] = p.gx[1] * p.gy[0];
+		p.cellDist[8] = p.gx[2] * p.gy[0];
 	}
 
 	// cache the nodes a particle is adjacent to as a particles
@@ -87,7 +98,10 @@ export default class Integrator {
 
 	integrate(particle, fn) {
 		for (var i = 0; i < 9; i++) {
-			fn.call(undefined, particle, particle.node[i], particle.s[i], particle.sx[i], particle.sy[i]);
+			if (isNaN(particle.cellDist[i])) {
+				debugger;
+			}
+			fn.call(undefined, particle, particle.node[i], particle.s[i], particle.sx[i], particle.sy[i], particle.cellDist[i]);
 		}
 	}
 }

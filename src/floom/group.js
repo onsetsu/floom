@@ -2,13 +2,16 @@ import Particle from "./particle.js";
 import Spring from "./spring.js";
 import Material from "./material.js";
 
-	var Group = function(system, minX, minY, maxX, maxY, u, v, material) {
+	var Group = function(system, minX, minY, maxX, maxY, u, v, material, dist = 1) {
 		this.material = material;
 		
 		var map = [];
-		for (var i = minX; i < maxX; i++) {
+		for (var i = minX; i < maxX; i = i + dist) {
 			map[map.length] = [];
-	        for (var j = minY; j < maxY; j++) {
+	        for (var j = minY; j < maxY; j = j + dist) {
+	        	// if (j % 2 === 0 || i % 2 === 0) {
+	        	// 	continue;
+				// }
 	        	var p = new Particle(i, j, u, v, material);
 	        	system.addParticle(p);
 	        	if(material.isElastic) {

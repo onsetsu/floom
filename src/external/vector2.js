@@ -325,6 +325,20 @@
 		return resultJson;
 	};
 
+	Vector2.prototype.clampSelf = function(min, max) {
+		if (this.x < min.x) {
+			this.x = min.x;
+		} else if (this.x > max) {
+			this.x = max.x;
+		}
+
+		if (this.y < min.y) {
+			this.y = min.y;
+		} else if (this.y > max) {
+			this.y = max.y;
+		}
+	};
+
 	Vector2.fromJson = function(vectorJson) {
 		return new Vector2(vectorJson.x, vectorJson.y);
 	};

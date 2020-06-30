@@ -26,6 +26,7 @@ const mat2 = glMatrix.mat2;
 	    this.s = [0,0,0,0,0,0,0,0,0];
 	    this.sx = [0,0,0,0,0,0,0,0,0];
 	    this.sy = [0,0,0,0,0,0,0,0,0];
+	    this.cellDist = [0,0,0,0,0,0,0,0,0];
 
 	    this.node = [defaultNode, defaultNode, defaultNode,
 	                 defaultNode, defaultNode, defaultNode,
@@ -37,7 +38,7 @@ const mat2 = glMatrix.mat2;
 
 	    this.affineMomentum = glMatrix.mat2.fromValues(0,0,0,0);
 	    this.deformationGradient = glMatrix.mat2.create();
-	    this.initialVolume = -1;
+	    this.initialVolume = 0;
 	};
 
 	// TODO: make this method check implicitly check all properties (and infer the right method to call, e.g. for a matrix math.isNaN...)
