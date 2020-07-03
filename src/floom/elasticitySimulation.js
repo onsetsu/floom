@@ -6,7 +6,7 @@ import Vector2 from "../external/vector2.js";
 const elastic_lambda = 10.0;
 const elastic_mu = 20.0;
 // TODO: calculate this dynamically, depending on FPS. CAUTION: when this value is too low, NaNs will occur.
-const timeStep = 1/5;
+const timeStep = 1/20;
 const mat2 = glMatrix.mat2;
 const vec2 = glMatrix.vec2;
 
@@ -40,7 +40,7 @@ System.prototype.__calculateInitialVolume = function() {
 			density += node.mass * phi
 		});
 
-		p.initialVolume = p.material.particleMass / density
+		p.initialVolume = p.material.particleMass / density;
 	}, this);
 };
 
@@ -80,7 +80,8 @@ System.prototype.__elasticParticleToGrid = function() {
 		this.integrator.prepareParticle(p);
 
 		this.integrator.integrate(p, function(particle, node, phi, gxpy, pxgy){
-			const cell_dist = vec2.create(gxpy, pxgy);
+			const cell_dist_vector = node.cellPosition.sub(particle.position);
+			const cell_dist = new vec2.fromValues(cell_dist_vector.x, cell_dist_vector.y);
 			const Q = Vector2.fromGlMatrixVec2(
 				vec2.transformMat2(
 					vec2.create(),
@@ -155,10 +156,13 @@ System.prototype.__elasticGridToParticle = function() {
 
 			const weighted_velocity = new Vector2(node.velocity.x * phi, node.velocity.y * phi);
 
+
+			const cell_dist_vector = node.cellPosition.sub(particle.position);
+
 			// APIC paper equation 10, constructing inner term for B
 			const term = mat2.fromValues(
-				weighted_velocity.x * gxpy, weighted_velocity.x * pxgy,
-				weighted_velocity.y * gxpy, weighted_velocity.y * pxgy);
+				weighted_velocity.x * cell_dist_vector.x, weighted_velocity.x * cell_dist_vector.y,
+				weighted_velocity.y * cell_dist_vector.y, weighted_velocity.y * cell_dist_vector.y);
 
 			B = mat2.add(B, B, term);
 			particle.velocity.addSelf(weighted_velocity);
