@@ -177,6 +177,8 @@ System.prototype.__elasticGridToParticle = function() {
 
 		// safety clamp to ensure particles don't exit simulation domain
 		// p.x = math.clamp(p.x, 1, grid_res - 2);
+		p.position.clampSelf(this.wall.Min, this.wall.Max);
+
 
 		let newDeformationGradient = mat2.create();
 
