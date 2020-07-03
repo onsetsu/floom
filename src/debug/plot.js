@@ -71,15 +71,15 @@ export default class PlotPanel extends DebugPanel {
         this.timeMachine.forEachFluidSystem((fluidSystem, index) => {
             let particle = fluidSystem.particles[window.inspectedParticleIndex];
             let evaluationResult = this.evaluateParticleExperession(particle);
-            if(evaluationResult){
+            if(evaluationResult === undefined){
+                this.chart.data.datasets.forEach((dataset) => {
+                    dataset.label = "Expression for the inspected particle (" + window.inspectedParticleIndex + ") could not be evaluated: " +  window.inspectedParticleExpression
+                });
+            } else {
                 this.chart.data.labels.push(index)
                 this.chart.data.datasets.forEach((dataset) => {
                     dataset.data.push(evaluationResult);
                     dataset.label = "Expression Plot";
-                });
-            } else {
-                this.chart.data.datasets.forEach((dataset) => {
-                    dataset.label = "Expression for the inspected particle (" + window.inspectedParticleIndex + ") could not be evaluated: " +  window.inspectedParticleExpression
                 });
             }
         });
@@ -96,6 +96,7 @@ export default class PlotPanel extends DebugPanel {
             value = eval(window.inspectedParticleExpression);
         } catch {
             this.failedExpression = window.inspectedParticleExpression;
+            return undefined;
         }
         return value;
     }
