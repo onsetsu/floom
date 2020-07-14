@@ -169,12 +169,12 @@ System.prototype.__elasticGridToParticle = function() {
 		});
 
 		// Pause execution first time a NaN occurs.
-		// if(p.isAnyPropertyNaN() && !this.alreadyBreaked) {
-		// 	this.breakCallback();
-		// 	// TODO: find a nicer solution than keeping this index globally
-		// 	window.inspectedParticleIndex = particleIndex
-		// 	this.alreadyBreaked = true;
-		// }
+		if(p.isAnyPropertyNaN() && !this.alreadyBreaked) {
+			this.breakCallback();
+			// TODO: find a nicer solution than keeping this index globally
+			window.inspectedParticleIndex = particleIndex
+			this.alreadyBreaked = true;
+		}
 
 		p.affineMomentum = mat2.multiplyScalar(p.affineMomentum, B, 4);
 		p.position.addSelf(p.velocity.mulFloat(timeStep));
