@@ -306,23 +306,23 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 		if(graph)
 			graph.beginClock('update');
 
-		if (!timeMachine.paused && shouldUpdate){
-			input.update();
-			// viewport manipulation
-			if(input.pressed("rightclick")) {
-				lastPoint.set(input.mouse);
-			}
-			if(input.state("rightclick")) {
-				viewport.translateBy(lastPoint.sub(input.mouse));
-				lastPoint.set(input.mouse);
-			}
-			if(input.state("zoomIn")) {
-				viewport.zoomIn();
-			}
-			if(input.state("zoomOut")) {
-				viewport.zoomOut();
-			}
+		input.update();
+		// viewport manipulation
+		if(input.pressed("rightclick")) {
+			lastPoint.set(input.mouse);
+		}
+		if(input.state("rightclick")) {
+			viewport.translateBy(lastPoint.sub(input.mouse));
+			lastPoint.set(input.mouse);
+		}
+		if(input.state("zoomIn")) {
+			viewport.zoomIn();
+		}
+		if(input.state("zoomOut")) {
+			viewport.zoomOut();
+		}
 
+		if (!timeMachine.paused && shouldUpdate){
 			fluidSystem.update(timePassed);
 		}
 
