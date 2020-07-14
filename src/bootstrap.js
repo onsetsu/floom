@@ -351,7 +351,7 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 	debug.addPanel({
 		type: Debug.Plot,
 		name: 'plot',
-		label: 'Plot Determinant'
+		label: 'Plot'
 	}, timeMachine);
 
 	// main loop
