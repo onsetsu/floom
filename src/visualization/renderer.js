@@ -313,7 +313,9 @@ export default class Renderer {
 		if(window.drawTrace){
 			timeMachine.forEachFluidSystem((fluidSystem) => {
 				const traceParticle = fluidSystem.particles[window.inspectedParticleIndex];
-				this.drawCircle(traceParticle.position, 5, "white", 0.2);
+				if (traceParticle) {
+					this.drawCircle(traceParticle.position, 5, "white", 0.2);
+				}
 			});
 		}
 
