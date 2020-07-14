@@ -59,7 +59,7 @@ export default class PlotPanel extends DebugPanel {
 
 
     updatePlotData(){
-        if (this.lastIndex === this.timeMachine.simulateIndex || this.failedExpression === window.inspectedParticleExpression) {
+        if (this.failedExpression === window.inspectedParticleExpression) {
             return;
         }
 
