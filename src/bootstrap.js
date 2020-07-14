@@ -72,12 +72,29 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 		});
 		consumeTool.name = "consume";
 
+		var selectTool = new Tool(input);
+		selectTool.onMouseDrag(function(event) {
+			let nextSelectedParticleIndex = 0;
+			let shortestDistance = Infinity;
+			for(var i = 0; i < system.getNumberOfParticles(); i++) {
+				let distance = system.particles[i].position.sub(event.getPositionInWorld(viewport)).lengthSquared();
+				if(distance < shortestDistance){
+					shortestDistance = distance;
+					nextSelectedParticleIndex = i;
+				}
+			}
+
+			window.inspectedParticleIndex = nextSelectedParticleIndex;
+		});
+		selectTool.name = "select";
+
 		var keyToolMap = {
 			D: dragTool,
 			A: attractTool,
 			R: repelTool,
 			S: spawnTool,
-			C: consumeTool
+			C: consumeTool,
+			P: selectTool
 		};
 
 		Object.entries(keyToolMap).forEach(function([key, tool]) {
