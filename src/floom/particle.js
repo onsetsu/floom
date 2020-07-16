@@ -38,6 +38,10 @@ const mat2 = glMatrix.mat2;
 	    this.affineMomentum = glMatrix.mat2.fromValues(0,0,0,0);
 	    this.deformationGradient = glMatrix.mat2.create();
 	    this.initialVolume = -1;
+
+		if (window.proxy) {
+			return this.asProxy();
+		}
 	};
 
 	// TODO: make this method check implicitly check all properties (and infer the right method to call, e.g. for a matrix math.isNaN...)
@@ -68,12 +72,6 @@ const mat2 = glMatrix.mat2;
 		return new Proxy(this, {
 			set(target, name, value) {
 				target[name] = value;
-
-				if (name === 'deformationGradient') {
-					if (glMatrix.mat2.determinant(value) < 0) {
-						debugger;
-					}
-				}
 
 				if (value.constructor.name === "Float32Array") {
 					if (value.some((element)=>isNaN(element))) {

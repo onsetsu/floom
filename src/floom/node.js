@@ -16,6 +16,9 @@ import Vector2 from "./../external/vector2.js";
 
 	    this.cellPosition = cellPosition;
 
+		if (window.proxy) {
+			return this.asProxy();
+		}
 	};
 
 	Node.prototype.asProxy = function() {

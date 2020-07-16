@@ -2,12 +2,12 @@ var Vector2 = function(x, y) {
 	if(typeof y === "undefined")
 		throw Error("initialize Vector2 with less than 2 parameter");
 
-	if (isNaN(x) || isNaN(y)) {
-		debugger;
-	}
-
 	this.x = x;
 	this.y = y;
+
+	if (window.proxy) {
+		return this.asProxy();
+	}
 
 };
 
