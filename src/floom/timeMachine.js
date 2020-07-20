@@ -4,7 +4,7 @@ export default class TimeMachine {
 	constructor() {
 		this.simulateIndex = 0;
 		this.renderIndex = 0;
-		this.paused = true;
+		this.paused = false;
 		this.fluidSystems = [];
 		this.maxNumberOfFluidSystems = 100;
 	};

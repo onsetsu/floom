@@ -8,7 +8,7 @@ import Grid from "./grid.js";
 import Obstacle from "./obstacle.js";
 import Integrator from "./integrator.js";
 
-	var System = function(settings, breakCallback) {
+	var System = function(settings) {
 		settings = settings ? settings : {};
 		this.wall = settings.wall ? settings.wall : new AABB(
 			new Vector2(-50, 2),
@@ -29,8 +29,6 @@ import Integrator from "./integrator.js";
 
 		this.doSprings = settings.doSprings ? settings.doSprings : false;
 		this.drawSprings = settings.drawSprings ? settings.drawSprings : false;
-
-		this.breakCallback = breakCallback;
 	};
 
 	System.prototype.getNumberOfParticles = function() {
@@ -62,8 +60,8 @@ import Integrator from "./integrator.js";
 	 * UPDATE
 	 */
 	System.prototype.update = function() {
+		this.alreadyBreaked = false;
 		this.grid.update(this);
-
 		if(this.implementationType === "surfaceTension") {
 			this.surfaceTensionImplementation();
 		} else if (this.implementationType === "mls") {
@@ -73,6 +71,16 @@ import Integrator from "./integrator.js";
 		} else {
 			this.simpleSimulation();
 		}
+
+		this.particles.forEach((p, particleIndex) => {
+			// Pause execution first time a NaN occurs.
+			if(window.breakOnNaN && !this.alreadyBreaked && p.isAnyPropertyNaN()) {
+				window.useProxies = true;
+				// TODO: find a nicer solution than keeping this index globally
+				window.inspectedParticleIndex = particleIndex;
+				this.alreadyBreaked = true;
+			}
+		});
 	};
 
 
@@ -400,9 +408,9 @@ import Integrator from "./integrator.js";
 		return Object.assign({}, settings)
 	};
 
-	System.fromJSON = function(settings, breakCallback) {
+	System.fromJSON = function(settings) {
 		// TODO: a cleaner way would be to initialize the Grid and after that fill it with the data from settings
-		let system = new System(settings, breakCallback);
+		let system = new System(settings);
 		system.materials = settings.materials;
 		system.implementationType = settings.implementationType;
 		system.particles = settings.particles.map((particle) => Particle.fromJSON(particle));

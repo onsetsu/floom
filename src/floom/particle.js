@@ -39,7 +39,7 @@ const mat2 = glMatrix.mat2;
 	    this.deformationGradient = glMatrix.mat2.create();
 	    this.initialVolume = -1;
 
-		if (window.proxy) {
+		if (window.useProxies) {
 			return this.asProxy();
 		}
 	};

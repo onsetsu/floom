@@ -5,7 +5,7 @@ var Vector2 = function(x, y) {
 	this.x = x;
 	this.y = y;
 
-	if (window.proxy) {
+	if (window.useProxies) {
 		return this.asProxy();
 	}
 

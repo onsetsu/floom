@@ -14,7 +14,6 @@ const vec2 = glMatrix.vec2;
  * Simple elasticity implementation of MPM taken from https://github.com/nialltl/incremental_mpm
  */
 System.prototype.elasticitySimulation = function() {
-	this.alreadyBreaked = false;
 	this.drawGrid = true;
 
 	if (this.particles[0].initialVolume === -1) {
@@ -167,14 +166,6 @@ System.prototype.__elasticGridToParticle = function() {
 			B = mat2.add(B, B, term);
 			particle.velocity.addSelf(weighted_velocity);
 		});
-
-		// Pause execution first time a NaN occurs.
-		if(p.isAnyPropertyNaN() && !this.alreadyBreaked) {
-			this.breakCallback();
-			// TODO: find a nicer solution than keeping this index globally
-			window.inspectedParticleIndex = particleIndex
-			this.alreadyBreaked = true;
-		}
 
 		p.affineMomentum = mat2.multiplyScalar(p.affineMomentum, B, 4);
 		p.position.addSelf(p.velocity.mulFloat(timeStep));

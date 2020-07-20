@@ -147,12 +147,6 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 
 		datGui.add(timeMachine, "paused").name('Pause').listen();
 
-		datGui.add(window, "proxy").name('Proxy').onChange(function(value) {
-			if (value === true) {
-				fluidSystem.particlesToProxies();
-			}
-		});
-
 		datGui.add({stepForewards: () => {
 			if (timeMachine.renderIndex < timeMachine.simulateIndex) timeMachine.renderIndex++
 			}}, "stepForewards").name("⏭️ ")
@@ -161,9 +155,9 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 			}}, "stepBackwards").name("⏮️ ")
 
 		datGui.add(timeMachine, "renderIndex", 0).name('Render Index');
-		let inspectedParticleController = datGui.add(window, "inspectedParticleIndex", 0);
-		let inspectedParticleExpressionController = datGui.add(window, "inspectedParticleExpression");
-		let drawTraceController = datGui.add(window, "drawTrace");
+		datGui.add(window, "inspectedParticleExpression").name('Plot Expression');
+		datGui.add(window, "drawTrace").name('Draw Trace');
+		datGui.add(window, "breakOnNaN").name('Break NaN');
 
 		datGuiForMaterials(fluidSystem.materials, datGui);
 	}
@@ -226,11 +220,9 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 	input.bind(Input.KEY.N, "nextAction");
 
 	const timeMachine = new Floom.TimeMachine();
-	let pauseAfterUpdateCycle = false;
-	let breakCallback = () => { pauseAfterUpdateCycle = true };
 
 	// create fluid System
-	var fluidSystem = new Floom.System({}, breakCallback);
+	var fluidSystem = new Floom.System({});
 
 	// create and customize Materials
 	var mat0 = fluidSystem.createNewMaterial()
@@ -254,10 +246,11 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 
 
 	window.inspectedParticleIndex = 0;
+	window.breakOnNaN = false;
 	window.inspectedParticleExpression = "glMatrix.mat2.determinant(particle.deformationGradient)";
+	window.useProxies = false;
 
 	window.drawTrace = false;
-	window.proxy = false;
 
     // example to spawn individual particles
 	// var p = new Floom.Particle(-45.00001,  55.000001,  0.100001, 0.000001, mat3);
@@ -300,7 +293,7 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 		let shouldUpdate = timeMachine.renderIndex === timeMachine.simulateIndex;
 		if (!shouldUpdate) {
 			// replay
-			fluidSystem = Floom.System.fromJSON(timeMachine.getRenderedFluidSystem(), breakCallback);
+			fluidSystem = Floom.System.fromJSON(timeMachine.getRenderedFluidSystem());
 		}
 		// entities/map
 		if(graph)
@@ -341,16 +334,20 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 
 		// interaction
 		input.clearPressed();
+
+
+		if (window.useProxies) {
+			// the fromJSON constructor already creates Proxies when the window.useProxies flag is set
+			fluidSystem = Floom.System.fromJSON(timeMachine.getRenderedFluidSystem());
+			return
+		}
+
 		if (!timeMachine.paused) {
 			if (shouldUpdate) {
 				timeMachine.addFluidSystem(fluidSystem.toJSON());
 				timeMachine.simulateIndex++
 			}
 			timeMachine.renderIndex++;
-		}
-		if (pauseAfterUpdateCycle) {
-			timeMachine.pause();
-			pauseAfterUpdateCycle = false;
 		}
 	}
 
