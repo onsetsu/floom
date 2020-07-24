@@ -64,8 +64,6 @@ import Integrator from "./integrator.js";
 		this.grid.update(this);
 		if(this.implementationType === "surfaceTension") {
 			this.surfaceTensionImplementation();
-		} else if (this.implementationType === "mls") {
-			this.mlsSimulation();
 		} else if (this.implementationType === "elasticity") {
 			this.elasticitySimulation();
 		} else {

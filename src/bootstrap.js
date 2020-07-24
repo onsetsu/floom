@@ -138,8 +138,7 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 		datGui.add(fluidSystem, "implementationType", {
 			"Surface Tension": "surfaceTension",
 			"Simple Implementation": "simple",
-			"Elasticity Implementation": "elasticity",
-			"MLS Implementation": "mls" }).name('Implementation Type');
+			"Elasticity Implementation": "elasticity"}).name('Implementation Type');
 		datGui.add(fluidSystem, "drawGrid").name('Draw Grid');
 		datGui.add(fluidSystem, "doObstacles").name('Obstacles');
 		datGui.add(fluidSystem, "doSprings").name('Compute Springs');

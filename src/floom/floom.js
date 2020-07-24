@@ -8,7 +8,6 @@ import System from "./system.js";
 import TimeMachine from "./timeMachine.js";
 import "./simplesimulation.js";
 import "./elasticitySimulation.js";
-import "./mlsSimulation.js";
 
 var Floom = function() {};
 
