@@ -74,23 +74,34 @@
 				<h3>Options</h3>
 				<ul>
 					<li>Gravity - Affect gravity of the simulation</li>
-					<li>Implementation Type - Switch between a simple fast, a mls and a more sophisticated implementation</li>
+					<li>Implementation Type - Switch between a simple fast, an elasticity and a more sophisticated implementation</li>
 					<ul>
 						<li>Simple - All particles share the same common characteristics</li>
-						<li>MLS - implementation taken from https://github.com/nialltl/incremental_mpm</li>
+						<li>Elasticity - implementation taken from https://github.com/nialltl/incremental_mpm</li>
 						<li>Surface Tension - Different Materials may have different properties and 'blob' together</li>
 					</ul>
 					<li>Draw Grid - Render the grid extent and active nodes of the simulation</li>
 					<li>Obstacles - Render and calculate simple circular objects</li>
 					<li>Compute Springs - Use experimental to simulate elastic materials</li>
 					<li>Draw Springs - Render springs with colors representing the spring's tension</li>
+					<li>Pause - Pause the simulation</li>
+					<li>Step forward - ⏭ Step one simulation step forwards</li>
+					<li>Step backward - ⏮ Step one simulation step backwards</li>
+					<li>Render index - jump to the frame of this simulation index</li>
+					<li>Plot Expression - enter an expression using `particle` as the reference to the currently selected/inspected particle. This expression will be rendered in the Plot tab of the bottom panel.</li>
+					<li>Draw Trace - Render the selected particles position over the last 100 Frames.</li>
+					<li>Break NaN - Automatically pause the debugger when any particle value becomes `NaN` (only works when the inspector is open).</li>
 					<li>Materials - Configure various properties of the used materials<br />
 						(E.g. changing a material's mass affects the buoyancy of the corresponding particles)
 					</li>
 				</ul>
 
-				<h3>Performance</h3>
-				<p>Toggle performance monitoring using the button in the lower left corner</p>
+				<h3>Bottom Panel</h3>
+				<ul>
+					<li>Particle - Observe the selected particles values</li>
+					<li>Performance - Toggle performance monitoring using the button in the lower left corner</li>
+					<li>Plot - View the result of the expression from the right hand sides field "Plot Expression"</li>
+				</ul>
 			</div>
 		</div>
         <script>
