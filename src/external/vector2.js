@@ -58,11 +58,11 @@ export default class Vector2 {
 	}
 
 	equals(vector) {
-		return this.x == vector.x && this.y == vector.y;
+		return this.x === vector.x && this.y === vector.y;
 	}
 
 	notEquals(vector) {
-		return this.x != vector.x || this.y != vector.y;
+		return this.x !== vector.x || this.y !== vector.y;
 	}
 
 	add(vector) {
@@ -96,28 +96,28 @@ export default class Vector2 {
 	}
 		
 	// scaling!
-	mulFloat(right) {
+	mulFloat(scalar) {
 		return new Vector2(
-			this.x * right,
-			this.y * right
+			this.x * scalar,
+			this.y * scalar
 		);
 	}
-	mulFloatSelf(right) {
-		this.x *= right;
-		this.y *= right;
+	mulFloatSelf(scalar) {
+		this.x *= scalar;
+		this.y *= scalar;
 		return this;
 	}
 		
-	divFloat(right) {
-		var inv = 1.0 / right;
+	divFloat(scalar) {
+		const inv = 1.0 / scalar;
 		return new Vector2(
 			this.x * inv,
 			this.y * inv
 		);
 	}
-	divFloatSelf(right) {
-		this.x /= right;
-		this.y /= right;
+	divFloatSelf(scalar) {
+		this.x /= scalar;
+		this.y /= scalar;
 		return this;
 	}
 
@@ -160,17 +160,17 @@ export default class Vector2 {
 		return this.x*this.x + this.y*this.y;
 	}
 	distance(right) {
-		var x = this.x - right.x;
-		var y = this.y - right.y;
+		const x = this.x - right.x;
+		const y = this.y - right.y;
 		return Math.sqrt(x*x + y*y);
 	}
 	distanceSquared(right) {
-		var x = this.x - right.x;
-		var y = this.y - right.y;
+		const x = this.x - right.x;
+		const y = this.y - right.y;
 		return x*x + y*y;
 	}
 	normalize() {
-		var length = Math.sqrt(this.x*this.x + this.y*this.y);
+		const length = Math.sqrt(this.x * this.x + this.y * this.y);
 		if(length > 1e-08) {
 			var invL = 1.0 / length;
 			this.x *= invL;
@@ -180,7 +180,7 @@ export default class Vector2 {
 	}
 
 	normalizedCopy() {
-		var ret = this.copy();
+		const ret = this.copy();
 		ret.normalize();
 		return ret;
 	}
@@ -194,21 +194,17 @@ export default class Vector2 {
 	}
 
 	getLeftPerpendicular() {
-		var x = this.y;
-		var y = -1 * this.x;
-		return new Vector2(x, y);
+		return new Vector2(this.y, -1 * this.x);
 	}
 
 	getRightPerpendicular() {
-		var x = -1 * this.y;
-		var y = this.x;
-		return new Vector2(x, y);
+		return new Vector2(-1 * this.y, this.x);
 	}
 
 	makePerpendicular() {
-		var tempX = this.x;
+		const temp = this.x;
 		this.x = -this.y;
-		this.y = tempX;
+		this.y = temp;
 	}
 
 	crossProduct(vector) {
@@ -229,8 +225,8 @@ export default class Vector2 {
 	}
 
 	rotate(theta) {
-		var co = Math.cos(theta);
-		var si = Math.sin(theta);
+		const co = Math.cos(theta);
+		const si = Math.sin(theta);
 		return new Vector2(
 			co * this.x - si * this.y,
 			si * this.x + co * this.y
@@ -238,11 +234,11 @@ export default class Vector2 {
 	}
 
 	rotateSelf(theta) {
-		var co = Math.cos(theta);
-		var si = Math.sin(theta);
-		var xx = co * this.x - si * this.y;
+		const co = Math.cos(theta);
+		const si = Math.sin(theta);
+		const temp = co * this.x - si * this.y;
 		this.y = si * this.x + co * this.y;
-		this.x = xx;
+		this.x = temp;
 	}
 	
 	// get (signed and directional) angle between this and the given vector in degrees 
@@ -252,13 +248,11 @@ export default class Vector2 {
 
 	reflectOnNormal(normal) {
 		//v' = 2 * (v . n) * n - v
-		var newVector =
-			this.sub(
-				normal
+		return this.sub(
+			normal
 				.mulFloat(this.dotProduct(normal))
 				.mulFloat(2)
-			);
-		return newVector;
+		);
 		
 	}
 
