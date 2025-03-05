@@ -193,8 +193,7 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 	var mat3 = fluidSystem.createNewMaterial()
 		.setParticleMass(4.0);
 	var mat4 = fluidSystem.createNewMaterial()
-		.setParticleMass(8.0)
-		.setIsElastic(true);
+		.setParticleMass(8.0);
 
 	// create Particles of these Materials
 	new Floom.Group(fluidSystem, -45,  5,  0, 25,  0.1, 0, mat0);
@@ -218,7 +217,7 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 	// fluidSystem.drawGrid = true;
 
 	// configure spring calculation and rendering
-    fluidSystem.doSprings = true;
+    fluidSystem.doSprings = false;
     fluidSystem.drawSprings = false;
 
 	// initialize specific datGui for the fluid System
