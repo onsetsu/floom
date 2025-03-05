@@ -32,6 +32,39 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 		});
 		repelTool.name = "repel";
 
+		// Add new whirl tool
+		var whirlTool = new Tool(input);
+		whirlTool.onMouseDrag(function(event) {
+			var mousePos = event.getPositionInWorld(viewport);
+			system.particles.forEach(function(p) {
+				var vectorToMouse = mousePos.sub(p.position);
+				var distanceSquared = vectorToMouse.lengthSquared();
+				var maxDistanceSquared = 150 * 150; // Square the comparison distance
+				
+				if(distanceSquared < maxDistanceSquared) {
+					// Create perpendicular vector for rotation (counterclockwise)
+					var perpVector = new Vector2(-vectorToMouse.y, vectorToMouse.x);
+					
+					// Get the length of the perpendicular vector
+					var perpLength = perpVector.length();
+					
+					// Only normalize if the vector has significant length
+					if(perpLength > 0.001) {
+						// Normalize and scale based on distance (stronger effect closer to cursor)
+						var distanceFactor = 1 - distanceSquared / maxDistanceSquared;
+						var rotationStrength = 0.1 * distanceFactor; // Increased strength slightly
+						
+						perpVector.divFloatSelf(perpLength); // Normalize
+						perpVector.mulFloatSelf(rotationStrength); // Scale
+						
+						// Apply rotational force
+						p.velocity.addSelf(perpVector);
+					}
+				}
+			});
+		});
+		whirlTool.name = "whirl";
+
 		function getRandomPointInCircleUniformly() {
 			var TWO_PI = (3.14159265 * 2.0);
 			var t = TWO_PI*Math.random();
@@ -76,6 +109,7 @@ import Floom, { Input, Viewport, CombinedRenderer, Vector2, Debug, Tool } from "
 			D: dragTool,
 			A: attractTool,
 			R: repelTool,
+			W: whirlTool,  // Add the whirl tool with key 'W'
 			S: spawnTool,
 			C: consumeTool
 		};
